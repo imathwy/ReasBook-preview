@@ -1,66 +1,62 @@
 # ReasBook
 
-**ReasBook** is a comprehensive repository dedicated to the systematic formalization of classical mathematical textbooks and research papers using **Lean 4**. By strictly following the structure of authoritative literature across diverse areas of mathematics, this project bridges human-written mathematical texts with machine-verifiable proofs. Our long-term goal is to build a high-quality, machine-readable corpus **covering the broader mathematics landscape** and to actively welcome participation from the global community of researchers, students, and practitioners.
+**ReasBook** is a Lean 4 project for formalizing mathematics from textbooks and research papers.
+The goal is to preserve the structure of original references while producing machine-checkable proofs.
+We welcome collaboration from researchers, students, and practitioners.
 
-## Books and Papers Already Formalized
+## Current Coverage
 
-### Real Analysis, Tao, 2006
+### Books
 
-- Book Information: *Real Analysis*, Terence Tao, 2006.
-- Formalization Contributors: to be updated.
+- *Real Analysis*, Terence Tao (2006)
+- *Convex Analysis*, R. Tyrrell Rockafellar (1970)
 
-### Convex Analysis, R.T. Rockafellar, 1970
+### Papers
 
-- Book Information: *Convex Analysis*, R. Tyrrell Rockafellar, 1970.
-- Formalization Contributors: to be updated.
+- Ongoing additions are organized in `ReasBook/Papers/`
 
+## Repository Layout
 
-## Repository Organization
-
-To keep the library scalable and navigable, we use a standardized naming convention for all top-level directories. This ensures the correspondence between formal code and the original source material is immediately apparent.
-
-### Naming Scheme and Structure
-
-We categorize resources into **Textbooks** and **Papers**. Both use the format:
-
-`[Name]_[AuthorsLastName]_[PublicationTime]`
-
-Example: *Convex Analysis* by R.T. Rockafellar (1970) is placed in `ConvexAnalysis_Rockafellar_1970`. Within each book directory, content is organized by chapter (e.g., `Chapter_01`).
-
-We keep the Lean sources in `ReasBook/`, and keep the generated HTML output in a sibling folder `ReasBookWeb/`. The two are aligned by directory names to make cross-referencing straightforward.
+The repository is organized into a Lean source tree and a web-documentation tree:
 
 ```text
-REASBOOK
-  ReasBook/(lean仓库)
-  ├── Books/
-  │   ├── ConvexAnalysis_Rockafellar_1970/      -- [Convex Analysis, R.T. Rockafellar, 1970]
-  │   │   ├── Chapter_01/
-  │   │   ├── Chapter_02/
-  │   ├── IntegerProgramming_Conforti_2014/     -- [Integer Programming, Conforti et al., 2014]
-  │   │   ├── Chapter_01/
-  │   │   └── ...
-  ├── Papers/                                     -- Formalization of specific research papers
-      ├── Paper1/
-      └── Paper2/
-
-  ReasBookWeb/(lean仓库) -- Generated HTML documentation output
-  ├── Books/
-  │   ├── ConvexAnalysis_Rockafellar_1970/      
-  │   │   ├── Chapter_01/
-  │   │   ├── Chapter_02/
-  │   ├── IntegerProgramming_Conforti_2014/     
-  │   │   ├── Chapter_01/
-  │   │   └── ...
-  ├── Papers/                                 
-      ├── Paper1/
-      └── Paper2/
+ReasBook/
+├── ReasBook/                  # Lean project root
+│   ├── Books/                 # Textbook formalizations
+│   ├── Papers/                # Paper formalizations
+│   ├── ReasBook.lean          # Top-level import module
+│   ├── lakefile.toml
+│   └── lean-toolchain
+└── ReasBookWeb/               # Generated HTML documentation
 ```
 
-## Documentation with Verso
+## Naming Convention
 
-We use **Verso** to generate interactive, web-based documentation. Unlike standard code comments, Verso lets us interweave formal Lean code with rich mathematical explanations, creating a literate programming experience that mirrors the flow of the original textbooks.
+Top-level content directories use:
 
-## Sponsor
+`<Title>_<AuthorLastName>_<Year>`
+
+Examples:
+
+- `ConvexAnalysis_Rockafellar_1970`
+- `SmoothMinimization_Nesterov_2004`
+- `OnSomeLocalRings_Maassaran_2025`
+
+## Build
+
+From the repository root:
+
+```bash
+cd ReasBook/ReasBook
+lake update
+lake build
+```
+
+## Documentation
+
+We use **Verso** to generate interactive web documentation that combines Lean code and mathematical exposition.
+
+## Sponsors
 
 - Beijing International Center for Mathematical Research, Peking University
 - Sino-Russian Mathematics Center
@@ -71,60 +67,48 @@ We use **Verso** to generate interactive, web-based documentation. Unlike standa
 
 ### Formalization of Optimization
 
-- Chenyi Li, Ziyu Wang, Wanyi He, Yuxuan Wu, Shengyang Xu, Zaiwen Wen. Formalization of Complexity Analysis of the First-order Optimization Algorithms, Journal of Automated Reasoning. [(Paper)](https://arxiv.org/abs/2403.11437)
-- Chenyi Li, Zichen Wang, Yifan Bai, Yunxi Duan, Yuqing Gao, Pengfei Hao, Zaiwen Wen. Formalization of Algorithms for Optimization with Block Structures, Science in China Series A: Mathematics. [(Paper)](http://arxiv.org/abs/2503.18806)
-- Chenyi Li, Shengyang Xu, Chumin Sun, Li Zhou, Zaiwen Wen. Formalization of Optimality Conditions for Smooth Constrained Optimization Problems. [(Paper)](https://arxiv.org/abs/2503.18821)
-- Chenyi Li, Zaiwen Wen. An Introduction to Mathematics Formalization Based on Lean (in Chinese). [(Paper)](http://faculty.bicmr.pku.edu.cn/~wenzw/paper/OptLean.pdf)
+- Chenyi Li, Ziyu Wang, Wanyi He, Yuxuan Wu, Shengyang Xu, Zaiwen Wen. *Formalization of Complexity Analysis of the First-order Optimization Algorithms*, Journal of Automated Reasoning. [(Paper)](https://arxiv.org/abs/2403.11437)
+- Chenyi Li, Zichen Wang, Yifan Bai, Yunxi Duan, Yuqing Gao, Pengfei Hao, Zaiwen Wen. *Formalization of Algorithms for Optimization with Block Structures*, Science in China Series A: Mathematics. [(Paper)](http://arxiv.org/abs/2503.18806)
+- Chenyi Li, Shengyang Xu, Chumin Sun, Li Zhou, Zaiwen Wen. *Formalization of Optimality Conditions for Smooth Constrained Optimization Problems*. [(Paper)](https://arxiv.org/abs/2503.18821)
+- Chenyi Li, Zaiwen Wen. *An Introduction to Mathematics Formalization Based on Lean*. [(Paper)](http://faculty.bicmr.pku.edu.cn/~wenzw/paper/OptLean.pdf)
 
-### Autoformalization and Automatic Theorem Proving
+### Autoformalization and Automated Theorem Proving
 
-- Ziyu Wang, Bowen Yang, Chenyi Li, Yuan Zhang, Shihao Zhou, Bin Dong, Zaiwen Wen. Translating Informal Proofs into Formal Proofs Using a Chain of States. [(Paper)](https://arxiv.org/abs/2512.10317)
-- Chenyi Li, Wanli Ma, Zichen Wang, Zaiwen Wen. SITA: A Framework for Structure-to-Instance Theorem Autoformalization, AAAI 2026. [(Paper)](https://arxiv.org/abs/2511.10356)
-- Chenyi Li, Yanchen Nie, Zhenyu Ming, Gong Zhang, Kun Yuan, Zaiwen Wen. OptProver: Bridging Olympiad and Optimization through Continual Training in Formal Theorem Proving.
-- Zichen Wang, Wanli Ma, Zhenyu Ming, Gong Zhang, Kun Yuan, Zaiwen Wen. M2F: Automated Formalization of Mathematical Literature at Scale.
+- Ziyu Wang, Bowen Yang, Chenyi Li, Yuan Zhang, Shihao Zhou, Bin Dong, Zaiwen Wen. *Translating Informal Proofs into Formal Proofs Using a Chain of States*. [(Paper)](https://arxiv.org/abs/2512.10317)
+- Chenyi Li, Wanli Ma, Zichen Wang, Zaiwen Wen. *SITA: A Framework for Structure-to-Instance Theorem Autoformalization*, AAAI 2026. [(Paper)](https://arxiv.org/abs/2511.10356)
+- Chenyi Li, Yanchen Nie, Zhenyu Ming, Gong Zhang, Kun Yuan, Zaiwen Wen. *OptProver: Bridging Olympiad and Optimization through Continual Training in Formal Theorem Proving*.
+- Zichen Wang, Wanli Ma, Zhenyu Ming, Gong Zhang, Kun Yuan, Zaiwen Wen. *M2F: Automated Formalization of Mathematical Literature at Scale*.
 
 ### Premise Selection
 
-- Zichen Wang, Anjie Dong, Zaiwen Wen. Tree-Based Premise Selection for Lean4, NeurIPS 2025. [(Paper)](https://neurips.cc/virtual/2025/loc/san-diego/poster/116011)
-- Shu Miao, Zichen Wang, Anjie Dong, Yishan Wu, Weixi Zhang, Zaiwen Wen. Directed Multi-Relational GCNs for Premise Selection.
+- Zichen Wang, Anjie Dong, Zaiwen Wen. *Tree-Based Premise Selection for Lean4*, NeurIPS 2025. [(Paper)](https://neurips.cc/virtual/2025/loc/san-diego/poster/116011)
+- Shu Miao, Zichen Wang, Anjie Dong, Yishan Wu, Weixi Zhang, Zaiwen Wen. *Directed Multi-Relational GCNs for Premise Selection*.
 
 ### Benchmark
 
-- Bowen Yang, Yi Yuan, Chenyi Li, Ziyu Wang, Liangqi Li, Bo Zhang, Zhe Li, Zaiwen Wen. Construction–Verification: A Benchmark for Formalizing Applied Mathematics in Lean 4.
+- Bowen Yang, Yi Yuan, Chenyi Li, Ziyu Wang, Liangqi Li, Bo Zhang, Zhe Li, Zaiwen Wen. *Construction-Verification: A Benchmark for Formalizing Applied Mathematics in Lean 4*.
 
+## Team
 
-## The Team
-
-We are a group of scholars and students with a keen interest in mathematical formalization.
+We are a group of scholars and students interested in mathematical formalization.
 
 ### Core Members
 
-- Chenyi Li, School of Mathematical Sciences, Peking University, CHINA (lichenyi@stu.pku.edu.cn)
-- Wanli Ma, Beijing International Center for Mathematical Research, Peking University, CHINA (wlma@pku.edu.cn)
-- Zichen Wang, School of Mathematics and Statistics, Xi’an Jiaotong University, CHINA (zichenwang25@stu.pku.edu.cn)
-- Ziyu Wang, School of Mathematical Sciences, Peking University, CHINA (wangziyu-edu@stu.pku.edu.cn)
-- Zaiwen Wen, Beijing International Center for Mathematical Research, Peking University, CHINA (wenzw@pku.edu.cn)
+- Chenyi Li, School of Mathematical Sciences, Peking University, China (`lichenyi@stu.pku.edu.cn`)
+- Wanli Ma, Beijing International Center for Mathematical Research, Peking University, China (`wlma@pku.edu.cn`)
+- Zichen Wang, School of Mathematical Sciences, Peking University, China (`zichenwang25@stu.pku.edu.cn`)
+- Ziyu Wang, School of Mathematical Sciences, Peking University, China (`wangziyu-edu@stu.pku.edu.cn`)
+- Zaiwen Wen, Beijing International Center for Mathematical Research, Peking University, China (`wenzw@pku.edu.cn`)
 
-### Other Contributors
+### Contributors
 
-- Undergraduate students from Peking University:
+- Undergraduate students from Peking University: Hongjia Chen, Wanyi He, Yuxuan Wu, Shengyang Xu, Junda Ying, Penghao Yu, ...
+- Participants in the 2023 summer seminar on mathematical formalization and theorem proving (BICMR, Peking University): Zhipeng Cao, Yiyuan Chen, Heying Wang, Zuokai Wen, Mingquan Zhang, Ruichong Zhang, ...
+- Undergraduate and graduate participants in the 2024 summer seminar (BICMR, Peking University): Yifan Bai, Yunxi Duan, Yuqing Gao, Pengfei Hao, Anqing Shen
+- Other collaborators: Anjie Dong, Xinyi Guo, Yuhao Jiang, Gongxun Li, Zebo Liu, Zhenxi Liu, Siyuan Ma, Guangxuan Pan, Siyuan Shao, Weiran Shi, Junren Si, Xuran Sun, Xuan Tang, Yijie Wang, Zhiyan Wang, Zixi Wang, Suwan Wu, Mingyue Xu, Yunfei Zhang, Changyun Zou
 
-  Hongjia Chen, Wanyi He, Yuxuan Wu, Shengyang Xu, Junda Ying, Penghao Yu, ...
+## License
 
-- Undergraduate students from Summer Seminar on Mathematical Formalization and Theorem Proving, BICMR, Peking University, 2023:
+Copyright (c) 2026 Chenyi Li, Wanli Ma, Zichen Wang, Ziyu Wang, Zaiwen Wen.
 
-  Zhipeng Cao, Yiyuan Chen, Heying Wang, Zuokai Wen, Mingquan Zhang, Ruichong Zhang, ...
-
-- Undergraduate and graduate students from Summer Seminar on Mathematical Formalization and Theorem Proving, BICMR, Peking University, 2024:
-
-  Yifan Bai, Yunxi Duan, Yuqing Gao, Pengfei Hao, Anqing Shen
-
-- Other collaborators:
-
-  Anjie Dong, Xinyi Guo, Yuhao Jiang, Gongxun Li, Zebo Liu, Zhenxi Liu, Siyuan Ma, Guangxuan Pan, Siyuan Shao, Weiran Shi, Junren Si, Xuran Sun, Xuan Tang, Yijie Wang, Zhiyan Wang, Zixi Wang, Suwan Wu, Mingyue Xu, Yunfei Zhang, Changyun Zou
-
-## Copyright
-
-Copyright (c) 2026 Chenyi Li, Wanli Ma, Zichen Wang, Ziyu Wang, Zaiwen Wen. All rights reserved.
-
-Released under Apache 2.0 license as described in the file LICENSE.
+Released under the Apache 2.0 license. See `LICENSE` for details.
