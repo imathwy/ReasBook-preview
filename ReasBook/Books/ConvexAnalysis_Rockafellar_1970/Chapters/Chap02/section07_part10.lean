@@ -1,7 +1,7 @@
 import Mathlib
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part5
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section06_part3
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section07_part9
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part5
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section06_part3
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section07_part9
 
 noncomputable section
 open scoped Topology

@@ -1,6 +1,7 @@
 name = "ReasBook"
 version = "0.1.0"
-defaultTargets = ["reasbook"]
+keywords = ["math"]
+defaultTargets = ["ReasBook"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -21,6 +22,8 @@ rev = "v4.26.0-rc2"
 [[lean_lib]]
 name = "ReasBook"
 
-[[lean_exe]]
-name = "reasbook"
-root = "Main"
+[[lean_lib]]
+name = "Books"
+
+[[lean_lib]]
+name = "Papers"

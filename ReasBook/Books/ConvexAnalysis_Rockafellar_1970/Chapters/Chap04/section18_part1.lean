@@ -1,10 +1,10 @@
 import Mathlib
 
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section06_part3
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section08_part1
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section08_part4
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section09_part3
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section17_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section06_part3
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section08_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section08_part4
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section09_part3
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section17_part1
 
 open scoped Pointwise
 

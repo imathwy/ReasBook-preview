@@ -1,5 +1,5 @@
 import Mathlib
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section18_part8
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section18_part8
 
 open scoped Pointwise Topology RealInnerProductSpace
 open Filter

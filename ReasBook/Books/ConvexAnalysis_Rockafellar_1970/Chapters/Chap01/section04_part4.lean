@@ -1,6 +1,6 @@
 import Mathlib
 
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part3
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part3
 
 open Matrix
 open scoped BigOperators

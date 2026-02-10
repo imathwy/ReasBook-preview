@@ -1,2 +1,2 @@
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part1
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part2
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part2

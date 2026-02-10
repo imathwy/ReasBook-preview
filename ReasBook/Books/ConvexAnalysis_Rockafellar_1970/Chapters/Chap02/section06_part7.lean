@@ -1,6 +1,6 @@
 import Mathlib
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section06_part6
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section03_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section06_part6
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section03_part1
 
 noncomputable section
 open scoped Pointwise

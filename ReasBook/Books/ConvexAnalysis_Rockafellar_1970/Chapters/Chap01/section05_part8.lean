@@ -1,5 +1,5 @@
 import Mathlib
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section05_part7
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section05_part7
 
 section Chap01
 section Section05

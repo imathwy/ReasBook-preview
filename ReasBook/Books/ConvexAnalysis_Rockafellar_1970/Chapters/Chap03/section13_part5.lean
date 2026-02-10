@@ -1,6 +1,6 @@
 import Mathlib
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section05_part5
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part4
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section05_part5
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part4
 
 open scoped Pointwise
 

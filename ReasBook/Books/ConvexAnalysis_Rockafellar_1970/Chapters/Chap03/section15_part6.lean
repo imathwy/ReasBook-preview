@@ -1,11 +1,11 @@
 import Mathlib
 
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section08_part2
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section10_part1
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section12_part2
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part7
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section14_part10
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section15_part5
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section08_part2
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section10_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section12_part2
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part7
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section14_part10
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section15_part5
 
 section Chap03
 section Section15

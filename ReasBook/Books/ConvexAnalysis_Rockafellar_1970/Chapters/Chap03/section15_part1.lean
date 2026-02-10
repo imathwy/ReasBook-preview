@@ -1,15 +1,15 @@
 import Mathlib
 
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part1
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part6
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section07_part1
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section09_part13
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section12_part6
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section12_part7
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part2
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part6
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section14_part1
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section14_part5
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part6
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section07_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section09_part13
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section12_part6
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section12_part7
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part2
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part6
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section14_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section14_part5
 
 section Chap03
 section Section15
@@ -26,7 +26,7 @@ Equivalently, its epigraph `epi k = {(x, μ) | k x ≤ μ}` is a convex cone in 
 `(0, 0)` and containing no vector `(x, μ)` with `μ < 0`.
 
 In this formalization, we use `Fin n → ℝ` for `ℝⁿ`, `EReal` for `(-∞, +∞]`, and the epigraph
-construction `epigraph (S := Set.univ) k` from `ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part1`. -/
+construction `epigraph (S := Set.univ) k` from `Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section04_part1`. -/
 def IsGauge {n : ℕ} (k : (Fin n → ℝ) → EReal) : Prop :=
   ConvexFunctionOn (S := (Set.univ : Set (Fin n → ℝ))) k ∧
     (∀ x, 0 ≤ k x) ∧

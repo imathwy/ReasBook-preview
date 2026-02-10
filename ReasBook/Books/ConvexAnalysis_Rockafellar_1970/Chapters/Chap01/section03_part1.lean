@@ -1,5 +1,5 @@
 import Mathlib
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section02_part1
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section02_part1
 
 open scoped BigOperators
 open scoped Pointwise

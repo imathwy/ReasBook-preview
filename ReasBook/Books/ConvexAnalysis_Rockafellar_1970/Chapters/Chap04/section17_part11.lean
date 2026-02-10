@@ -1,6 +1,6 @@
 import Mathlib
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section17_part8
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section17_part10
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section17_part8
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section17_part10
 
 open scoped BigOperators Pointwise
 open Topology

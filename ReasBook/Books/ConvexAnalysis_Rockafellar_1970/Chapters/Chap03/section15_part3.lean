@@ -1,7 +1,7 @@
 import Mathlib
 
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section15_part2
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part4
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section15_part2
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part4
 
 section Chap03
 section Section15

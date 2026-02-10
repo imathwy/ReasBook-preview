@@ -1,8 +1,8 @@
 import Mathlib
 import Mathlib.Topology.Instances.EReal.Lemmas
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section06_part4
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section07_part9
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section10_part3
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section06_part4
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section07_part9
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section10_part3
 
 noncomputable section
 

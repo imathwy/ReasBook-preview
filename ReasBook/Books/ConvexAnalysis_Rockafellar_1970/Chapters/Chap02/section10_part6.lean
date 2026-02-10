@@ -1,5 +1,5 @@
 import Mathlib
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section10_part5
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02.section10_part5
 
 noncomputable section
 

@@ -1,6 +1,6 @@
 import Mathlib
 import Mathlib.Analysis.Matrix.Order
-import ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part9
+import Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03.section13_part9
 
 open scoped Pointwise
 
