@@ -23,7 +23,7 @@ jobs:
       - name: Install elan (Lean toolchain manager)
         run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
 
-      # (可选但推荐) 缓存 .lake，显著提速
+      # 缓存 .lake，显著提速
       - name: Cache main project .lake
         uses: actions/cache@v4
         with:
@@ -33,22 +33,22 @@ jobs:
           restore-keys: |
             lake-main-${{ runner.os }}-${{ runner.arch }}-
 
-      - name: Cache book project .lake
+      - name: Cache ReasBookWeb project .lake
         uses: actions/cache@v4
         with:
           path: |
-            book/.lake
-          key: lake-book-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('book/lean-toolchain') }}-${{ hashFiles('book/lake-manifest.json') }}
+            ReasBookWeb/.lake
+          key: lake-ReasBookWeb-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBookWeb/lean-toolchain') }}-${{ hashFiles('ReasBookWeb/lake-manifest.json') }}
           restore-keys: |
-            lake-book-${{ runner.os }}-${{ runner.arch }}-
+            lake-ReasBookWeb-${{ runner.os }}-${{ runner.arch }}-
 
-      # (可选) 如果你用 mathlib cache，可加这个（失败不影响）
+      # mathlib cache
       - name: Get Mathlib cache (main project)
         run: |
           ~/.elan/bin/lake exe cache get || true
         working-directory: ReasBook
 
-      # (可选) 生成主项目 API docs（你刚让 codex 接入 doc-gen4）
+      # 生成主项目 API docs
       - name: Build main project docs (doc-gen4)
         run: |
           ~/.elan/bin/lake -R -Kenv=dev build ReasBook:docs
@@ -59,28 +59,28 @@ jobs:
           ~/.elan/bin/lake build
         working-directory: ReasBook
 
-      # 你的 book 目录下有脚本生成 Sections/Routes 的话，记得先跑（如果没有就删掉这步）
+      # ReasBookWeb 目录下有脚本生成 Sections/Routes 的话，记得先跑
       - name: Generate sections/routes
         run: |
           python3 scripts/gen_sections.py
-        working-directory: book
+        working-directory: ReasBookWeb
 
       - name: Build Verso site
         run: |
           ~/.elan/bin/lake build
           ~/.elan/bin/lake exe reasbook-site
-        working-directory: book
+        working-directory: ReasBookWeb
 
-      # (可选) 把主项目 docs 拷贝进站点（类似 tao 的 /docs/）
+      # 把主项目 docs 拷贝进站点
       - name: Copy main docs into site as /docs
         run: |
-          mkdir -p book/_site/docs
-          cp -r ReasBook/.lake/build/doc/* book/_site/docs/ || true
+          mkdir -p ReasBookWeb/_site/docs
+          cp -r ReasBook/.lake/build/doc/* ReasBookWeb/_site/docs/ || true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: book/_site
+          path: ReasBookWeb/_site
 
   deploy:
     needs: build
