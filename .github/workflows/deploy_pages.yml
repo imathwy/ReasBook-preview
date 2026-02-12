@@ -1,0 +1,90 @@
+name: Deploy Verso site to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan (Lean toolchain manager)
+        run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+
+      # (可选但推荐) 缓存 .lake，显著提速
+      - name: Cache main project .lake
+        uses: actions/cache@v4
+        with:
+          path: |
+            ReasBook/.lake
+          key: lake-main-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
+          restore-keys: |
+            lake-main-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Cache book project .lake
+        uses: actions/cache@v4
+        with:
+          path: |
+            book/.lake
+          key: lake-book-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('book/lean-toolchain') }}-${{ hashFiles('book/lake-manifest.json') }}
+          restore-keys: |
+            lake-book-${{ runner.os }}-${{ runner.arch }}-
+
+      # (可选) 如果你用 mathlib cache，可加这个（失败不影响）
+      - name: Get Mathlib cache (main project)
+        run: |
+          ~/.elan/bin/lake exe cache get || true
+        working-directory: ReasBook
+
+      # (可选) 生成主项目 API docs（你刚让 codex 接入 doc-gen4）
+      - name: Build main project docs (doc-gen4)
+        run: |
+          ~/.elan/bin/lake -R -Kenv=dev build ReasBook:docs
+        working-directory: ReasBook
+
+      - name: Build main project
+        run: |
+          ~/.elan/bin/lake build
+        working-directory: ReasBook
+
+      # 你的 book 目录下有脚本生成 Sections/Routes 的话，记得先跑（如果没有就删掉这步）
+      - name: Generate sections/routes
+        run: |
+          python3 scripts/gen_sections.py
+        working-directory: book
+
+      - name: Build Verso site
+        run: |
+          ~/.elan/bin/lake build
+          ~/.elan/bin/lake exe reasbook-site
+        working-directory: book
+
+      # (可选) 把主项目 docs 拷贝进站点（类似 tao 的 /docs/）
+      - name: Copy main docs into site as /docs
+        run: |
+          mkdir -p book/_site/docs
+          cp -r ReasBook/.lake/build/doc/* book/_site/docs/ || true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: book/_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

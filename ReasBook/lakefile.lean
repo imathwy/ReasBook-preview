@@ -17,6 +17,11 @@ package «ReasBook» where
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "v4.26.0"
 
+-- Register doc-gen4's `docs` facet in this main project.
+-- Pin to Lean v4.26.0-compatible release so `ReasBook:docs` is available.
+require «doc-gen4» from git
+  "https://github.com/leanprover/doc-gen4" @ "v4.26.0"
+
 require subverso from git "https://github.com/leanprover/subverso" @ "eb77622e97e942ba2cfe02f60637705fc2d9481b"
 require MD4Lean from git "https://github.com/acmepjz/md4lean" @ "main"
 
