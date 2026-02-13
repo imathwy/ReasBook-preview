@@ -6,51 +6,24 @@ We welcome collaboration from researchers, students, and practitioners.
 
 ## Current Coverage
 
-- Books
-  - **Author(s):** Terence Tao
-  - **Full title:** *Analysis II*
-  - **Publisher:** (TODO: publisher)
-  - **Year:** 2022
-  - **Edition / series / ISBN:** (TODO: edition/series/ISBN)
-  - **Contributors:** (TODO: list contributors who formalized this book)
-  - **Links:** [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/Analysis2_Tao_2022)
-  - **Author(s):** R. Tyrrell Rockafellar
-  - **Full title:** *Convex Analysis*
-  - **Publisher:** (TODO: publisher)
-  - **Year:** 1970
-  - **Edition / series / ISBN:** (TODO: edition/series/ISBN)
-  - **Contributors:** (TODO: list contributors who formalized this book)
-  - **Links:** [Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.ConvexAnalysis_Rockafellar_1970#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970)
-  - **Author(s):** Jiri Lebl
-  - **Full title:** *Introduction to Real Analysis, Volume I*
-  - **Publisher:** (TODO: publisher)
-  - **Year:** 2025
-  - **Edition / series / ISBN:** (TODO: edition/series/ISBN)
-  - **Contributors:** (TODO: list contributors who formalized this book)
-  - **Links:** [Verso](https://optsuite.github.io/ReasBook/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/IntroductiontoRealAnalysisVolumeI_JiriLebl_2025)
-  - **Author(s):** Michele Conforti, Gerard Cornuejols, Giacomo Zambelli
-  - **Full title:** *Integer Programming*
-  - **Publisher:** (TODO: publisher)
-  - **Year:** 2014
-  - **Edition / series / ISBN:** (TODO: edition/series/ISBN)
-  - **Contributors:** (TODO: list contributors who formalized this book)
-  - **Links:** [Verso](https://optsuite.github.io/ReasBook/) (TODO: add book pages) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.IntegerProgramming_Conforti_2014#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/IntegerProgramming_Conforti_2014)
-
-- Papers
-  - **Author(s):** Yurii Nesterov
-  - **Full title:** *Smooth Minimization of Nonsmooth Functions*
-  - **Publisher:** (TODO: journal/conference/publisher)
-  - **Year:** 2004
-  - **Series / DOI:** (TODO: series/DOI)
-  - **Contributors:** (TODO: list contributors who formalized this paper)
-  - **Links:** [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/paper/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004)
-  - **Author(s):** Mansour Maassaran
-  - **Full title:** *On Some Local Rings*
-  - **Publisher:** (TODO: journal/conference/publisher)
-  - **Year:** 2025
-  - **Series / DOI:** (TODO: series/DOI)
-  - **Contributors:** (TODO: list contributors who formalized this paper)
-  - **Links:** [Verso](https://optsuite.github.io/ReasBook/papers/onsomelocalrings_maassaran_2025/paper/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.OnSomeLocalRings_Maassaran_2025#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Papers/OnSomeLocalRings_Maassaran_2025)
+- Terence Tao, *Analysis II*, 4th ed., Hindustan Book Agency / Springer, Singapore, 2022, ISBN 978-981-19-7284-3.
+  - Contributors: (TBD)
+  - Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.Analysis2_Tao_2022#doc) | [GitHub source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/Analysis2_Tao_2022)
+- R. Tyrrell Rockafellar, *Convex Analysis*, Princeton University Press, Princeton, 1970, ISBN 0-691-08069-0.
+  - Contributors: (TBD)
+  - Links: [Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.ConvexAnalysis_Rockafellar_1970#doc) | [GitHub source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970)
+- Jiri Lebl, *Introduction to Real Analysis, Volume I*, version 6.2, May 23, 2025, (TBD: publisher/city), (TBD: ISBN).
+  - Contributors: (TBD)
+  - Links: [Verso](https://optsuite.github.io/ReasBook/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap01/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025#doc) | [GitHub source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/IntroductiontoRealAnalysisVolumeI_JiriLebl_2025)
+- Michele Conforti, Gerard Cornuejols, Giacomo Zambelli, *Integer Programming*, Graduate Texts in Mathematics 271, Springer, 2014, ISBN 978-3-319-11007-3.
+  - Contributors: (TBD)
+  - Links: [Verso](https://optsuite.github.io/ReasBook/books/integerprogramming_conforti_2014/) (TBD: landing page not yet generated) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.IntegerProgramming_Conforti_2014#doc) | [GitHub source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/IntegerProgramming_Conforti_2014)
+- Yurii Nesterov, "Smooth minimization of non-smooth functions," *Mathematical Programming*, Ser. A 103, 127-152, 2005, DOI: 10.1007/s10107-004-0552-5.
+  - Contributors: (TBD)
+  - Links: [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/paper/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Papers.SmoothMinimization_Nesterov_2004#doc) | [GitHub source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004)
+- Mohamad Maassarani, "On Some Local Rings," arXiv:2512.19197v1 [math.AC], 2025.
+  - Contributors: (TBD)
+  - Links: [Verso](https://optsuite.github.io/ReasBook/papers/onsomelocalrings_maassaran_2025/paper/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Papers.OnSomeLocalRings_Maassaran_2025#doc) | [GitHub source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Papers/OnSomeLocalRings_Maassaran_2025)
 
 ## Repository Layout
 

@@ -1,69 +1,73 @@
-# Analysis II (Tao, 2022)
+Terence Tao, *Analysis II*, 4th ed., Hindustan Book Agency / Springer, Singapore, 2022, ISBN 978-981-19-7284-3.
 
-- Verso root: `https://optsuite.github.io/ReasBook/` (TODO: add dedicated `Analysis2_Tao_2022` landing page if needed)
-- API docs root: [https://optsuite.github.io/ReasBook/docs/](https://optsuite.github.io/ReasBook/docs/)
-- Lean source root: [https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/)
+## Chapter 1 Metric Spaces
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01.lean)
+- 1.1 Definitions and Examples
+- 1.2 Some Point-Set Topology of Metric Spaces
+- 1.3 Relative Topology
+- 1.4 Cauchy Sequences and Complete Metric Spaces
+- 1.5 Compact Metric Spaces
 
-## Chapter 01 (TODO: replace with chapter title)
+## Chapter 2 Continuous Functions on Metric Spaces
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap02/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.Analysis2_Tao_2022.Chapters.Chap02#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap02.lean)
+- 2.1 Continuous Functions
+- 2.2 Continuity and Product Spaces
+- 2.3 Continuity and Compactness
+- 2.4 Continuity and Connectedness
+- 2.5 Topological Spaces (Optional)
 
-- Section 01 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section01#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section01.lean))
-- Section 01 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section01_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section01_part1.lean))
-- Section 01 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section01_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section01_part2.lean))
-- Section 02 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section02/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section02#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section02.lean))
-- Section 03 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section03/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section03#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section03.lean))
-- Section 04 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section04/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section04#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section04.lean))
-- Section 04 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section04_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section04_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section04_part1.lean))
-- Section 04 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section04_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section04_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section04_part2.lean))
-- Section 05 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section05/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01.section05#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01/section05.lean))
-## Chapter 02 (TODO: replace with chapter title)
+## Chapter 3 Uniform Convergence
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03.lean)
+- 3.1 Limiting Values of Functions
+- 3.2 Pointwise and Uniform Convergence
+- 3.3 Uniform Convergence and Continuity
+- 3.4 The Metric of Uniform Convergence
+- 3.5 Series of Functions; the Weierstrass M-Test
+- 3.6 Uniform Convergence and Integration
+- 3.7 Uniform Convergence and Derivatives
+- 3.8 Uniform Approximation by Polynomials
 
-- Section 01 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap02/section01/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap02.section01#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap02/section01.lean))
-- Section 02 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap02/section02/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap02.section02#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap02/section02.lean))
-- Section 03 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap02/section03/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap02.section03#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap02/section03.lean))
-- Section 04 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap02/section04/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap02.section04#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap02/section04.lean))
-- Section 05 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap02/section05/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap02.section05#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap02/section05.lean))
-## Chapter 03 (TODO: replace with chapter title)
+## Chapter 4 Power Series
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04.lean)
+- 4.1 Formal Power Series
+- 4.2 Real Analytic Functions
+- 4.3 Abel's Theorem
+- 4.4 Multiplication of Power Series
+- 4.5 The Exponential and Logarithm Functions
+- 4.6 A Digression on Complex Numbers
+- 4.7 Trigonometric Functions
 
-- Section 01 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section01/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section01#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section01.lean))
-- Section 02 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section02/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section02#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section02.lean))
-- Section 03 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section03/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section03#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section03.lean))
-- Section 04 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section04/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section04#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section04.lean))
-- Section 05 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section05/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section05#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section05.lean))
-- Section 06 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section06/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section06#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section06.lean))
-- Section 07 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section07/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section07#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section07.lean))
-- Section 07 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section07_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section07_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section07_part1.lean))
-- Section 07 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section07_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section07_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section07_part2.lean))
-- Section 08 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section08/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03.section08#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03/section08.lean))
-## Chapter 04 (TODO: replace with chapter title)
+## Chapter 5 Fourier Series
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05.lean)
+- 5.1 Periodic Functions
+- 5.2 Inner Products on Periodic Functions
+- 5.3 Trigonometric Polynomials
+- 5.4 Periodic Convolutions
+- 5.5 The Fourier and Plancherel Theorems
 
-- Section 01 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section01/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section01#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section01.lean))
-- Section 02 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section02/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section02#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section02.lean))
-- Section 02 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section02_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section02_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section02_part1.lean))
-- Section 02 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section02_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section02_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section02_part2.lean))
-- Section 02 -- Part 3 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section02_part3/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section02_part3#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section02_part3.lean))
-- Section 02 -- Part 4 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section02_part4/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section02_part4#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section02_part4.lean))
-- Section 03 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section03/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section03#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section03.lean))
-- Section 04 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section04/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section04#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section04.lean))
-- Section 05 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section05/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section05#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section05.lean))
-- Section 05 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section05_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section05_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section05_part1.lean))
-- Section 05 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section05_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section05_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section05_part2.lean))
-- Section 06 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section06/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section06#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section06.lean))
-- Section 07 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section07/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section07#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section07.lean))
-- Section 07 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section07_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section07_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section07_part1.lean))
-- Section 07 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section07_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section07_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section07_part2.lean))
-- Section 07 -- Part 3 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section07_part3/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04.section07_part3#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04/section07_part3.lean))
-## Chapter 05 (TODO: replace with chapter title)
+## Chapter 6 Several Variable Differential Calculus
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap06/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Books.Analysis2_Tao_2022.Chapters.Chap06#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap06.lean)
+- 6.1 Linear Transformations
+- 6.2 Derivatives in Several Variable Calculus
+- 6.3 Partial and Directional Derivatives
+- 6.4 The Several Variable Calculus Chain Rule
+- 6.5 Double Derivatives and Clairaut's Theorem
+- 6.6 The Contraction Mapping Theorem
+- 6.7 The Inverse Function Theorem in Several Variable Calculus
+- 6.8 The Implicit Function Theorem
 
-- Section 01 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section01/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section01#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section01.lean))
-- Section 02 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section02/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section02#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section02.lean))
-- Section 02 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section02_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section02_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section02_part1.lean))
-- Section 02 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section02_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section02_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section02_part2.lean))
-- Section 03 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section03/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section03#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section03.lean))
-- Section 04 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section04/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section04#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section04.lean))
-- Section 04 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section04_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section04_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section04_part1.lean))
-- Section 04 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section04_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section04_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section04_part2.lean))
-- Section 05 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section05/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05.section05#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05/section05.lean))
-## Chapter 06 (TODO: replace with chapter title)
+## Chapter 7 Lebesgue Measure
+Links: Verso (TBD) | API docs (TBD) | Lean source (TBD)
+- 7.1 The Goal: Lebesgue Measure
+- 7.2 First Attempt: Outer Measure
+- 7.3 Outer Measure Is not Additive
+- 7.4 Measurable Sets
+- 7.5 Measurable Functions
 
-- Section 01 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap06/section01/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap06.section01#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap06/section01.lean))
-- Section 02 ([Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap06/section02/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap06.section02#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap06/section02.lean))
+## Chapter 8 Lebesgue Integration
+Links: Verso (TBD) | API docs (TBD) | Lean source (TBD)
+- 8.1 Simple Functions
+- 8.2 Integration of Non-negative Measurable Functions
+- 8.3 Integration of Absolutely Integrable Functions
+- 8.4 Comparison with the Riemann Integral
+- 8.5 Fubini's Theorem

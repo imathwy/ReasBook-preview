@@ -12,6 +12,7 @@ open scoped ReasBookSite.RouteTable
 open Output Html Template Theme
 
 def siteRoot : String := "/ReasBook/"
+def docsBasePath : String := s!"{siteRoot}docs/"
 def siteRootScript : String := s!"window.__versoSiteRoot=\"{siteRoot}\""
 
 def navScript : String :=
@@ -19,15 +20,14 @@ def navScript : String :=
   "const siteRoot=(window.__versoSiteRoot||'/').replace(/\\/+$/,'')+'/';" ++
   "const abs=u=>new URL(u,window.location.origin);" ++
   "const withRoot=p=>siteRoot+p.replace(/^\\/+/, '');" ++
+  "const isExternal=h=>/^(?:[a-z]+:)?\\/\\//i.test(h);" ++
   "for(const a of document.querySelectorAll('a[href]')){" ++
-  "const href=a.getAttribute('href');if(!href)continue;" ++
+  "const href=(a.getAttribute('href')||'').trim();if(!href)continue;" ++
   "if(href.startsWith('#')||href.startsWith('mailto:')||href.startsWith('tel:'))continue;" ++
+  "if(!isExternal(href)&&!href.startsWith('/')){a.setAttribute('href',withRoot(href));continue;}" ++
   "let u;try{u=abs(href);}catch(_){continue;}" ++
   "if(u.origin!==window.location.origin)continue;" ++
-  "if(!u.pathname.startsWith(siteRoot)){" ++
-  "const normalized=withRoot(u.pathname);" ++
-  "a.setAttribute('href',normalized+u.search+u.hash);" ++
-  "}" ++
+  "if(!u.pathname.startsWith(siteRoot)){a.setAttribute('href',withRoot(u.pathname)+u.search+u.hash);}" ++
   "}" ++
   "const nav=document.querySelector('nav.top ol');if(!nav)return;" ++
   "const links=[...nav.querySelectorAll('li > a')];" ++
@@ -83,7 +83,7 @@ def theme : Theme := { Theme.default with
         <head>
           <meta charset="UTF-8"/>
           <title>{{ (← param (α := String) "title") }} " -- ReasBook "</title>
-          <link rel="stylesheet" href="/ReasBook/static/style.css"/>
+          <link rel="stylesheet" href={s!"{siteRoot}static/style.css"}/>
           <script>{{ siteRootScript }}</script>
           <script>{{ navScript }}</script>
           {{← builtinHeader }}
@@ -93,8 +93,8 @@ def theme : Theme := { Theme.default with
             <div class="inner-wrap">
               <nav class="top" role="navigation">
                 <ol>
-                  <li><a href="/ReasBook/">"Home"</a></li>
-                  <li><a href="/ReasBook/docs/">"Documentation"</a></li>
+                  <li><a href={siteRoot}>"Home"</a></li>
+                  <li><a href={docsBasePath}>"Documentation"</a></li>
                   {{ ← dirLinks (← read).site }}
                 </ol>
               </nav>
@@ -114,11 +114,9 @@ def theme : Theme := { Theme.default with
 /-- Generated section routes are injected by `reasbook_site_dir` from `ReasBookSite.RouteTable`. -/
 def demoSite : Site := reasbook_site
 
-def docsBaseUrl : String := "https://optsuite.github.io/ReasBook/docs/"
-
 def linkTargets : Code.LinkTargets α where
-  const name _ := #[mkLink s!"{docsBaseUrl}find?pattern={name}#doc"]
-  definition name _ := #[mkLink s!"{docsBaseUrl}find?pattern={name}#doc"]
+  const name _ := #[mkLink s!"{docsBasePath}find/?pattern={name}#doc"]
+  definition name _ := #[mkLink s!"{docsBasePath}find/?pattern={name}#doc"]
 where
   mkLink href := { shortDescription := "doc", description := "API documentation", href }
 

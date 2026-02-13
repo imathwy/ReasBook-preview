@@ -1,34 +1,39 @@
-# Smooth Minimization (Nesterov, 2004)
+Yurii Nesterov, "Smooth minimization of non-smooth functions," *Mathematical Programming*, Ser. A 103, 127-152, 2005, DOI: 10.1007/s10107-004-0552-5.
 
-- Verso page: [https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/paper/](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/paper/)
-- API docs root: [https://optsuite.github.io/ReasBook/docs/](https://optsuite.github.io/ReasBook/docs/)
-- Lean source root: [https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/)
+## Paper
+Links: [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/paper/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Papers.SmoothMinimization_Nesterov_2004.Paper#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Paper.lean)
 
-## Sections
+## Section 01
+Links: [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section01#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section01.lean)
 
-- Overview ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/paper/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Paper#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Paper.lean))
-- Section 01 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section01/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section01#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section01.lean))
-- Section 02 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section02/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section02#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section02.lean))
-- Section 02 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section02_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section02_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section02_part1.lean))
-- Section 02 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section02_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section02_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section02_part2.lean))
-- Section 02 -- Part 3 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section02_part3/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section02_part3#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section02_part3.lean))
-- Section 03 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section03/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section03#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section03.lean))
-- Section 03 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section03_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section03_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section03_part1.lean))
-- Section 03 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section03_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section03_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section03_part2.lean))
-- Section 04 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04.lean))
-- Section 04 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part1.lean))
-- Section 04 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part2.lean))
-- Section 04 -- Part 3 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part3/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part3#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part3.lean))
-- Section 04 -- Part 4 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part4/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part4#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part4.lean))
-- Section 04 -- Part 5 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part5/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part5#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part5.lean))
-- Section 04 -- Part 6 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part6/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part6#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part6.lean))
-- Section 04 -- Part 7 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part7/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part7#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part7.lean))
-- Section 04 -- Part 8 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part8/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part8#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part8.lean))
-- Section 04 -- Part 9 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part9/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part9#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part9.lean))
-- Section 04 -- Part 10 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04_part10/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04_part10#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04_part10.lean))
-- Section 05 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section05/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section05#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section05.lean))
-- Section 05 -- Part 1 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section05_part1/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section05_part1#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section05_part1.lean))
-- Section 05 -- Part 2 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section05_part2/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section05_part2#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section05_part2.lean))
-- Section 05 -- Part 3 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section05_part3/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section05_part3#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section05_part3.lean))
-- Section 05 -- Part 4 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section05_part4/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section05_part4#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section05_part4.lean))
-- Section 05 -- Part 5 ([Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section05_part5/)) ([API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section05_part5#doc)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section05_part5.lean))
+## Section 02
+Links: [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section02/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section02#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section02.lean)
+- Part 1
+- Part 2
+- Part 3
+
+## Section 03
+Links: [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section03/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section03#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section03.lean)
+- Part 1
+- Part 2
+
+## Section 04
+Links: [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section04/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section04#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section04.lean)
+- Part 1
+- Part 2
+- Part 3
+- Part 4
+- Part 5
+- Part 6
+- Part 7
+- Part 8
+- Part 9
+- Part 10
+
+## Section 05
+Links: [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/sections/section05/) | [API docs](https://optsuite.github.io/ReasBook/docs/find/?pattern=Papers.SmoothMinimization_Nesterov_2004.Sections.section05#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004/Sections/section05.lean)
+- Part 1
+- Part 2
+- Part 3
+- Part 4
+- Part 5
