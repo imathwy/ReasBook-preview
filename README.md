@@ -6,42 +6,51 @@ We welcome collaboration from researchers, students, and practitioners.
 
 ## Current Coverage
 
-### Books
+- Books
+  - **Author(s):** Terence Tao
+  - **Full title:** *Analysis II*
+  - **Publisher:** (TODO: publisher)
+  - **Year:** 2022
+  - **Edition / series / ISBN:** (TODO: edition/series/ISBN)
+  - **Contributors:** (TODO: list contributors who formalized this book)
+  - **Links:** [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/Analysis2_Tao_2022)
+  - **Author(s):** R. Tyrrell Rockafellar
+  - **Full title:** *Convex Analysis*
+  - **Publisher:** (TODO: publisher)
+  - **Year:** 1970
+  - **Edition / series / ISBN:** (TODO: edition/series/ISBN)
+  - **Contributors:** (TODO: list contributors who formalized this book)
+  - **Links:** [Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section01/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.ConvexAnalysis_Rockafellar_1970#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970)
+  - **Author(s):** Jiri Lebl
+  - **Full title:** *Introduction to Real Analysis, Volume I*
+  - **Publisher:** (TODO: publisher)
+  - **Year:** 2025
+  - **Edition / series / ISBN:** (TODO: edition/series/ISBN)
+  - **Contributors:** (TODO: list contributors who formalized this book)
+  - **Links:** [Verso](https://optsuite.github.io/ReasBook/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/IntroductiontoRealAnalysisVolumeI_JiriLebl_2025)
+  - **Author(s):** Michele Conforti, Gerard Cornuejols, Giacomo Zambelli
+  - **Full title:** *Integer Programming*
+  - **Publisher:** (TODO: publisher)
+  - **Year:** 2014
+  - **Edition / series / ISBN:** (TODO: edition/series/ISBN)
+  - **Contributors:** (TODO: list contributors who formalized this book)
+  - **Links:** [Verso](https://optsuite.github.io/ReasBook/) (TODO: add book pages) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.IntegerProgramming_Conforti_2014#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Books/IntegerProgramming_Conforti_2014)
 
-- *Analysis II*, Terence Tao (2022)
-  - Chapter 1 ([Verso page](https://optsuite.github.io/books/analysis2_tao_2022/chapters/chap01/section01/))
-  - Chapter 2 ([Verso page](https://optsuite.github.io/books/analysis2_tao_2022/chapters/chap02/section01/))
-  - Chapter 3 ([Verso page](https://optsuite.github.io/books/analysis2_tao_2022/chapters/chap03/section01/))
-  - Chapter 4 ([Verso page](https://optsuite.github.io/books/analysis2_tao_2022/chapters/chap04/section01/))
-  - Chapter 5 ([Verso page](https://optsuite.github.io/books/analysis2_tao_2022/chapters/chap05/section01/))
-  - Chapter 6 ([Verso page](https://optsuite.github.io/books/analysis2_tao_2022/chapters/chap06/section01/))
-- *Convex Analysis*, R. Tyrrell Rockafellar (1970)
-  - Chapter 1 ([Verso page](https://optsuite.github.io/books/convexanalysis_rockafellar_1970/chapters/chap01/section01/))
-  - Chapter 2 ([Verso page](https://optsuite.github.io/books/convexanalysis_rockafellar_1970/chapters/chap02/section05/))
-  - Chapter 3 ([Verso page](https://optsuite.github.io/books/convexanalysis_rockafellar_1970/chapters/chap03/section11/))
-  - Chapter 4 ([Verso page](https://optsuite.github.io/books/convexanalysis_rockafellar_1970/chapters/chap04/section17/))
-- *Introduction to Real Analysis, Volume I*, Jiri Lebl (2025)
-  - Chapter 0 ([Verso page](https://optsuite.github.io/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03/))
-  - Chapter 1 ([Verso page](https://optsuite.github.io/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap01/section01/))
-  - Chapter 2 ([Verso page](https://optsuite.github.io/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap02/section01/))
-  - Chapter 3 ([Verso page](https://optsuite.github.io/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap03/section01/))
-  - Chapter 4 ([Verso page](https://optsuite.github.io/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap04/section01/))
-  - Chapter 5 ([Verso page](https://optsuite.github.io/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap05/section01/))
-  - Chapter 6 ([Verso page](https://optsuite.github.io/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap06/section01/))
-  - Chapter 7 ([Verso page](https://optsuite.github.io/books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap07/section01/))
-- *Integer Programming*, Michele Conforti et al. (2014) (not yet formalized)
-
-### Papers
-
-- *Smooth Minimization of Nonsmooth Functions*, Yurii Nesterov (2004)
-  - Section 1 ([Verso page](https://optsuite.github.io/papers/smoothminimization_nesterov_2004/sections/section01/))
-  - Section 2 ([Verso page](https://optsuite.github.io/papers/smoothminimization_nesterov_2004/sections/section02/))
-  - Section 3 ([Verso page](https://optsuite.github.io/papers/smoothminimization_nesterov_2004/sections/section03/))
-  - Section 4 ([Verso page](https://optsuite.github.io/papers/smoothminimization_nesterov_2004/sections/section04/))
-  - Section 5 ([Verso page](https://optsuite.github.io/papers/smoothminimization_nesterov_2004/sections/section05/))
-- *On Some Local Rings*, Mansour Maassaran (2025)
-  - Section 1 ([Verso page](https://optsuite.github.io/papers/onsomelocalrings_maassaran_2025/sections/section01/))
-  - Section 2 ([Verso page](https://optsuite.github.io/papers/onsomelocalrings_maassaran_2025/sections/section02/))
+- Papers
+  - **Author(s):** Yurii Nesterov
+  - **Full title:** *Smooth Minimization of Nonsmooth Functions*
+  - **Publisher:** (TODO: journal/conference/publisher)
+  - **Year:** 2004
+  - **Series / DOI:** (TODO: series/DOI)
+  - **Contributors:** (TODO: list contributors who formalized this paper)
+  - **Links:** [Verso](https://optsuite.github.io/ReasBook/papers/smoothminimization_nesterov_2004/paper/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.SmoothMinimization_Nesterov_2004#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Papers/SmoothMinimization_Nesterov_2004)
+  - **Author(s):** Mansour Maassaran
+  - **Full title:** *On Some Local Rings*
+  - **Publisher:** (TODO: journal/conference/publisher)
+  - **Year:** 2025
+  - **Series / DOI:** (TODO: series/DOI)
+  - **Contributors:** (TODO: list contributors who formalized this paper)
+  - **Links:** [Verso](https://optsuite.github.io/ReasBook/papers/onsomelocalrings_maassaran_2025/paper/) | [API docs](https://optsuite.github.io/ReasBook/docs/find?pattern=Papers.OnSomeLocalRings_Maassaran_2025#doc) | [Lean source](https://github.com/optsuite/ReasBook/tree/main/ReasBook/Papers/OnSomeLocalRings_Maassaran_2025)
 
 ## Repository Layout
 
@@ -49,13 +58,27 @@ The repository is organized into a Lean source tree and a web-documentation tree
 
 ```text
 ReasBook/
-├── ReasBook/                  # Lean project root
-│   ├── Books/                 # Textbook formalizations
-│   ├── Papers/                # Paper formalizations
-│   ├── ReasBook.lean          # Top-level import module
-│   ├── lakefile.toml
+├── ReasBook/                         # Main Lean project (books + papers + doc-gen target)
+│   ├── Books/
+│   ├── Papers/
+│   ├── ReasBook.lean
+│   ├── LiterateExtract.lean
+│   ├── lakefile.lean
+│   ├── lake-manifest.json
 │   └── lean-toolchain
-└── ReasBookWeb/               # Generated HTML documentation
+├── ReasBookWeb/                      # Verso website project
+│   ├── ReasBookSite/
+│   ├── static_files/
+│   ├── scripts/gen_sections.py
+│   ├── ReasBookSite.lean
+│   ├── lakefile.lean
+│   ├── lake-manifest.json
+│   └── lean-toolchain
+├── .github/workflows/deploy_pages.yml
+├── build.sh
+├── build-web.sh
+├── serve.py
+└── scripts/cleanup-generated.sh
 ```
 
 ## Naming Convention
@@ -75,14 +98,26 @@ Examples:
 From the repository root:
 
 ```bash
-cd ReasBook/ReasBook
-lake update
-lake build
+./build.sh
 ```
 
-## Documentation
+Build the Verso site (including API docs copied to `_site/docs`):
 
-We use **Verso** to generate interactive web documentation that combines Lean code and mathematical exposition.
+```bash
+./build-web.sh
+```
+
+Serve the generated site locally:
+
+```bash
+python3 serve.py
+```
+
+If generated artifacts were previously committed, untrack them (without deleting local files):
+
+```bash
+./scripts/cleanup-generated.sh
+```
 
 ## Sponsors
 

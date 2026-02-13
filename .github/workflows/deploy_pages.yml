@@ -70,11 +70,13 @@ jobs:
           ~/.elan/bin/lake exe reasbook-site
         working-directory: ReasBookWeb
 
-      # 把主项目 docs 拷贝进站点
+      # Copy main project docs into site as /docs
       - name: Copy main docs into site as /docs
         run: |
           mkdir -p ReasBookWeb/_site/docs
-          cp -r ReasBook/.lake/build/doc/* ReasBookWeb/_site/docs/ || true
+          cp -r ReasBook/.lake/build/doc/. ReasBookWeb/_site/docs/
+          find ReasBookWeb/_site/docs -name "*.trace" -delete || true
+          find ReasBookWeb/_site/docs -name "*.hash" -delete || true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

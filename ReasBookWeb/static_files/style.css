@@ -37,6 +37,35 @@ nav ol li a:focus {
     color: #000;
 }
 
+nav details {
+    margin: 0.25em 0;
+}
+
+nav details > summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.35em 0.5em;
+    border-radius: 4px;
+}
+
+nav details > summary:hover {
+    background: #ececf8;
+}
+
+nav details ul {
+    list-style: none;
+    margin: 0.25em 0 0.5em 0.5em;
+    padding: 0;
+}
+
+nav details ul li {
+    margin-bottom: 0.25em;
+}
+
+.nav-tree-root {
+    margin-top: 0.75em;
+}
+
 /* Add left margin to main content to avoid overlap */
 header,
 div.main {

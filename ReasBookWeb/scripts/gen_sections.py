@@ -9,6 +9,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
+SITE_BASE = "https://optsuite.github.io/ReasBook/"
+DOCS_BASE = f"{SITE_BASE}docs/"
+GITHUB_SOURCE_BASE = "https://github.com/optsuite/ReasBook/blob/main/ReasBook/"
+
 BOOK_TITLES = {
     "ConvexAnalysis_Rockafellar_1970": "Convex Analysis (Rockafellar, 1970)",
     "IntegerProgramming_Conforti_2014": "Integer Programming (Conforti et al., 2014)",
@@ -323,6 +327,108 @@ def emit_route_table(entries: list[Entry]) -> str:
     return "\n".join(lines)
 
 
+def doc_link(module: str) -> str:
+    return f"{DOCS_BASE}find?pattern={module}#doc"
+
+
+def source_link(module: str) -> str:
+    return f"{GITHUB_SOURCE_BASE}{module.replace('.', '/')}.lean"
+
+
+def verso_link(route: str) -> str:
+    return f"{SITE_BASE}{route}"
+
+
+def chapter_label(chapter_num: int) -> str:
+    return f"Chapter {chapter_num:02d} (TODO: replace with chapter title)"
+
+
+def write_book_readmes(source_root: Path, entries: list[Entry]) -> None:
+    books_root = source_root / "Books"
+    all_books = sorted([p.name for p in books_root.iterdir() if p.is_dir()])
+
+    by_book: dict[str, list[Entry]] = {book: [] for book in all_books}
+    for e in entries:
+        if e.category == "books":
+            by_book.setdefault(e.book_or_paper, []).append(e)
+
+    for book in all_books:
+        title = book_title(book)
+        item_entries = sorted(
+            by_book.get(book, []),
+            key=lambda e: (e.chapter_num, e.section_num, e.part_num, e.stem),
+        )
+        out: list[str] = []
+        out.append(f"# {title}")
+        out.append("")
+        out.append(f"- Verso root: `{SITE_BASE}` (TODO: add dedicated `{book}` landing page if needed)")
+        out.append(f"- API docs root: [{DOCS_BASE}]({DOCS_BASE})")
+        out.append(f"- Lean source root: [{GITHUB_SOURCE_BASE}Books/{book}/]({GITHUB_SOURCE_BASE}Books/{book}/)")
+        out.append("")
+
+        if not item_entries:
+            out.append("- (TODO: no chapter/section modules discovered yet)")
+            out.append("")
+        else:
+            current_chapter = None
+            for e in item_entries:
+                if current_chapter != e.chapter_num:
+                    current_chapter = e.chapter_num
+                    out.append(f"## {chapter_label(current_chapter)}")
+                    out.append("")
+                out.append(
+                    f"- {section_title_from_stem(e.stem)} "
+                    f"([Verso]({verso_link(e.route)})) "
+                    f"([API docs]({doc_link(e.module)})) "
+                    f"([Lean source]({source_link(e.module)}))"
+                )
+            out.append("")
+
+        readme = books_root / book / "README.md"
+        readme.write_text("\n".join(out), encoding="utf-8")
+        print(f"Wrote {readme}")
+
+
+def write_paper_readmes(source_root: Path, entries: list[Entry]) -> None:
+    papers_root = source_root / "Papers"
+    all_papers = sorted([p.name for p in papers_root.iterdir() if p.is_dir()])
+
+    by_paper: dict[str, list[Entry]] = {paper: [] for paper in all_papers}
+    for e in entries:
+        if e.category == "papers":
+            by_paper.setdefault(e.book_or_paper, []).append(e)
+
+    for paper in all_papers:
+        title = paper_title(paper)
+        item_entries = sorted(by_paper.get(paper, []), key=lambda e: (e.section_num, e.part_num, e.stem))
+        out: list[str] = []
+        out.append(f"# {title}")
+        out.append("")
+        out.append(f"- Verso page: [{SITE_BASE}papers/{paper.lower()}/paper/]({SITE_BASE}papers/{paper.lower()}/paper/)")
+        out.append(f"- API docs root: [{DOCS_BASE}]({DOCS_BASE})")
+        out.append(f"- Lean source root: [{GITHUB_SOURCE_BASE}Papers/{paper}/]({GITHUB_SOURCE_BASE}Papers/{paper}/)")
+        out.append("")
+
+        if not item_entries:
+            out.append("- (TODO: no section modules discovered yet)")
+            out.append("")
+        else:
+            out.append("## Sections")
+            out.append("")
+            for e in item_entries:
+                out.append(
+                    f"- {section_title_from_stem(e.stem)} "
+                    f"([Verso]({verso_link(e.route)})) "
+                    f"([API docs]({doc_link(e.module)})) "
+                    f"([Lean source]({source_link(e.module)}))"
+                )
+            out.append("")
+
+        readme = papers_root / paper / "README.md"
+        readme.write_text("\n".join(out), encoding="utf-8")
+        print(f"Wrote {readme}")
+
+
 def main() -> None:
     args = parse_args()
     if args.repo_root is None:
@@ -341,6 +447,8 @@ def main() -> None:
     out_file.parent.mkdir(parents=True, exist_ok=True)
     out_file.write_text(emit_sections(entries), encoding="utf-8")
     route_file.write_text(emit_route_table(entries), encoding="utf-8")
+    write_book_readmes(source_root, entries)
+    write_paper_readmes(source_root, entries)
     print(f"Wrote {out_file} with {len(entries)} sections")
     print(f"Wrote {route_file} with generated route macro")
 
