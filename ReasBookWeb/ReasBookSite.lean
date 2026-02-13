@@ -13,9 +13,6 @@ open Output Html Template Theme
 
 def siteRoot : String := "/ReasBook/"
 def siteRootScript : String := s!"window.__versoSiteRoot=\"{siteRoot}\""
-def homeHref : String := siteRoot
-def docsHref : String := s!"{siteRoot}docs/"
-def staticCssHref : String := s!"{siteRoot}static/style.css"
 
 def navScript : String :=
   "(function(){" ++
@@ -86,7 +83,7 @@ def theme : Theme := { Theme.default with
         <head>
           <meta charset="UTF-8"/>
           <title>{{ (← param (α := String) "title") }} " -- ReasBook "</title>
-          <link rel="stylesheet" href={staticCssHref}/>
+          <link rel="stylesheet" href="/ReasBook/static/style.css"/>
           <script>{{ siteRootScript }}</script>
           <script>{{ navScript }}</script>
           {{← builtinHeader }}
@@ -96,8 +93,8 @@ def theme : Theme := { Theme.default with
             <div class="inner-wrap">
               <nav class="top" role="navigation">
                 <ol>
-                  <li><a href={homeHref}>"Home"</a></li>
-                  <li><a href={docsHref}>"Documentation"</a></li>
+                  <li><a href="/ReasBook/">"Home"</a></li>
+                  <li><a href="/ReasBook/docs/">"Documentation"</a></li>
                   {{ ← dirLinks (← read).site }}
                 </ol>
               </nav>
