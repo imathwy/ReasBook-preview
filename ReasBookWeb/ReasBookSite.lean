@@ -15,49 +15,95 @@ def siteRoot : String := "/ReasBook/"
 def siteRootScript : String := s!"window.__versoSiteRoot=\"{siteRoot}\""
 def docsRoot : String := s!"{siteRoot}docs/"
 def staticRoot : String := s!"{siteRoot}static/style.css"
-def navLinkRewriteScript : String :=
-  "(function(){" ++
-  "const siteRoot='/ReasBook/';" ++
-  "const isExternal=(h)=>/^(?:[a-z]+:)?\\/\\//i.test(h);" ++
-  "const isSpecial=(h)=>h.startsWith('#')||h.startsWith('mailto:')||h.startsWith('tel:');" ++
-  "const normalize=(href)=>{" ++
-  "if(!href)return href;" ++
-  "if(isSpecial(href))return href;" ++
-  "if(isExternal(href))return href;" ++
-  "if(href==='/'||href==='/index.html')return siteRoot;" ++
-  "if(href==='/docs'||href==='/docs/')return siteRoot+'docs/';" ++
-  "if(href.startsWith(siteRoot))return href;" ++
-  "if(href.startsWith('/'))return siteRoot+href.slice(1);" ++
-  "return siteRoot+href.replace(/^\\.?\\//,'');" ++
-  "};" ++
-  "const rewriteAll=()=>{" ++
-  "for(const a of document.querySelectorAll('a[href]')){" ++
-  "const oldHref=(a.getAttribute('href')||'').trim();" ++
-  "const newHref=normalize(oldHref);" ++
-  "if(newHref&&newHref!==oldHref)a.setAttribute('href',newHref);" ++
-  "}" ++
-  "};" ++
-  "const onClick=(ev)=>{" ++
-  "if(ev.defaultPrevented||ev.button!==0||ev.metaKey||ev.ctrlKey||ev.shiftKey||ev.altKey)return;" ++
-  "const a=ev.target&&ev.target.closest?ev.target.closest('a[href]'):null;" ++
-  "if(!a)return;" ++
-  "if((a.getAttribute('target')||'').toLowerCase()==='_blank')return;" ++
-  "const oldHref=(a.getAttribute('href')||'').trim();" ++
-  "if(!oldHref||isExternal(oldHref)||isSpecial(oldHref))return;" ++
-  "const newHref=normalize(oldHref);" ++
-  "if(!newHref)return;" ++
-  "if(newHref!==oldHref)a.setAttribute('href',newHref);" ++
-  "ev.preventDefault();" ++
-  "window.location.assign(newHref);" ++
-  "};" ++
-  "const boot=()=>{" ++
-  "rewriteAll();" ++
-  "document.addEventListener('click',onClick,true);" ++
-  "const mo=new MutationObserver(()=>rewriteAll());" ++
-  "mo.observe(document.documentElement,{subtree:true,childList:true});" ++
-  "};" ++
-  "if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();" ++
-  "})();"
+def navLinkRewriteScript : String := r##"
+(function () {
+  const siteRoot = "/ReasBook/";
+  const siteRootNoSlash = "/ReasBook";
+  const specials = ["#", "mailto:", "tel:"];
+
+  function isSpecial(href) {
+    return specials.some((p) => href.startsWith(p));
+  }
+
+  function trimToLastSegment(rel, key) {
+    const i = rel.lastIndexOf(key);
+    if (i > 0) return rel.slice(i);
+    return rel;
+  }
+
+  function canonicalRelPath(rel) {
+    rel = rel.replace(/^\/+/, "");
+    rel = trimToLastSegment(rel, "books/");
+    rel = trimToLastSegment(rel, "papers/");
+    rel = trimToLastSegment(rel, "docs/");
+    return rel;
+  }
+
+  function normalizeInternalHref(href) {
+    if (!href) return href;
+    href = href.trim();
+    if (!href || isSpecial(href)) return href;
+
+    let u;
+    try {
+      u = new URL(href, window.location.origin);
+    } catch (_) {
+      return href;
+    }
+
+    if (u.origin !== window.location.origin) return href;
+
+    // Preserve query/hash while normalizing the path component.
+    const qh = u.search + u.hash;
+    let p = u.pathname;
+
+    if (p === "/" || p === "/index.html") return siteRoot + qh;
+    if (p === "/docs" || p === "/docs/") return siteRoot + "docs/" + qh;
+
+    let rel;
+    if (p.startsWith(siteRoot)) rel = p.slice(siteRoot.length);
+    else if (p.startsWith(siteRootNoSlash + "/")) rel = p.slice(siteRootNoSlash.length + 1);
+    else if (p.startsWith("/")) rel = p.slice(1);
+    else rel = p;
+
+    rel = canonicalRelPath(rel);
+    return siteRoot + rel + qh;
+  }
+
+  function rewriteAllAnchors() {
+    for (const a of document.querySelectorAll("a[href]")) {
+      const oldHref = (a.getAttribute("href") || "").trim();
+      const newHref = normalizeInternalHref(oldHref);
+      if (newHref && newHref !== oldHref) a.setAttribute("href", newHref);
+    }
+  }
+
+  function onClick(ev) {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    const a = ev.target && ev.target.closest ? ev.target.closest("a[href]") : null;
+    if (!a) return;
+    if ((a.getAttribute("target") || "").toLowerCase() === "_blank") return;
+
+    const oldHref = (a.getAttribute("href") || "").trim();
+    const newHref = normalizeInternalHref(oldHref);
+    if (!newHref || newHref === oldHref) return;
+
+    a.setAttribute("href", newHref);
+    ev.preventDefault();
+    window.location.assign(newHref);
+  }
+
+  function boot() {
+    rewriteAllAnchors();
+    document.addEventListener("click", onClick, true);
+    const mo = new MutationObserver(rewriteAllAnchors);
+    mo.observe(document.documentElement, { subtree: true, childList: true });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+"##
 
 def theme : Theme := { Theme.default with
   primaryTemplate := do
