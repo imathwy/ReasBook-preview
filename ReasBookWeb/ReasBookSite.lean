@@ -111,6 +111,7 @@ def theme : Theme := { Theme.default with
       <html>
         <head>
           <meta charset="UTF-8"/>
+          <base href="/ReasBook/"/>
           <title>{{ (← param (α := String) "title") }} " -- ReasBook "</title>
           <link rel="stylesheet" href="/ReasBook/static/style.css"/>
           <script>{{ siteRootScript }}</script>
