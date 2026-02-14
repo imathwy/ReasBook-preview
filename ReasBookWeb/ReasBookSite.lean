@@ -13,6 +13,31 @@ open Output Html Template Theme
 
 def siteRoot : String := "/ReasBook/"
 def siteRootScript : String := s!"window.__versoSiteRoot=\"{siteRoot}\""
+def docsRoot : String := s!"{siteRoot}docs/"
+def staticRoot : String := s!"{siteRoot}static/style.css"
+def navLinkRewriteScript : String :=
+  "(function(){" ++
+  "const siteRoot='/ReasBook/';" ++
+  "const isExternal=(h)=>/^(?:[a-z]+:)?\\/\\//i.test(h);" ++
+  "const normalize=(href)=>{" ++
+  "if(!href)return href;" ++
+  "if(href.startsWith('#')||href.startsWith('mailto:')||href.startsWith('tel:'))return href;" ++
+  "if(isExternal(href))return href;" ++
+  "if(href==='/'||href==='/index.html')return siteRoot;" ++
+  "if(href==='/docs'||href==='/docs/')return siteRoot+'docs/';" ++
+  "if(href.startsWith(siteRoot))return href;" ++
+  "if(href.startsWith('/'))return siteRoot+href.slice(1);" ++
+  "return siteRoot+href.replace(/^\\.?\\//,'');" ++
+  "};" ++
+  "const rewrite=()=>{" ++
+  "for(const a of document.querySelectorAll('a[href]')){" ++
+  "const oldHref=(a.getAttribute('href')||'').trim();" ++
+  "const newHref=normalize(oldHref);" ++
+  "if(newHref&&newHref!==oldHref)a.setAttribute('href',newHref);" ++
+  "}" ++
+  "};" ++
+  "if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',rewrite);else rewrite();" ++
+  "})();"
 
 def theme : Theme := { Theme.default with
   primaryTemplate := do
@@ -21,8 +46,9 @@ def theme : Theme := { Theme.default with
         <head>
           <meta charset="UTF-8"/>
           <title>{{ (← param (α := String) "title") }} " -- ReasBook "</title>
-          <link rel="stylesheet" href="/static/style.css"/>
+          <link rel="stylesheet" href="/ReasBook/static/style.css"/>
           <script>{{ siteRootScript }}</script>
+          <script>{{ navLinkRewriteScript }}</script>
           {{← builtinHeader }}
         </head>
         <body>
@@ -30,8 +56,8 @@ def theme : Theme := { Theme.default with
             <div class="inner-wrap">
               <nav class="top" role="navigation">
                 <ol>
-                  <li><a href="/">"Home"</a></li>
-                  <li><a href="/docs/">"Documentation"</a></li>
+                  <li><a href="/ReasBook/">"Home"</a></li>
+                  <li><a href="/ReasBook/docs/">"Documentation"</a></li>
                   {{ ← dirLinks (← read).site }}
                 </ol>
               </nav>

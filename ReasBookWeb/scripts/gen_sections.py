@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-SITE_BASE = "/ReasBook/"
+SITE_BASE = "https://optsuite.github.io/ReasBook/"
 DOCS_BASE = f"{SITE_BASE}docs/"
 GITHUB_SOURCE_BASE = "https://github.com/optsuite/ReasBook/blob/main/ReasBook/"
 

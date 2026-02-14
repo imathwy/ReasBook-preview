@@ -1,7 +1,7 @@
 Terence Tao, *Analysis II*, 4th ed., Hindustan Book Agency / Springer, Singapore, 2022, ISBN 978-981-19-7284-3.
 
 ## Chapter 1 Metric Spaces
-Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01/) | [Documentation](/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01.lean)
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap01#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap01.lean)
 - 1.1 Definitions and Examples
 - 1.2 Some Point-Set Topology of Metric Spaces
 - 1.3 Relative Topology
@@ -9,7 +9,7 @@ Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap01/section01/) | 
 - 1.5 Compact Metric Spaces
 
 ## Chapter 2 Continuous Functions on Metric Spaces
-Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap02/section01/) | [Documentation](/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap02#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap02.lean)
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap02/section01/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap02#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap02.lean)
 - 2.1 Continuous Functions
 - 2.2 Continuity and Product Spaces
 - 2.3 Continuity and Compactness
@@ -17,7 +17,7 @@ Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap02/section01/) | 
 - 2.5 Topological Spaces (Optional)
 
 ## Chapter 3 Uniform Convergence
-Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap03/section01/) | [Documentation](/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03.lean)
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap03/section01/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap03#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap03.lean)
 - 3.1 Limiting Values of Functions
 - 3.2 Pointwise and Uniform Convergence
 - 3.3 Uniform Convergence and Continuity
@@ -28,7 +28,7 @@ Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap03/section01/) | 
 - 3.8 Uniform Approximation by Polynomials
 
 ## Chapter 4 Power Series
-Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap04/section01/) | [Documentation](/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04.lean)
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap04/section01/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap04#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap04.lean)
 - 4.1 Formal Power Series
 - 4.2 Real Analytic Functions
 - 4.3 Abel's Theorem
@@ -38,7 +38,7 @@ Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap04/section01/) | 
 - 4.7 Trigonometric Functions
 
 ## Chapter 5 Fourier Series
-Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap05/section01/) | [Documentation](/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05.lean)
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap05/section01/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap05#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap05.lean)
 - 5.1 Periodic Functions
 - 5.2 Inner Products on Periodic Functions
 - 5.3 Trigonometric Polynomials
@@ -46,7 +46,7 @@ Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap05/section01/) | 
 - 5.5 The Fourier and Plancherel Theorems
 
 ## Chapter 6 Several Variable Differential Calculus
-Links: [Verso](/ReasBook/books/analysis2_tao_2022/chapters/chap06/section01/) | [Documentation](/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap06#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap06.lean)
+Links: [Verso](https://optsuite.github.io/ReasBook/books/analysis2_tao_2022/chapters/chap06/section01/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.Analysis2_Tao_2022.Chapters.Chap06#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/Analysis2_Tao_2022/Chapters/Chap06.lean)
 - 6.1 Linear Transformations
 - 6.2 Derivatives in Several Variable Calculus
 - 6.3 Partial and Directional Derivatives
