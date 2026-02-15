@@ -286,7 +286,6 @@ macro_rules
       "books/convexanalysis_rockafellar_1970/chapters/chap04/section20/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20
       "books/convexanalysis_rockafellar_1970/chapters/chap04/section20_part1/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part1
       "books/convexanalysis_rockafellar_1970/chapters/chap04/section20_part2/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part2
-      "books/integerprogramming_conforti_2014/home/" Book.Books.IntegerProgramming_Conforti_2014.VersoHome
       "books/introductiontorealanalysisvolumei_jirilebl_2025/home/" Book.Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.VersoHome
       "books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03/" Book.Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03
       "books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03_part1/" Book.Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03_part1
@@ -647,7 +646,6 @@ def reasbook_site : Site := site ReasBookSite.Home /
   "books/convexanalysis_rockafellar_1970/chapters/chap04/section20/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20
   "books/convexanalysis_rockafellar_1970/chapters/chap04/section20_part1/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part1
   "books/convexanalysis_rockafellar_1970/chapters/chap04/section20_part2/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part2
-  "books/integerprogramming_conforti_2014/home/" Book.Books.IntegerProgramming_Conforti_2014.VersoHome
   "books/introductiontorealanalysisvolumei_jirilebl_2025/home/" Book.Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.VersoHome
   "books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03/" Book.Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03
   "books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03_part1/" Book.Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03_part1

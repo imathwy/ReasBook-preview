@@ -213,6 +213,8 @@ def collect_entries(source_root: Path) -> list[Entry]:
 
     for book_dir in sorted([p for p in books_root.iterdir() if p.is_dir()]):
         book = book_dir.name
+        if book in TBD_BOOKS:
+            continue
         module = f"Books.{book}.VersoHome"
         entries.append(
             Entry(
@@ -234,6 +236,8 @@ def collect_entries(source_root: Path) -> list[Entry]:
             continue
         rel = path.relative_to(books_root)
         book = rel.parts[0]
+        if book in TBD_BOOKS:
+            continue
         ch_title = chapter_title(rel.parts)
         sec_title = module_doc_title(path) or section_title_from_stem(path.stem)
         title_parts = [book_title(book)]
@@ -399,6 +403,8 @@ def write_verso_home_modules(source_root: Path, entries: list[Entry]) -> None:
             by_paper.setdefault(e.book_or_paper, []).append(e)
 
     for book in sorted([p.name for p in books_root.iterdir() if p.is_dir()]):
+        if book in TBD_BOOKS:
+            continue
         item_entries = by_book.get(book, [])
         item_entries = sorted(item_entries, key=lambda e: (e.chapter_num, e.section_num, e.part_num, e.stem))
         lines: list[str] = []
