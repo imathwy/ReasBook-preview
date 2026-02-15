@@ -13,6 +13,7 @@ import json
 SITE_BASE = "https://optsuite.github.io/ReasBook/"
 DOCS_BASE = f"{SITE_BASE}docs/"
 GITHUB_SOURCE_BASE = "https://github.com/optsuite/ReasBook/blob/main/ReasBook/"
+GITHUB_TREE_BASE = "https://github.com/optsuite/ReasBook/tree/main/ReasBook/"
 
 BOOK_TITLES = {
     "ConvexAnalysis_Rockafellar_1970": "Convex Analysis (Rockafellar, 1970)",
@@ -569,6 +570,15 @@ def source_link(module: str) -> str:
     return f"{GITHUB_SOURCE_BASE}{module.replace('.', '/')}.lean"
 
 
+def chapter_source_link(e: Entry) -> str:
+    chapter = f"Chap{e.chapter_num:02d}"
+    return f"{GITHUB_TREE_BASE}Books/{e.book_or_paper}/Chapters/{chapter}"
+
+
+def paper_sections_source_link(e: Entry) -> str:
+    return f"{GITHUB_TREE_BASE}Papers/{e.book_or_paper}/Sections"
+
+
 def verso_link(route: str) -> str:
     return f"{SITE_BASE}{route}"
 
@@ -597,17 +607,18 @@ def write_book_readmes(source_root: Path, entries: list[Entry]) -> None:
             out.append("- Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)")
         else:
             verso_target = verso_link(item_entries[0].route) if item_entries else f"{SITE_BASE}books/{book.lower()}/"
+            docs_target = doc_link(item_entries[0].module) if item_entries else doc_link(book_module)
             links = [
                 f"[Verso]({verso_target})",
-                f"[Documentation]({doc_link(book_module)})",
+                f"[Documentation]({docs_target})",
             ]
             if book_file.exists():
                 links.append(
-                    f"[Lean source]({GITHUB_SOURCE_BASE}Books/{book}/Book.lean)"
+                    f"[Lean source]({GITHUB_TREE_BASE}Books/{book}/Chapters)"
                 )
             else:
                 links.append(
-                    f"[Lean source]({GITHUB_SOURCE_BASE}Books/{book}/)"
+                    f"[Lean source]({GITHUB_TREE_BASE}Books/{book}/)"
                 )
             out.append(f"- Links: {' | '.join(links)}")
         out.append("")
@@ -629,7 +640,7 @@ def write_book_readmes(source_root: Path, entries: list[Entry]) -> None:
                     f"- {label} "
                     f"([Verso]({verso_link(e.route)})) "
                     f"([Documentation]({doc_link(e.module)})) "
-                    f"([Lean source]({source_link(e.module)}))"
+                    f"([Lean source]({chapter_source_link(e)}))"
                 )
             out.append("")
 
@@ -662,17 +673,18 @@ def write_paper_readmes(source_root: Path, entries: list[Entry]) -> None:
         out.append(f"# {title}")
         out.append("")
         verso_target = verso_link(item_entries[0].route) if item_entries else f"{SITE_BASE}papers/{paper.lower()}/"
+        docs_target = doc_link(item_entries[0].module) if item_entries else doc_link(paper_module)
         links = [
             f"[Verso]({verso_target})",
-            f"[Documentation]({doc_link(paper_module)})",
+            f"[Documentation]({docs_target})",
         ]
         if paper_file.exists():
             links.append(
-                f"[Lean source]({GITHUB_SOURCE_BASE}Papers/{paper}/Paper.lean)"
+                f"[Lean source]({GITHUB_TREE_BASE}Papers/{paper}/Sections)"
             )
         else:
             links.append(
-                f"[Lean source]({GITHUB_SOURCE_BASE}Papers/{paper}/Main.lean)"
+                f"[Lean source]({GITHUB_TREE_BASE}Papers/{paper}/)"
             )
         out.append(f"- Links: {' | '.join(links)}")
         out.append("")
@@ -691,7 +703,7 @@ def write_paper_readmes(source_root: Path, entries: list[Entry]) -> None:
                     f"- {label} "
                     f"([Verso]({verso_link(e.route)})) "
                     f"([Documentation]({doc_link(e.module)})) "
-                    f"([Lean source]({source_link(e.module)}))"
+                    f"([Lean source]({paper_sections_source_link(e)}))"
                 )
             out.append("")
 

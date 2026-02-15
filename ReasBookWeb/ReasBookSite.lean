@@ -183,12 +183,7 @@ def theme : Theme := { Theme.default with
         <body>
           <header>
             <div class="inner-wrap">
-              <nav class="top" role="navigation" id="sidebar-nav-root">
-                <ol>
-                  <li><a href="/ReasBook/">Home</a></li>
-                  <li><a href="/ReasBook/docs/">Documentation</a></li>
-                </ol>
-              </nav>
+              <nav class="top" role="navigation" id="sidebar-nav-root"></nav>
             </div>
           </header>
           <div class="main" role="main">
