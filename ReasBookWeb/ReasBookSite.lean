@@ -1,6 +1,7 @@
 import VersoBlog
 import ReasBookSite.Home
 import ReasBookSite.LiterateModule
+import ReasBookSite.NavData
 import ReasBookSite.Sections
 import ReasBookSite.RouteTable
 import Book
@@ -13,6 +14,7 @@ open Output Html Template Theme
 
 def siteRoot : String := "/ReasBook/"
 def siteRootScript : String := s!"window.__versoSiteRoot=\"{siteRoot}\""
+def navDataScript : String := s!"window.__reasbookNavData={ReasBookSite.NavData.navDataJson};"
 def docsRoot : String := s!"{siteRoot}docs/"
 def staticRoot : String := s!"{siteRoot}static/style.css"
 def navLinkRewriteScript : String := r##"
@@ -94,9 +96,76 @@ def navLinkRewriteScript : String := r##"
   }
 
   function boot() {
+    const navData = window.__reasbookNavData || { books: [], papers: [] };
+    const navRoot = document.getElementById("sidebar-nav-root");
+
+    function trimSlashes(s) {
+      return (s || "").replace(/^\/+|\/+$/g, "");
+    }
+
+    function currentRelPath() {
+      let p = window.location.pathname || "/";
+      if (p.startsWith(siteRoot)) p = p.slice(siteRoot.length);
+      else p = p.replace(/^\/+/, "");
+      return trimSlashes(p);
+    }
+
+    function mkItem(href, label) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = href;
+      a.textContent = label;
+      li.appendChild(a);
+      return li;
+    }
+
+    function renderDefaultNav(list) {
+      list.appendChild(mkItem(siteRoot, "Home"));
+      list.appendChild(mkItem(siteRoot + "docs/", "Documentation"));
+      for (const w of [...(navData.books || []), ...(navData.papers || [])]) {
+        list.appendChild(mkItem(siteRoot + trimSlashes(w.homeRoute) + "/", w.title));
+      }
+    }
+
+    function renderWorkNav(list, work) {
+      list.appendChild(mkItem(siteRoot, "Home"));
+      list.appendChild(mkItem(siteRoot + "docs/", "Documentation"));
+      list.appendChild(mkItem(siteRoot + trimSlashes(work.homeRoute) + "/", work.title + " Home"));
+      for (const s of work.sections || []) {
+        list.appendChild(mkItem(siteRoot + trimSlashes(s.route) + "/", s.title));
+      }
+    }
+
+    function renderSidebarNav() {
+      if (!navRoot) return;
+      navRoot.innerHTML = "";
+      const list = document.createElement("ol");
+
+      const rel = currentRelPath();
+      const parts = rel.split("/").filter(Boolean);
+      if (parts.length >= 2 && (parts[0] === "books" || parts[0] === "papers")) {
+        const slug = parts[1];
+        const works = parts[0] === "books" ? (navData.books || []) : (navData.papers || []);
+        const work = works.find((w) => w.slug === slug);
+        if (work) {
+          renderWorkNav(list, work);
+        } else {
+          renderDefaultNav(list);
+        }
+      } else {
+        renderDefaultNav(list);
+      }
+
+      navRoot.appendChild(list);
+    }
+
+    renderSidebarNav();
     rewriteAllAnchors();
     document.addEventListener("click", onClick, true);
-    const mo = new MutationObserver(rewriteAllAnchors);
+    const mo = new MutationObserver(() => {
+      renderSidebarNav();
+      rewriteAllAnchors();
+    });
     mo.observe(document.documentElement, { subtree: true, childList: true });
   }
 
@@ -115,19 +184,14 @@ def theme : Theme := { Theme.default with
           <title>{{ (← param (α := String) "title") }} " -- ReasBook "</title>
           <link rel="stylesheet" href="/ReasBook/static/style.css"/>
           <script>{{ siteRootScript }}</script>
+          <script>{{ navDataScript }}</script>
           <script>{{ navLinkRewriteScript }}</script>
           {{← builtinHeader }}
         </head>
         <body>
           <header>
             <div class="inner-wrap">
-              <nav class="top" role="navigation">
-                <ol>
-                  <li><a href="/ReasBook/">"Home"</a></li>
-                  <li><a href="/ReasBook/docs/">"Documentation"</a></li>
-                  {{ ← dirLinks (← read).site }}
-                </ol>
-              </nav>
+              <nav class="top" role="navigation" id="sidebar-nav-root"></nav>
             </div>
           </header>
           <div class="main" role="main">

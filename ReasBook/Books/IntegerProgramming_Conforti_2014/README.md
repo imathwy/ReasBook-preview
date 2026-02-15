@@ -1,8 +1,5 @@
 # Integer Programming (Conforti et al., 2014)
 
-- Verso home: TBD
-- API docs: TBD
-- Lean source: TBD
-- Verso home source: TBD
+- Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
 
 - (TODO: no chapter/section modules discovered yet)
