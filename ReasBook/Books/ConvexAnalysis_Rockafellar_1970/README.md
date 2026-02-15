@@ -1,134 +1,36 @@
-R. Tyrrell Rockafellar, *Convex Analysis*, Princeton University Press, Princeton, 1970, ISBN 0-691-08069-0.
+# Convex Analysis (Rockafellar, 1970)
 
-## PART I: BASIC CONCEPTS
+- Verso home: [https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/home/](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/home/)
+- API docs: [https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Book.html](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Book.html)
+- Lean source: [https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Book.lean](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Book.lean)
+- Verso home source: [https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/VersoHome.lean](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/VersoHome.lean)
 
-### Chapter 1 Affine Sets
-Links: [Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section01/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01.lean)
+## Chapter 01 (TODO: replace with chapter title)
 
-### Chapter 2 Convex Sets and Cones
-Links: [Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap02/section05/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap02#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02.lean)
+- Section 01 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section01/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section01.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section01.lean))
+- Section 02 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section02/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section02.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section02.lean))
+- Section 03 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section03/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section03.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section03.lean))
+- Section 04 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section04/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section04.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section04.lean))
+- Section 05 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap01/section05/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section05.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap01/section05.lean))
+## Chapter 02 (TODO: replace with chapter title)
 
-### Chapter 3 The Algebra of Convex Sets
-Links: [Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap03/section11/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap03#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03.lean)
+- Section 05 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap02/section05/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section05.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section05.lean))
+- Section 06 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap02/section06/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section06.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section06.lean))
+- Section 07 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap02/section07/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section07.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section07.lean))
+- Section 08 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap02/section08/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section08.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section08.lean))
+- Section 09 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap02/section09/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section09.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section09.lean))
+- Section 10 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap02/section10/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section10.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap02/section10.lean))
+## Chapter 03 (TODO: replace with chapter title)
 
-### Chapter 4 Convex Functions
-Links: [Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap04/section17/) | [Documentation](https://optsuite.github.io/ReasBook/docs/find?pattern=Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04#doc) | [Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04.lean)
+- Section 11 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap03/section11/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section11.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section11.lean))
+- Section 12 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap03/section12/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section12.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section12.lean))
+- Section 13 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap03/section13/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section13.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section13.lean))
+- Section 14 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap03/section14/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section14.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section14.lean))
+- Section 15 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap03/section15/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section15.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section15.lean))
+- Section 16 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap03/section16/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section16.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap03/section16.lean))
+## Chapter 04 (TODO: replace with chapter title)
 
-### Chapter 5 Functional Operations
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-## PART II: TOPOLOGICAL PROPERTIES
-
-### Chapter 6 Relative Interiors of Convex Sets
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 7 Closures of Convex Functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 8 Recession Cones and Unboundedness
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 9 Some Closedness Criteria
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 10 Continuity of Convex Functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-## PART III: DUALITY CORRESPONDENCES
-
-### Chapter 11 Separation Theorems
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 12 Conjugates of Convex Functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 13 Support Functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 14 Polars of Convex Sets
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 15 Polars of Convex Functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 16 Dual Operations
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-## PART IV: REPRESENTATION AND INEQUALITIES
-
-### Chapter 17 Caratheodory's Theorem
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 18 Extreme Points and Faces of Convex Sets
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 19 Polyhedral Convex Sets and Functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 20 Some Applications of Polyhedral Convexity
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 21 Helly's Theorem and Systems of Inequalities
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 22 Linear Inequalities
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-## PART V: (TBD in `Contents.txt` extract)
-
-### Chapter 23 Directional Derivatives and Subgradients
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 24 Differential Continuity and Monotonicity
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 25 Differentiability of Convex Functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 26 The Legendre Transformation
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-## PART VI: CONSTRAINED EXTREMUM PROBLEMS
-
-### Chapter 27 The Minimum of a Convex Function
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 28 Ordinary Convex Programs and Lagrange Multipliers
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 29 Bifunctions and Generalized Convex Programs
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 30 Adjoint Bifunctions and Dual Programs
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 31 Fenchel's Duality Theorem
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 32 The Maximum of a Convex Function
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-## PART VII: SADDLE-FUNCTIONS AND MINIMAX THEORY
-
-### Chapter 33 Saddle-Functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 34 Closures and Equivalence Classes
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 35 Continuity and Differentiability of Saddle-functions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 36 Minimax Problems
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 37 Conjugate Saddle-functions and Minimax Theorems
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-## PART VIII: CONVEX ALGEBRA
-
-### Chapter 38 The Algebra of Bifunctions
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
-
-### Chapter 39 Convex Processes
-Links: Verso (TBD) | Documentation (TBD) | Lean source (TBD)
+- Section 17 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap04/section17/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04/section17.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04/section17.lean))
+- Section 18 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap04/section18/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04/section18.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04/section18.lean))
+- Section 19 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap04/section19/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04/section19.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04/section19.lean))
+- Section 20 ([Verso](https://optsuite.github.io/ReasBook/books/convexanalysis_rockafellar_1970/chapters/chap04/section20/)) ([API docs](https://optsuite.github.io/ReasBook/docs/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04/section20.html)) ([Lean source](https://github.com/optsuite/ReasBook/blob/main/ReasBook/Books/ConvexAnalysis_Rockafellar_1970/Chapters/Chap04/section20.lean))

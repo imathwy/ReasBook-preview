@@ -5,7 +5,13 @@ open Verso Genre Blog
 
 This site publishes literate pages generated from the `ReasBook` Lean project.
 
-The navigation sidebar is generated from the current `Books` and `Papers` module tree.
-When new sections are added, regenerate `ReasBookSite/Sections.lean` with:
+Use the top navigation to browse:
+
+- `Home`: project overview (this page)
+- `Documentation`: Lean API docs
+- each book/paper `Home` page: overview and links into that specific source
+
+When new books, papers, or sections are added, regenerate `ReasBookSite/Sections.lean`
+and `ReasBookSite/RouteTable.lean` with:
 
 `python3 scripts/gen_sections.py`

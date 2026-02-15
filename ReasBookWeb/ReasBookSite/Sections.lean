@@ -4,6 +4,7 @@
 namespace ReasBookSite.Sections
 
 def sections : Array (Lean.Name × String) := #[
+  (`Books.Analysis2_Tao_2022.VersoHome, "Analysis II (Tao, 2022) -- Home"),
   (`Books.Analysis2_Tao_2022.Chapters.Chap01.section01, "Analysis II (Tao, 2022) -- Chapter 01 -- Section 01"),
   (`Books.Analysis2_Tao_2022.Chapters.Chap01.section01_part1, "Analysis II (Tao, 2022) -- Chapter 01 -- Section 01 -- Part 1"),
   (`Books.Analysis2_Tao_2022.Chapters.Chap01.section01_part2, "Analysis II (Tao, 2022) -- Chapter 01 -- Section 01 -- Part 2"),
@@ -55,6 +56,7 @@ def sections : Array (Lean.Name × String) := #[
   (`Books.Analysis2_Tao_2022.Chapters.Chap05.section05, "Analysis II (Tao, 2022) -- Chapter 05 -- Section 05"),
   (`Books.Analysis2_Tao_2022.Chapters.Chap06.section01, "Analysis II (Tao, 2022) -- Chapter 06 -- Section 01"),
   (`Books.Analysis2_Tao_2022.Chapters.Chap06.section02, "Analysis II (Tao, 2022) -- Chapter 06 -- Section 02"),
+  (`Books.ConvexAnalysis_Rockafellar_1970.VersoHome, "Convex Analysis (Rockafellar, 1970) -- Home"),
   (`Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01, "Convex Analysis (Rockafellar, 1970) -- Chapter 01 -- Section 01"),
   (`Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01_part1, "Convex Analysis (Rockafellar, 1970) -- Chapter 01 -- Section 01 -- Part 1"),
   (`Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01_part2, "Convex Analysis (Rockafellar, 1970) -- Chapter 01 -- Section 01 -- Part 2"),
@@ -273,6 +275,8 @@ def sections : Array (Lean.Name × String) := #[
   (`Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20, "Convex Analysis (Rockafellar, 1970) -- Chapter 04 -- Section 20"),
   (`Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part1, "Convex Analysis (Rockafellar, 1970) -- Chapter 04 -- Section 20 -- Part 1"),
   (`Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part2, "Convex Analysis (Rockafellar, 1970) -- Chapter 04 -- Section 20 -- Part 2"),
+  (`Books.IntegerProgramming_Conforti_2014.VersoHome, "Integer Programming (Conforti et al., 2014) -- Home"),
+  (`Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.VersoHome, "Introduction to Real Analysis, Volume I (Jiri Lebl, 2025) -- Home"),
   (`Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03, "Introduction to Real Analysis, Volume I (Jiri Lebl, 2025) -- Chapter 00 -- Section 03"),
   (`Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03_part1, "Introduction to Real Analysis, Volume I (Jiri Lebl, 2025) -- Chapter 00 -- Section 03 -- Part 1"),
   (`Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03_part2, "Introduction to Real Analysis, Volume I (Jiri Lebl, 2025) -- Chapter 00 -- Section 03 -- Part 2"),
@@ -320,6 +324,7 @@ def sections : Array (Lean.Name × String) := #[
   (`Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap07.section04, "Introduction to Real Analysis, Volume I (Jiri Lebl, 2025) -- Chapter 07 -- Section 04"),
   (`Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap07.section05, "Introduction to Real Analysis, Volume I (Jiri Lebl, 2025) -- Chapter 07 -- Section 05"),
   (`Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap07.section06, "Introduction to Real Analysis, Volume I (Jiri Lebl, 2025) -- Chapter 07 -- Section 06"),
+  (`Papers.OnSomeLocalRings_Maassaran_2025.VersoHome, "On Some Local Rings (Maassaran, 2025) -- Home"),
   (`Papers.OnSomeLocalRings_Maassaran_2025.Paper, "On Some Local Rings (Maassaran, 2025) -- Overview"),
   (`Papers.OnSomeLocalRings_Maassaran_2025.Sections.section01, "On Some Local Rings (Maassaran, 2025) -- Section 01"),
   (`Papers.OnSomeLocalRings_Maassaran_2025.Sections.section01_part1, "On Some Local Rings (Maassaran, 2025) -- Section 01 -- Part 1"),
@@ -329,6 +334,7 @@ def sections : Array (Lean.Name × String) := #[
   (`Papers.OnSomeLocalRings_Maassaran_2025.Sections.section02_part2, "On Some Local Rings (Maassaran, 2025) -- Section 02 -- Part 2"),
   (`Papers.OnSomeLocalRings_Maassaran_2025.Sections.section02_part3, "On Some Local Rings (Maassaran, 2025) -- Section 02 -- Part 3"),
   (`Papers.OnSomeLocalRings_Maassaran_2025.Sections.section02_part4, "On Some Local Rings (Maassaran, 2025) -- Section 02 -- Part 4"),
+  (`Papers.SmoothMinimization_Nesterov_2004.VersoHome, "Smooth Minimization (Nesterov, 2004) -- Home"),
   (`Papers.SmoothMinimization_Nesterov_2004.Paper, "Smooth Minimization (Nesterov, 2004) -- Overview"),
   (`Papers.SmoothMinimization_Nesterov_2004.Sections.section01, "Smooth Minimization (Nesterov, 2004) -- Section 01"),
   (`Papers.SmoothMinimization_Nesterov_2004.Sections.section02, "Smooth Minimization (Nesterov, 2004) -- Section 02"),
@@ -358,6 +364,7 @@ def sections : Array (Lean.Name × String) := #[
 ]
 
 def routes : Array (String × Lean.Name) := #[
+  ("books/analysis2_tao_2022/home/", `Books.Analysis2_Tao_2022.VersoHome),
   ("books/analysis2_tao_2022/chapters/chap01/section01/", `Books.Analysis2_Tao_2022.Chapters.Chap01.section01),
   ("books/analysis2_tao_2022/chapters/chap01/section01_part1/", `Books.Analysis2_Tao_2022.Chapters.Chap01.section01_part1),
   ("books/analysis2_tao_2022/chapters/chap01/section01_part2/", `Books.Analysis2_Tao_2022.Chapters.Chap01.section01_part2),
@@ -409,6 +416,7 @@ def routes : Array (String × Lean.Name) := #[
   ("books/analysis2_tao_2022/chapters/chap05/section05/", `Books.Analysis2_Tao_2022.Chapters.Chap05.section05),
   ("books/analysis2_tao_2022/chapters/chap06/section01/", `Books.Analysis2_Tao_2022.Chapters.Chap06.section01),
   ("books/analysis2_tao_2022/chapters/chap06/section02/", `Books.Analysis2_Tao_2022.Chapters.Chap06.section02),
+  ("books/convexanalysis_rockafellar_1970/home/", `Books.ConvexAnalysis_Rockafellar_1970.VersoHome),
   ("books/convexanalysis_rockafellar_1970/chapters/chap01/section01/", `Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01),
   ("books/convexanalysis_rockafellar_1970/chapters/chap01/section01_part1/", `Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01_part1),
   ("books/convexanalysis_rockafellar_1970/chapters/chap01/section01_part2/", `Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01_part2),
@@ -627,6 +635,8 @@ def routes : Array (String × Lean.Name) := #[
   ("books/convexanalysis_rockafellar_1970/chapters/chap04/section20/", `Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20),
   ("books/convexanalysis_rockafellar_1970/chapters/chap04/section20_part1/", `Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part1),
   ("books/convexanalysis_rockafellar_1970/chapters/chap04/section20_part2/", `Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap04.section20_part2),
+  ("books/integerprogramming_conforti_2014/home/", `Books.IntegerProgramming_Conforti_2014.VersoHome),
+  ("books/introductiontorealanalysisvolumei_jirilebl_2025/home/", `Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.VersoHome),
   ("books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03/", `Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03),
   ("books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03_part1/", `Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03_part1),
   ("books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap00/section03_part2/", `Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap00.section03_part2),
@@ -674,6 +684,7 @@ def routes : Array (String × Lean.Name) := #[
   ("books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap07/section04/", `Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap07.section04),
   ("books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap07/section05/", `Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap07.section05),
   ("books/introductiontorealanalysisvolumei_jirilebl_2025/chapters/chap07/section06/", `Books.IntroductiontoRealAnalysisVolumeI_JiriLebl_2025.Chapters.Chap07.section06),
+  ("papers/onsomelocalrings_maassaran_2025/home/", `Papers.OnSomeLocalRings_Maassaran_2025.VersoHome),
   ("papers/onsomelocalrings_maassaran_2025/paper/", `Papers.OnSomeLocalRings_Maassaran_2025.Paper),
   ("papers/onsomelocalrings_maassaran_2025/sections/section01/", `Papers.OnSomeLocalRings_Maassaran_2025.Sections.section01),
   ("papers/onsomelocalrings_maassaran_2025/sections/section01_part1/", `Papers.OnSomeLocalRings_Maassaran_2025.Sections.section01_part1),
@@ -683,6 +694,7 @@ def routes : Array (String × Lean.Name) := #[
   ("papers/onsomelocalrings_maassaran_2025/sections/section02_part2/", `Papers.OnSomeLocalRings_Maassaran_2025.Sections.section02_part2),
   ("papers/onsomelocalrings_maassaran_2025/sections/section02_part3/", `Papers.OnSomeLocalRings_Maassaran_2025.Sections.section02_part3),
   ("papers/onsomelocalrings_maassaran_2025/sections/section02_part4/", `Papers.OnSomeLocalRings_Maassaran_2025.Sections.section02_part4),
+  ("papers/smoothminimization_nesterov_2004/home/", `Papers.SmoothMinimization_Nesterov_2004.VersoHome),
   ("papers/smoothminimization_nesterov_2004/paper/", `Papers.SmoothMinimization_Nesterov_2004.Paper),
   ("papers/smoothminimization_nesterov_2004/sections/section01/", `Papers.SmoothMinimization_Nesterov_2004.Sections.section01),
   ("papers/smoothminimization_nesterov_2004/sections/section02/", `Papers.SmoothMinimization_Nesterov_2004.Sections.section02),

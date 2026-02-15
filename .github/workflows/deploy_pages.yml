@@ -45,13 +45,13 @@ jobs:
         run: |
           rm -rf ReasBookWeb/_site
 
-      # mathlib cache
+      # Mathlib cache
       - name: Get Mathlib cache (main project)
         run: |
           ~/.elan/bin/lake exe cache get || true
         working-directory: ReasBook
 
-      # 生成主项目 API docs
+      # Build main project API docs
       - name: Build main project docs (doc-gen4)
         run: |
           ~/.elan/bin/lake -R -Kenv=dev build ReasBook:docs
@@ -68,7 +68,7 @@ jobs:
           ~/.elan/bin/lake build
         working-directory: ReasBook
 
-      # ReasBookWeb 目录下有脚本生成 Sections/Routes 的话，记得先跑
+      # Generate Sections/Routes before building the site
       - name: Generate sections/routes
         run: |
           python3 scripts/gen_sections.py

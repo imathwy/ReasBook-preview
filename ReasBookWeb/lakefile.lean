@@ -91,6 +91,13 @@ target genLib (pkg) : Unit := do
     let jsonSentinel := defaultBuildDir / "originals" / module.toString
     let jsonName := "/".intercalate (module.components.map (·.toString)) ++ ".json"
     let jsonFile : System.FilePath := pkg.dir / reasbookRoot / ".lake" / "build" / "literate" / jsonName
+    let isHomePage :=
+      match module.components.reverse with
+      | last :: _ =>
+        match last with
+        | `Book | `Paper | `Main => true
+        | _ => false
+      | [] => false
 
     addPureTrace (caption := "{jsonFile} exists") (← jsonFile.pathExists)
 
@@ -102,7 +109,12 @@ target genLib (pkg) : Unit := do
       createParentDirs jsonSentinel
       IO.FS.writeFile jsonSentinel (toString (repr trace))
 
-    let contents := s!"import ReasBookSite.LiterateModule\n\nset_option maxHeartbeats 100000000\n\nset_option maxRecDepth 20000\n\n{pageCmd} {declName} from {module} as {repr title}\n"
+    let navMeta :=
+      if isHomePage then
+        ""
+      else
+        " with ({showInNav := false} : Verso.Genre.Blog.Page.Meta)"
+    let contents := s!"import ReasBookSite.LiterateModule\n\nset_option maxHeartbeats 100000000\n\nset_option maxRecDepth 20000\n\n{pageCmd} {declName} from {module} as {repr title}{navMeta}\n"
     addPureTrace contents "contents"
 
     buildFileUnlessUpToDate' mod.leanFile do
@@ -131,7 +143,8 @@ target genLib (pkg) : Unit := do
 
 /-- Blocking target used from `Book` lib dependencies. -/
 target genLibSync : Unit := do
-  .pure <$> (← genLib.fetch).await
+  let _ ← (← genLib.fetch).await
+  pure <| Job.pure ()
 
 lean_lib Book where
   needs := #[genLibSync]

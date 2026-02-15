@@ -25,6 +25,8 @@ PAPER_TITLES = {
     "OnSomeLocalRings_Maassaran_2025": "On Some Local Rings (Maassaran, 2025)",
 }
 
+TBD_BOOKS = {"IntegerProgramming_Conforti_2014"}
+
 SKIP_STEMS = {"utils", "tactics", "scratch", "internal", "helper", "helpers"}
 
 CHAPTER_RE = re.compile(r"^(?:chapter_|chap)(\d+)$", re.IGNORECASE)
@@ -43,6 +45,7 @@ class Entry:
     section_num: int
     part_num: int
     stem: str
+    is_home: bool
 
 
 def parse_args() -> argparse.Namespace:
@@ -208,6 +211,24 @@ def collect_entries(source_root: Path) -> list[Entry]:
     books_root = source_root / "Books"
     papers_root = source_root / "Papers"
 
+    for book_dir in sorted([p for p in books_root.iterdir() if p.is_dir()]):
+        book = book_dir.name
+        module = f"Books.{book}.VersoHome"
+        entries.append(
+            Entry(
+                category="books",
+                module=module,
+                title=f"{book_title(book)} -- Home",
+                route=normalize_path(f"books/{book.lower()}/home/"),
+                book_or_paper=book,
+                chapter_num=0,
+                section_num=0,
+                part_num=0,
+                stem="versohome",
+                is_home=True,
+            )
+        )
+
     for path in sorted(books_root.rglob("*.lean")):
         if not should_include_book(path):
             continue
@@ -231,6 +252,25 @@ def collect_entries(source_root: Path) -> list[Entry]:
                 section_num=sec_num,
                 part_num=part_num,
                 stem=path.stem.lower(),
+                is_home=False,
+            )
+        )
+
+    for paper_dir in sorted([p for p in papers_root.iterdir() if p.is_dir()]):
+        paper = paper_dir.name
+        module = f"Papers.{paper}.VersoHome"
+        entries.append(
+            Entry(
+                category="papers",
+                module=module,
+                title=f"{paper_title(paper)} -- Home",
+                route=normalize_path(f"papers/{paper.lower()}/home/"),
+                book_or_paper=paper,
+                chapter_num=0,
+                section_num=0,
+                part_num=0,
+                stem="versohome",
+                is_home=True,
             )
         )
 
@@ -252,6 +292,7 @@ def collect_entries(source_root: Path) -> list[Entry]:
                 section_num=sec_num,
                 part_num=part_num,
                 stem=path.stem.lower(),
+                is_home=False,
             )
         )
 
@@ -259,6 +300,7 @@ def collect_entries(source_root: Path) -> list[Entry]:
         key=lambda e: (
             0 if e.category == "books" else 1,
             e.book_or_paper.lower(),
+            0 if e.is_home else 1,
             e.chapter_num,
             e.section_num,
             e.part_num,
@@ -328,7 +370,7 @@ def emit_route_table(entries: list[Entry]) -> str:
 
 
 def doc_link(module: str) -> str:
-    return f"{DOCS_BASE}find?pattern={module}#doc"
+    return f"{DOCS_BASE}{module.replace('.', '/')}.html"
 
 
 def source_link(module: str) -> str:
@@ -343,6 +385,73 @@ def chapter_label(chapter_num: int) -> str:
     return f"Chapter {chapter_num:02d} (TODO: replace with chapter title)"
 
 
+def write_verso_home_modules(source_root: Path, entries: list[Entry]) -> None:
+    books_root = source_root / "Books"
+    papers_root = source_root / "Papers"
+    by_book: dict[str, list[Entry]] = {}
+    by_paper: dict[str, list[Entry]] = {}
+    for e in entries:
+        if e.is_home:
+            continue
+        if e.category == "books":
+            by_book.setdefault(e.book_or_paper, []).append(e)
+        elif e.category == "papers":
+            by_paper.setdefault(e.book_or_paper, []).append(e)
+
+    for book in sorted([p.name for p in books_root.iterdir() if p.is_dir()]):
+        item_entries = by_book.get(book, [])
+        item_entries = sorted(item_entries, key=lambda e: (e.chapter_num, e.section_num, e.part_num, e.stem))
+        lines: list[str] = []
+        lines.append("/-!")
+        lines.append(f"# {book_title(book)}")
+        lines.append("")
+        lines.append("This page provides an overview and navigation links for this book.")
+        lines.append("")
+        if not item_entries:
+            lines.append("No chapter or section pages have been generated yet.")
+            lines.append("")
+        else:
+            current_chapter = None
+            for e in item_entries:
+                if current_chapter != e.chapter_num:
+                    current_chapter = e.chapter_num
+                    lines.append(f"## {chapter_label(current_chapter)}")
+                    lines.append("")
+                section_label = section_title_from_stem(e.stem)
+                lines.append(f"- [{section_label}]({verso_link(e.route)})")
+            lines.append("")
+        lines.append("-/")
+        lines.append("")
+        out = source_root / "Books" / book / "VersoHome.lean"
+        out.write_text("\n".join(lines), encoding="utf-8")
+        print(f"Wrote {out}")
+
+    for paper in sorted([p.name for p in papers_root.iterdir() if p.is_dir()]):
+        item_entries = by_paper.get(paper, [])
+        item_entries = sorted(item_entries, key=lambda e: (e.section_num, e.part_num, e.stem))
+        lines = []
+        lines.append("/-!")
+        lines.append(f"# {paper_title(paper)}")
+        lines.append("")
+        lines.append("This page provides an overview and navigation links for this paper.")
+        lines.append("")
+        lines.append("## Sections")
+        lines.append("")
+        if not item_entries:
+            lines.append("No section pages have been generated yet.")
+            lines.append("")
+        else:
+            for e in item_entries:
+                section_label = section_title_from_stem(e.stem)
+                lines.append(f"- [{section_label}]({verso_link(e.route)})")
+            lines.append("")
+        lines.append("-/")
+        lines.append("")
+        out = source_root / "Papers" / paper / "VersoHome.lean"
+        out.write_text("\n".join(lines), encoding="utf-8")
+        print(f"Wrote {out}")
+
+
 def write_book_readmes(source_root: Path, entries: list[Entry]) -> None:
     books_root = source_root / "Books"
     all_books = sorted([p.name for p in books_root.iterdir() if p.is_dir()])
@@ -354,16 +463,30 @@ def write_book_readmes(source_root: Path, entries: list[Entry]) -> None:
 
     for book in all_books:
         title = book_title(book)
+        home_route = normalize_path(f"books/{book.lower()}/home/")
+        home_module = f"Books.{book}.VersoHome"
+        book_module = f"Books.{book}.Book"
+        book_file = books_root / book / "Book.lean"
         item_entries = sorted(
-            by_book.get(book, []),
+            [e for e in by_book.get(book, []) if (not e.is_home and e.section_num > 0 and e.part_num == 0)],
             key=lambda e: (e.chapter_num, e.section_num, e.part_num, e.stem),
         )
         out: list[str] = []
         out.append(f"# {title}")
         out.append("")
-        out.append(f"- Verso root: `{SITE_BASE}` (TODO: add dedicated `{book}` landing page if needed)")
-        out.append(f"- API docs root: [{DOCS_BASE}]({DOCS_BASE})")
-        out.append(f"- Lean source root: [{GITHUB_SOURCE_BASE}Books/{book}/]({GITHUB_SOURCE_BASE}Books/{book}/)")
+        if book in TBD_BOOKS:
+            out.append("- Verso home: TBD")
+            out.append("- API docs: TBD")
+            out.append("- Lean source: TBD")
+            out.append("- Verso home source: TBD")
+        else:
+            out.append(f"- Verso home: [{verso_link(home_route)}]({verso_link(home_route)})")
+            out.append(f"- API docs: [{doc_link(book_module)}]({doc_link(book_module)})")
+            if book_file.exists():
+                out.append(f"- Lean source: [{GITHUB_SOURCE_BASE}Books/{book}/Book.lean]({GITHUB_SOURCE_BASE}Books/{book}/Book.lean)")
+            else:
+                out.append(f"- Lean source root: [{GITHUB_SOURCE_BASE}Books/{book}/]({GITHUB_SOURCE_BASE}Books/{book}/)")
+            out.append(f"- Verso home source: [{source_link(home_module)}]({source_link(home_module)})")
         out.append("")
 
         if not item_entries:
@@ -400,13 +523,27 @@ def write_paper_readmes(source_root: Path, entries: list[Entry]) -> None:
 
     for paper in all_papers:
         title = paper_title(paper)
-        item_entries = sorted(by_paper.get(paper, []), key=lambda e: (e.section_num, e.part_num, e.stem))
+        home_route = normalize_path(f"papers/{paper.lower()}/home/")
+        home_module = f"Papers.{paper}.VersoHome"
+        paper_file = papers_root / paper / "Paper.lean"
+        if paper_file.exists():
+            paper_module = f"Papers.{paper}.Paper"
+        else:
+            paper_module = f"Papers.{paper}.Main"
+        item_entries = sorted(
+            [e for e in by_paper.get(paper, []) if (not e.is_home and e.section_num > 0 and e.part_num == 0)],
+            key=lambda e: (e.section_num, e.part_num, e.stem),
+        )
         out: list[str] = []
         out.append(f"# {title}")
         out.append("")
-        out.append(f"- Verso page: [{SITE_BASE}papers/{paper.lower()}/paper/]({SITE_BASE}papers/{paper.lower()}/paper/)")
-        out.append(f"- API docs root: [{DOCS_BASE}]({DOCS_BASE})")
-        out.append(f"- Lean source root: [{GITHUB_SOURCE_BASE}Papers/{paper}/]({GITHUB_SOURCE_BASE}Papers/{paper}/)")
+        out.append(f"- Verso home: [{verso_link(home_route)}]({verso_link(home_route)})")
+        out.append(f"- API docs: [{doc_link(paper_module)}]({doc_link(paper_module)})")
+        if paper_file.exists():
+            out.append(f"- Lean source: [{GITHUB_SOURCE_BASE}Papers/{paper}/Paper.lean]({GITHUB_SOURCE_BASE}Papers/{paper}/Paper.lean)")
+        else:
+            out.append(f"- Lean source: [{GITHUB_SOURCE_BASE}Papers/{paper}/Main.lean]({GITHUB_SOURCE_BASE}Papers/{paper}/Main.lean)")
+        out.append(f"- Verso home source: [{source_link(home_module)}]({source_link(home_module)})")
         out.append("")
 
         if not item_entries:
@@ -444,6 +581,7 @@ def main() -> None:
         raise SystemExit(f"Lean project not found at {source_root}")
 
     entries = collect_entries(source_root)
+    write_verso_home_modules(source_root, entries)
     out_file.parent.mkdir(parents=True, exist_ok=True)
     out_file.write_text(emit_sections(entries), encoding="utf-8")
     route_file.write_text(emit_route_table(entries), encoding="utf-8")
