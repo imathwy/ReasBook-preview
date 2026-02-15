@@ -4,7 +4,7 @@
 The goal is to preserve the structure of original references while producing machine-checkable proofs.
 We welcome collaboration from researchers, students, and practitioners.
 
-ReasBook is generated with the tool: [M2F](https://github.com/optsuite/M2F.git).
+ReasBook is generated using the tool: [M2F](https://github.com/optsuite/M2F.git).
 
 ## Current Coverage
 
