@@ -1,4 +1,5 @@
-nav {
+#sidebar-nav-root {
+    display: block !important;
     position: fixed;
     top: 0;
     left: 0;
@@ -12,17 +13,17 @@ nav {
     z-index: 100;
 }
 
-nav ol {
+#sidebar-nav-root ol {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-nav ol li {
+#sidebar-nav-root ol li {
     margin-bottom: 1em;
 }
 
-nav ol li a {
+#sidebar-nav-root ol li a {
     display: block;
     color: #222;
     text-decoration: none;
@@ -31,34 +32,34 @@ nav ol li a {
     transition: background 0.2s;
 }
 
-nav ol li a:hover,
-nav ol li a:focus {
+#sidebar-nav-root ol li a:hover,
+#sidebar-nav-root ol li a:focus {
     background: #e0e0f0;
     color: #000;
 }
 
-nav details {
+#sidebar-nav-root details {
     margin: 0.25em 0;
 }
 
-nav details > summary {
+#sidebar-nav-root details > summary {
     cursor: pointer;
     font-weight: 600;
     padding: 0.35em 0.5em;
     border-radius: 4px;
 }
 
-nav details > summary:hover {
+#sidebar-nav-root details > summary:hover {
     background: #ececf8;
 }
 
-nav details ul {
+#sidebar-nav-root details ul {
     list-style: none;
     margin: 0.25em 0 0.5em 0.5em;
     padding: 0;
 }
 
-nav details ul li {
+#sidebar-nav-root details ul li {
     margin-bottom: 0.25em;
 }
 
@@ -66,8 +67,7 @@ nav details ul li {
     margin-top: 0.75em;
 }
 
-/* Add left margin to main content to avoid overlap */
-header,
+/* Keep content offset for fixed sidebar; do not move header container. */
 div.main {
     margin-left: 16em;
 }
