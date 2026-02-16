@@ -20,6 +20,15 @@ require MD4Lean from git "https://github.com/acmepjz/md4lean" @ "main"
 lean_lib ReasContent where
   srcDir := "../.."
 
+lean_lib Books where
+  srcDir := "../.."
+
+lean_lib Papers where
+  srcDir := "../.."
+
+lean_lib SiteSupport where
+  srcDir := "../.."
+
 lean_lib ProjectSite where
   srcDir := "."
 
