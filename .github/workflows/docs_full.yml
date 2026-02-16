@@ -1,0 +1,136 @@
+name: Build Full Independent Docs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  discover-projects:
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.collect.outputs.projects }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect independent projects for docs matrix
+        id: collect
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+
+          root = Path("ReasBook")
+          projects = []
+
+          for kind_title, kind_dir, leaf in [
+              ("Books", root / "Books", "Book"),
+              ("Papers", root / "Papers", "Paper"),
+          ]:
+              if not kind_dir.is_dir():
+                  continue
+              for project in sorted(kind_dir.iterdir()):
+                  if not project.is_dir() or not (project / "build.sh").is_file():
+                      continue
+
+                  name = project.name
+                  slug = name.lower()
+                  docs_module = f"{kind_title}.{name}.{leaf}"
+
+                  projects.append(
+                      {
+                          "kindTitle": kind_title,
+                          "name": name,
+                          "slug": slug,
+                          "path": str(project),
+                          "docsModule": docs_module,
+                      }
+                  )
+
+          print(f"projects={json.dumps(projects, separators=(',', ':'))}")
+          PY
+
+  build-full-docs:
+    needs: discover-projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJson(needs.discover-projects.outputs.projects) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan (Lean toolchain manager)
+        run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+
+      - name: Restore Lake caches if available
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ReasBook/.lake
+            ReasBookWeb/.lake
+            ReasBook/Books/*/.lake
+            ReasBook/Papers/*/.lake
+          key: lake-all-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/**/lean-toolchain') }}-${{ hashFiles('ReasBook/**/lake-manifest.json') }}-${{ hashFiles('ReasBookWeb/**/lean-toolchain') }}-${{ hashFiles('ReasBookWeb/**/lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            lake-all-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Build full docs for project
+        run: |
+          set -euo pipefail
+          cd "${{ matrix.project.path }}"
+          ~/.elan/bin/lake exe cache get || true
+          ~/.elan/bin/lake -R -Kenv=dev build SiteSupport.LiterateModule
+          ~/.elan/bin/lake -R -Kenv=dev build "${{ matrix.project.docsModule }}:docs"
+
+      - name: Stage docs artifact
+        run: |
+          set -euo pipefail
+          src="${{ matrix.project.path }}/.lake/build/doc"
+          out=".artifacts/docs/${{ matrix.project.kindTitle }}/${{ matrix.project.name }}"
+          mkdir -p "$out"
+          cp -r "$src/." "$out/"
+          find "$out" -name "*.trace" -delete || true
+          find "$out" -name "*.hash" -delete || true
+
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-docs-${{ matrix.project.slug }}
+          path: .artifacts/docs
+
+  build-shared-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan (Lean toolchain manager)
+        run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+
+      - name: Restore Lake caches if available
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ReasBook/.lake
+            ReasBookWeb/.lake
+            ReasBook/Books/*/.lake
+            ReasBook/Papers/*/.lake
+          key: lake-all-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/**/lean-toolchain') }}-${{ hashFiles('ReasBook/**/lake-manifest.json') }}-${{ hashFiles('ReasBookWeb/**/lean-toolchain') }}-${{ hashFiles('ReasBookWeb/**/lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            lake-all-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Build shared ReasBook docs
+        run: |
+          set -euo pipefail
+          cd ReasBook
+          ~/.elan/bin/lake exe cache get || true
+          ~/.elan/bin/lake -R -Kenv=dev build ReasBook:docs
+
+      - name: Upload shared docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-docs-shared
+          path: ReasBook/.lake/build/doc

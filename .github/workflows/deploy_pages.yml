@@ -1,4 +1,4 @@
-name: Deploy Verso site to GitHub Pages
+name: Deploy Verso Site to GitHub Pages
 
 on:
   push:
@@ -11,11 +11,58 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  discover-projects:
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.collect.outputs.projects }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect independent projects for matrix builds
+        id: collect
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+
+          root = Path("ReasBook")
+          projects = []
+
+          for kind_dir, kind_slug, kind_title, leaf in [
+              (root / "Books", "books", "Books", "Book"),
+              (root / "Papers", "papers", "Papers", "Paper"),
+          ]:
+              if not kind_dir.is_dir():
+                  continue
+              for project in sorted(kind_dir.iterdir()):
+                  if not project.is_dir() or not (project / "build.sh").is_file():
+                      continue
+
+                  name = project.name
+                  slug = name.lower()
+                  exe = f"{name.lower().replace('_', '-')}-site"
+                  docs_module = f"{kind_title}.{name}.{leaf}"
+
+                  projects.append(
+                      {
+                          "kind": kind_slug,
+                          "kindTitle": kind_title,
+                          "name": name,
+                          "slug": slug,
+                          "path": str(project),
+                          "exe": exe,
+                          "docsModule": docs_module,
+                      }
+                  )
+
+          print(f"projects={json.dumps(projects, separators=(',', ':'))}")
+          PY
+
+  build-umbrella:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,97 +82,38 @@ jobs:
           restore-keys: |
             lake-all-${{ runner.os }}-${{ runner.arch }}-
 
-      - name: Force clean site outputs
-        run: |
-          rm -rf ReasBookWeb/_site
-          rm -rf .site
-
-      - name: Get Mathlib cache (shared main project)
+      - name: Build shared ReasBook toolchain baseline
         run: |
           ~/.elan/bin/lake exe cache get || true
-        working-directory: ReasBook
-
-      - name: Build shared main project (for legacy docs + tools)
-        run: |
           ~/.elan/bin/lake -R -Kenv=dev build ReasBook:docs
-          for entry in Books/*/Book.lean Papers/*/Paper.lean; do
-            [ -f "$entry" ] || continue
-            mod="${entry%.lean}"
-            mod="${mod//\//.}"
-            ~/.elan/bin/lake -R -Kenv=dev build "$mod:docs"
-          done
           ~/.elan/bin/lake build
         working-directory: ReasBook
 
-      - name: Generate legacy umbrella site sections/routes
-        run: |
-          python3 scripts/gen_sections.py
-        working-directory: ReasBookWeb
-
       - name: Build legacy umbrella Verso site (landing page)
         run: |
+          rm -rf _site
+          python3 scripts/gen_sections.py
           ~/.elan/bin/lake exe reasbook-site
         working-directory: ReasBookWeb
 
-      - name: Build independent book/paper projects
+      - name: Stage umbrella artifact tree
         run: |
           set -euo pipefail
-          for proj in ReasBook/Books/* ReasBook/Papers/*; do
-            [ -d "$proj" ] || continue
-            [ -x "$proj/build.sh" ] || continue
-            echo "Building independent project: $proj"
-            (cd "$proj" && ./build.sh)
-          done
+          mkdir -p .artifacts/umbrella
+          cp -r ReasBookWeb/_site/. .artifacts/umbrella/
 
-      - name: Assemble Pages artifact tree
-        run: |
-          set -euo pipefail
-          mkdir -p .site
-
-          # Keep the legacy umbrella site as root landing pages.
-          cp -r ReasBookWeb/_site/. .site/
-
-          # Expose each independent project under /books/<slug>/ and /papers/<slug>/.
-          for proj in ReasBook/Books/* ReasBook/Papers/*; do
-            [ -d "$proj" ] || continue
-            [ -d "$proj/_site" ] || continue
-
-            kind="$(basename "$(dirname "$proj")" | tr '[:upper:]' '[:lower:]')"
-            name="$(basename "$proj")"
-            slug="$(echo "$name" | tr '[:upper:]' '[:lower:]')"
-
-            out_dir=".site/$kind/$slug"
-            mkdir -p "$out_dir"
-            cp -r "$proj/_site/." "$out_dir/"
-
-            if [ -d "$proj/.lake/build/doc" ]; then
-              doc_dir=".site/docs/${kind^}/$name"
-              mkdir -p "$doc_dir"
-              cp -r "$proj/.lake/build/doc/." "$doc_dir/"
-              find "$doc_dir" -name "*.trace" -delete || true
-              find "$doc_dir" -name "*.hash" -delete || true
-            fi
-          done
-
-          # Preserve shared legacy docs under /docs-shared for compatibility.
           if [ -d ReasBook/.lake/build/doc ]; then
-            mkdir -p .site/docs-shared
-            cp -r ReasBook/.lake/build/doc/. .site/docs-shared/
-            find .site/docs-shared -name "*.trace" -delete || true
-            find .site/docs-shared -name "*.hash" -delete || true
+            mkdir -p .artifacts/umbrella/docs-shared
+            cp -r ReasBook/.lake/build/doc/. .artifacts/umbrella/docs-shared/
+            find .artifacts/umbrella/docs-shared -name "*.trace" -delete || true
+            find .artifacts/umbrella/docs-shared -name "*.hash" -delete || true
           fi
 
-      - name: Verify generated site tree
-        run: |
-          echo "Commit: $GITHUB_SHA"
-          echo "Top-level .site entries:"
-          ls -la .site
-          test -f .site/index.html
-          test -d .site/books
-          test -d .site/papers
-          test -d .site/docs
-          # Quick smoke check for at least one independent route.
-          test -f .site/books/analysis2_tao_2022/chapters/chap01/section01/index.html
+      - name: Upload umbrella artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-umbrella
+          path: .artifacts/umbrella
 
       - name: Save Lake caches
         uses: actions/cache/save@v4
@@ -137,13 +125,142 @@ jobs:
             ReasBook/Papers/*/.lake
           key: lake-all-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/**/lean-toolchain') }}-${{ hashFiles('ReasBook/**/lake-manifest.json') }}-${{ hashFiles('ReasBookWeb/**/lean-toolchain') }}-${{ hashFiles('ReasBookWeb/**/lake-manifest.json') }}-${{ github.sha }}
 
+  build-project-pages:
+    needs: discover-projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJson(needs.discover-projects.outputs.projects) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan (Lean toolchain manager)
+        run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+
+      - name: Restore Lake caches if available
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ReasBook/.lake
+            ReasBookWeb/.lake
+            ReasBook/Books/*/.lake
+            ReasBook/Papers/*/.lake
+          key: lake-all-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/**/lean-toolchain') }}-${{ hashFiles('ReasBook/**/lake-manifest.json') }}-${{ hashFiles('ReasBookWeb/**/lean-toolchain') }}-${{ hashFiles('ReasBookWeb/**/lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            lake-all-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Build independent project pages
+        run: |
+          set -euo pipefail
+          cd "${{ matrix.project.path }}"
+          python3 ../../../scripts/gen_project_site.py .
+          ~/.elan/bin/lake exe cache get || true
+          ~/.elan/bin/lake -R -Kenv=dev build SiteSupport.LiterateModule
+          ~/.elan/bin/lake exe "${{ matrix.project.exe }}"
+
+      - name: Stage pages artifact
+        run: |
+          set -euo pipefail
+          mkdir -p ".artifacts/pages/${{ matrix.project.kind }}/${{ matrix.project.slug }}"
+          cp -r "${{ matrix.project.path }}/_site/." ".artifacts/pages/${{ matrix.project.kind }}/${{ matrix.project.slug }}/"
+
+      - name: Upload pages artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-pages-${{ matrix.project.slug }}
+          path: .artifacts/pages
+
+  build-project-docs:
+    needs: discover-projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJson(needs.discover-projects.outputs.projects) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan (Lean toolchain manager)
+        run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+
+      - name: Restore Lake caches if available
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ReasBook/.lake
+            ReasBookWeb/.lake
+            ReasBook/Books/*/.lake
+            ReasBook/Papers/*/.lake
+          key: lake-all-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/**/lean-toolchain') }}-${{ hashFiles('ReasBook/**/lake-manifest.json') }}-${{ hashFiles('ReasBookWeb/**/lean-toolchain') }}-${{ hashFiles('ReasBookWeb/**/lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            lake-all-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Build independent project docs
+        run: |
+          set -euo pipefail
+          cd "${{ matrix.project.path }}"
+          ~/.elan/bin/lake exe cache get || true
+          ~/.elan/bin/lake -R -Kenv=dev build SiteSupport.LiterateModule
+          ~/.elan/bin/lake -R -Kenv=dev build "${{ matrix.project.docsModule }}:docs" || true
+
+      - name: Stage docs artifact
+        run: |
+          set -euo pipefail
+          src="${{ matrix.project.path }}/.lake/build/doc"
+          if [ -d "$src" ]; then
+            out=".artifacts/docs/${{ matrix.project.kindTitle }}/${{ matrix.project.name }}"
+            mkdir -p "$out"
+            cp -r "$src/." "$out/"
+            find "$out" -name "*.trace" -delete || true
+            find "$out" -name "*.hash" -delete || true
+          fi
+
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-docs-${{ matrix.project.slug }}
+          path: .artifacts/docs
+          if-no-files-found: ignore
+
+  assemble-pages-artifact:
+    needs:
+      - build-umbrella
+      - build-project-pages
+      - build-project-docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all staged site artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: site-*
+          merge-multiple: true
+          path: .artifacts/merged
+
+      - name: Assemble Pages tree
+        run: |
+          set -euo pipefail
+          mkdir -p .site
+          cp -r .artifacts/merged/. .site/
+
+      - name: Verify generated site tree
+        run: |
+          echo "Commit: $GITHUB_SHA"
+          echo "Top-level .site entries:"
+          ls -la .site
+          test -f .site/index.html
+          test -d .site/books
+          test -d .site/papers
+          test -d .site/docs
+          test -f .site/books/analysis2_tao_2022/chapters/chap01/section01/index.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .site
 
   deploy:
-    needs: build
+    needs: assemble-pages-artifact
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -152,6 +269,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
       - name: Print deployed Pages URL
         run: |
           echo "GitHub Pages URL: ${{ steps.deployment.outputs.page_url }}"
