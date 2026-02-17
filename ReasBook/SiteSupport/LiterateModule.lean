@@ -90,24 +90,30 @@ def loadModuleContent (mod : String) (leanProject : System.FilePath := ".")
     | .error err =>
       throw <| IO.userError s!"Couldn't parse JSON from output file: {err}"
     | .ok parsed =>
-      match parsed with
-      | .arr json => pure json
-      | .obj _ =>
-        match parsed.getObjVal? "items" with
-        | .ok (.arr json) => pure json
-        | _ =>
-          match parsed.getObjVal? "commands" with
-          | .ok (.arr json) => pure json
-          | _ =>
-            throw <| IO.userError s!"Expected JSON array or an object with an array field 'items'/'commands'"
-      | _ =>
-        throw <| IO.userError s!"Expected JSON array"
+      match findModuleItemArray? parsed with
+      | some json => pure json
+      | none =>
+        let sample := if jsonFile.length > 400 then jsonFile.take 400 ++ " ..." else jsonFile
+        throw <| IO.userError s!"Couldn't find a module-item JSON array in literate output. Sample:\n{sample}"
   match json.mapM deJson with
   | .error err =>
     throw <| IO.userError s!"Couldn't parse JSON from output file: {err}\nIn:\n{json}"
   | .ok val => pure val
 
 where
+  looksLikeModuleItem (v : Json) : Bool :=
+    match v.getObjVal? "kind", v.getObjVal? "code" with
+    | .ok _, .ok _ => true
+    | _, _ => false
+
+  partial findModuleItemArray? (v : Json) : Option (Array Json) :=
+    match v with
+    | .arr xs =>
+      if xs.any looksLikeModuleItem then some xs else none
+    | .obj obj =>
+      (obj.toArray).findSome? fun (_, child) => findModuleItemArray? child
+    | _ => none
+
   deJson (v : Json) : Except String (ModuleItem × Array (String × Highlighted)) := do
     let item ← FromJson.fromJson? (α := ModuleItem) v
     let terms ← v.getObjVal? "terms"
