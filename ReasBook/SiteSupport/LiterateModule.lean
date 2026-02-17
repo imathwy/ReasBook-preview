@@ -151,8 +151,28 @@ where
       let range ← v.getObjVal? "range" >>= rangeFromJsonCompat
       let kind ← v.getObjValAs? String "kind" <&> (·.toName)
       let defines ← v.getObjValAs? (Array String) "defines" <&> (·.map (·.toName))
-      let code ← v.getObjValAs? Highlighted "code"
+      let codeJson ← v.getObjVal? "code"
+      let code ← highlightedFromJsonCompat codeJson
       pure {range, kind, defines, code}
+
+  highlightedFromJsonCompat (v : Json) : Except String Highlighted := do
+    match FromJson.fromJson? (α := Highlighted) v with
+    | .ok hl => pure hl
+    | .error _ =>
+      match v with
+      | .obj _ =>
+        match v.getObjVal? "highlighted" with
+        | .ok inner =>
+          match FromJson.fromJson? (α := Highlighted) inner with
+          | .ok hl => pure hl
+          | .error _ => pure Highlighted.empty
+        | .error _ => pure Highlighted.empty
+      | .arr arr =>
+        if h : arr.size = 1 then
+          highlightedFromJsonCompat arr[0]
+        else
+          pure Highlighted.empty
+      | _ => pure Highlighted.empty
 
   deJson (v : Json) : Except String (ModuleItem × Array (String × Highlighted)) := do
     let item ← moduleItemFromJsonCompat v
@@ -160,7 +180,9 @@ where
       match v.getObjVal? "terms" with
       | .ok terms =>
         let terms ← terms.getObj?
-        terms.toArray.mapM fun ⟨k, v⟩ => (k, ·) <$> FromJson.fromJson? v
+        terms.toArray.mapM fun ⟨k, v⟩ => do
+          let hl ← highlightedFromJsonCompat v
+          pure (k, hl)
       | .error _ =>
         pure #[]
     return (item, terms)

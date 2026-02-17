@@ -154,11 +154,8 @@ jobs:
         run: |
           set -euo pipefail
           cd "${{ matrix.project.path }}"
-          python3 ../../../scripts/gen_project_site.py .
-          ~/.elan/bin/lake -R exe cache get || true
-          rm -rf .lake/build/literate
-          rm -rf .lake/build/lib/lean/ProjectSite .lake/build/ir/ProjectSite
-          ~/.elan/bin/lake -R exe "${{ matrix.project.exe }}"
+          chmod +x ./build.sh
+          ./build.sh
 
       - name: Stage pages artifact
         run: |
