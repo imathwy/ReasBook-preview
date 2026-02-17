@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 
 
@@ -15,6 +16,9 @@ def find_repo_root(start: Path) -> Path:
 
 def module_from_relpath(rel: Path) -> str:
     return ".".join(rel.with_suffix("").parts)
+
+
+PART_FILE_RE = re.compile(r"_part\d+$")
 
 
 def main() -> None:
@@ -43,6 +47,10 @@ def main() -> None:
     entries: list[tuple[str, str, str]] = []
     if content_dir.is_dir():
         for lean_file in sorted(content_dir.rglob("*.lean")):
+            # Skip split fragment files (e.g. section01_part1.lean); these often
+            # contain partial literate content and are not stable standalone pages.
+            if PART_FILE_RE.search(lean_file.stem):
+                continue
             rel = lean_file.relative_to(lean_root)
             mod = module_from_relpath(rel)
             rel_route = lean_file.relative_to(content_dir).with_suffix("")
