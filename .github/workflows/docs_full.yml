@@ -61,9 +61,11 @@ jobs:
 
   build-full-docs:
     needs: discover-projects
+    timeout-minutes: 150
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      max-parallel: 3
       matrix:
         project: ${{ fromJson(needs.discover-projects.outputs.projects) }}
     steps:
@@ -72,40 +74,57 @@ jobs:
       - name: Install elan (Lean toolchain manager)
         run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
 
-      - name: Restore Lake caches if available
+      - name: Restore per-project Lake cache
         uses: actions/cache/restore@v4
         with:
-          path: |
-            ReasBook/.lake
-            ReasBookWeb/.lake
-            ReasBook/Books/*/.lake
-            ReasBook/Papers/*/.lake
-          key: lake-all-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/**/lean-toolchain') }}-${{ hashFiles('ReasBook/**/lake-manifest.json') }}-${{ hashFiles('ReasBookWeb/**/lean-toolchain') }}-${{ hashFiles('ReasBookWeb/**/lake-manifest.json') }}-${{ github.sha }}
+          path: ${{ matrix.project.path }}/.lake
+          key: lake-proj-${{ runner.os }}-${{ runner.arch }}-${{ matrix.project.slug }}-${{ hashFiles(format('{0}/lean-toolchain', matrix.project.path)) }}-${{ hashFiles(format('{0}/lake-manifest.json', matrix.project.path)) }}
           restore-keys: |
-            lake-all-${{ runner.os }}-${{ runner.arch }}-
+            lake-proj-${{ runner.os }}-${{ runner.arch }}-${{ matrix.project.slug }}-
 
       - name: Build full docs for project
+        id: build_docs
+        continue-on-error: true
         run: |
           set -euo pipefail
           cd "${{ matrix.project.path }}"
           ~/.elan/bin/lake -R exe cache get || true
-          ~/.elan/bin/lake -R -Kenv=dev build "${{ matrix.project.docsModule }}:docs"
+          timeout --signal=TERM --kill-after=5m 90m \
+            ~/.elan/bin/lake -R -Kenv=dev -j 1 build "${{ matrix.project.docsModule }}:docs"
+
+      - name: Log docs build outcome
+        if: always()
+        run: |
+          echo "Project: ${{ matrix.project.slug }}"
+          echo "Build outcome: ${{ steps.build_docs.outcome }}"
 
       - name: Stage docs artifact
+        if: always()
         run: |
           set -euo pipefail
           src="${{ matrix.project.path }}/.lake/build/doc"
           out=".artifacts/docs/${{ matrix.project.kindTitle }}/${{ matrix.project.name }}"
-          mkdir -p "$out"
-          cp -r "$src/." "$out/"
-          find "$out" -name "*.trace" -delete || true
-          find "$out" -name "*.hash" -delete || true
+          if [ -d "$src" ]; then
+            mkdir -p "$out"
+            cp -r "$src/." "$out/"
+            find "$out" -name "*.trace" -delete || true
+            find "$out" -name "*.hash" -delete || true
+          fi
 
       - name: Upload docs artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: full-docs-${{ matrix.project.slug }}
           path: .artifacts/docs
+          if-no-files-found: ignore
+
+      - name: Save per-project Lake cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ matrix.project.path }}/.lake
+          key: lake-proj-${{ runner.os }}-${{ runner.arch }}-${{ matrix.project.slug }}-${{ hashFiles(format('{0}/lean-toolchain', matrix.project.path)) }}-${{ hashFiles(format('{0}/lake-manifest.json', matrix.project.path)) }}
 
   build-shared-docs:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.build_shared_docs }}
@@ -120,14 +139,10 @@ jobs:
       - name: Restore Lake caches if available
         uses: actions/cache/restore@v4
         with:
-          path: |
-            ReasBook/.lake
-            ReasBookWeb/.lake
-            ReasBook/Books/*/.lake
-            ReasBook/Papers/*/.lake
-          key: lake-all-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/**/lean-toolchain') }}-${{ hashFiles('ReasBook/**/lake-manifest.json') }}-${{ hashFiles('ReasBookWeb/**/lean-toolchain') }}-${{ hashFiles('ReasBookWeb/**/lake-manifest.json') }}-${{ github.sha }}
+          path: ReasBook/.lake
+          key: lake-shared-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
           restore-keys: |
-            lake-all-${{ runner.os }}-${{ runner.arch }}-
+            lake-shared-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Build shared ReasBook docs
         run: |
@@ -141,3 +156,10 @@ jobs:
         with:
           name: full-docs-shared
           path: ReasBook/.lake/build/doc
+
+      - name: Save shared Lake cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ReasBook/.lake
+          key: lake-shared-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
