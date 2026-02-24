@@ -90,7 +90,7 @@ jobs:
           cd "${{ matrix.project.path }}"
           ~/.elan/bin/lake -R exe cache get || true
           timeout --signal=TERM --kill-after=5m 90m \
-            ~/.elan/bin/lake -R -Kenv=dev -j 1 build "${{ matrix.project.docsModule }}:docs"
+            ~/.elan/bin/lake -R -Kenv=dev build "${{ matrix.project.docsModule }}:docs"
 
       - name: Log docs build outcome
         if: always()
@@ -148,7 +148,7 @@ jobs:
           set -euo pipefail
           cd ReasBook
           ~/.elan/bin/lake -R exe cache get || true
-          ~/.elan/bin/lake -R -Kenv=dev -j 1 build ReasBook:docs
+          ~/.elan/bin/lake -R -Kenv=dev build ReasBook:docs
 
       - name: Upload shared docs artifact
         uses: actions/upload-artifact@v4
