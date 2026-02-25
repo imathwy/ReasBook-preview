@@ -1543,19 +1543,1029 @@ the whole real line converges to `π`, while the improper integral of its
 absolute value diverges. -/
 noncomputable def sinc (x : ℝ) : ℝ := if x = 0 then 1 else Real.sin x / x
 
+/-- Tail bound for the sinc primitive on positive intervals. -/
+lemma sinc_tail_bound {s t : ℝ} (hs : (1 : ℝ) ≤ s) (hst : s ≤ t) :
+    |∫ x in s..t, _root_.sinc x| ≤ 3 / s := by
+  have hs_pos : 0 < s := lt_of_lt_of_le zero_lt_one hs
+  have ht_pos : 0 < t := lt_of_lt_of_le hs_pos hst
+  have h_nozero : ∀ x ∈ Set.uIcc s t, x ≠ 0 := by
+    intro x hx
+    have hx' : x ∈ Set.Icc s t := by simpa [Set.uIcc_of_le hst] using hx
+    exact ne_of_gt (lt_of_lt_of_le hs_pos hx'.1)
+  have hu :
+      ∀ x ∈ Set.uIcc s t, HasDerivAt (fun y : ℝ => y⁻¹) (-((x ^ 2)⁻¹)) x := by
+    intro x hx
+    simpa [pow_two, sq] using (hasDerivAt_inv (h_nozero x hx))
+  have hv :
+      ∀ x ∈ Set.uIcc s t, HasDerivAt (fun y : ℝ => -Real.cos y) (Real.sin x) x := by
+    intro x hx
+    simpa using (hasDerivAt_cos x).neg
+  have huInt :
+      IntervalIntegrable (fun x : ℝ => -((x ^ 2)⁻¹)) MeasureTheory.volume s t := by
+    refine ContinuousOn.intervalIntegrable ?_
+    refine ((continuousOn_id.pow 2).inv₀ ?_).neg
+    intro x hx
+    exact pow_ne_zero 2 (h_nozero x hx)
+  have hvInt :
+      IntervalIntegrable (fun x : ℝ => Real.sin x) MeasureTheory.volume s t := by
+    exact Real.continuous_sin.intervalIntegrable s t
+  have hparts :
+      ∫ x in s..t, x⁻¹ * Real.sin x
+        = t⁻¹ * (-Real.cos t) - s⁻¹ * (-Real.cos s)
+          - ∫ x in s..t, -((x ^ 2)⁻¹) * (-Real.cos x) := by
+    simpa using intervalIntegral.integral_mul_deriv_eq_deriv_mul hu hv huInt hvInt
+  have hsinc_eq :
+      ∫ x in s..t, _root_.sinc x = ∫ x in s..t, x⁻¹ * Real.sin x := by
+    refine intervalIntegral.integral_congr ?_
+    intro x hx
+    have hxne : x ≠ 0 := h_nozero x hx
+    simp [_root_.sinc, hxne, div_eq_mul_inv, mul_comm]
+  have h_inv_sq_int :
+      ∫ x in s..t, (x ^ 2)⁻¹ = s⁻¹ - t⁻¹ := by
+    have hz : (0 : ℝ) ∉ Set.uIcc s t := Set.notMem_uIcc_of_lt hs_pos ht_pos
+    have h_rpow0 :
+        ∫ x in s..t, x ^ (-2 : ℝ)
+          = (t ^ ((-2 : ℝ) + 1) - s ^ ((-2 : ℝ) + 1)) / ((-2 : ℝ) + 1) := by
+      have hcond : (-1 : ℝ) < (-2 : ℝ) ∨ ((-2 : ℝ) ≠ (-1 : ℝ) ∧ (0 : ℝ) ∉ Set.uIcc s t) := by
+        right
+        exact ⟨by norm_num, hz⟩
+      simpa using (integral_rpow (a := s) (b := t) (r := (-2 : ℝ)) hcond)
+    have h_rpow :
+        ∫ x in s..t, (x ^ 2)⁻¹ = (t ^ (-1 : ℝ) - s ^ (-1 : ℝ)) / (-1 : ℝ) := by
+      have hm : ((-2 : ℝ) + 1) = (-1 : ℝ) := by norm_num
+      simpa [hm] using h_rpow0
+    calc
+      ∫ x in s..t, (x ^ 2)⁻¹ = (t ^ (-1 : ℝ) - s ^ (-1 : ℝ)) / (-1 : ℝ) := h_rpow
+      _ = s⁻¹ - t⁻¹ := by
+        ring_nf
+        simp [Real.rpow_neg_one]
+        ring
+  have h_term1 :
+      |t⁻¹ * (-Real.cos t)| ≤ t⁻¹ := by
+    have ht_inv_nonneg : 0 ≤ t⁻¹ := inv_nonneg.mpr ht_pos.le
+    calc
+      |t⁻¹ * (-Real.cos t)| = |t⁻¹| * |Real.cos t| := by simp [abs_mul]
+      _ ≤ |t⁻¹| * 1 := by gcongr; exact abs_cos_le_one t
+      _ = t⁻¹ := by simp [abs_of_nonneg ht_inv_nonneg]
+  have h_term2 :
+      |s⁻¹ * (-Real.cos s)| ≤ s⁻¹ := by
+    have hs_inv_nonneg : 0 ≤ s⁻¹ := inv_nonneg.mpr hs_pos.le
+    calc
+      |s⁻¹ * (-Real.cos s)| = |s⁻¹| * |Real.cos s| := by simp [abs_mul]
+      _ ≤ |s⁻¹| * 1 := by gcongr; exact abs_cos_le_one s
+      _ = s⁻¹ := by simp [abs_of_nonneg hs_inv_nonneg]
+  have h_rem_int :
+      |∫ x in s..t, -((x ^ 2)⁻¹) * (-Real.cos x)| ≤ ∫ x in s..t, (x ^ 2)⁻¹ := by
+    have h_int_abs :
+        IntervalIntegrable (fun x : ℝ => |(-((x ^ 2)⁻¹) * (-Real.cos x))|) MeasureTheory.volume s t := by
+      refine ContinuousOn.intervalIntegrable ?_
+      refine ((((continuousOn_id.pow 2).inv₀ ?_).neg.mul (Real.continuous_cos.continuousOn.neg)).abs)
+      intro x hx
+      exact pow_ne_zero 2 (h_nozero x hx)
+    have h_int_rhs :
+        IntervalIntegrable (fun x : ℝ => (x ^ 2)⁻¹) MeasureTheory.volume s t := by
+      refine ContinuousOn.intervalIntegrable ?_
+      refine (continuousOn_id.pow 2).inv₀ ?_
+      intro x hx
+      exact pow_ne_zero 2 (h_nozero x hx)
+    have h_point :
+        ∀ x ∈ Set.Icc s t, |(-((x ^ 2)⁻¹) * (-Real.cos x))| ≤ (x ^ 2)⁻¹ := by
+      intro x hx
+      have hx_inv_nonneg : 0 ≤ (x ^ 2)⁻¹ := by positivity
+      calc
+        |(-((x ^ 2)⁻¹) * (-Real.cos x))| = |(x ^ 2)⁻¹| * |Real.cos x| := by
+          simp [abs_mul]
+        _ ≤ |(x ^ 2)⁻¹| * 1 := by gcongr; exact abs_cos_le_one x
+        _ = (x ^ 2)⁻¹ := by simp [abs_of_nonneg hx_inv_nonneg]
+    calc
+      |∫ x in s..t, -((x ^ 2)⁻¹) * (-Real.cos x)|
+          ≤ ∫ x in s..t, |(-((x ^ 2)⁻¹) * (-Real.cos x))| :=
+        intervalIntegral.abs_integral_le_integral_abs hst
+      _ ≤ ∫ x in s..t, (x ^ 2)⁻¹ :=
+        intervalIntegral.integral_mono_on (μ := MeasureTheory.volume) hst h_int_abs h_int_rhs h_point
+  have h_inv_le : t⁻¹ ≤ s⁻¹ := (inv_le_inv₀ ht_pos hs_pos).2 hst
+  have h_inv_sq_bound : ∫ x in s..t, (x ^ 2)⁻¹ ≤ s⁻¹ := by
+    calc
+      ∫ x in s..t, (x ^ 2)⁻¹ = s⁻¹ - t⁻¹ := h_inv_sq_int
+      _ ≤ s⁻¹ := by nlinarith [inv_nonneg.mpr ht_pos.le]
+  calc
+    |∫ x in s..t, _root_.sinc x|
+        = |t⁻¹ * (-Real.cos t) - s⁻¹ * (-Real.cos s)
+            - ∫ x in s..t, -((x ^ 2)⁻¹) * (-Real.cos x)| := by
+            rw [hsinc_eq, hparts]
+    _ ≤ |t⁻¹ * (-Real.cos t) - s⁻¹ * (-Real.cos s)| +
+          |∫ x in s..t, -((x ^ 2)⁻¹) * (-Real.cos x)| := by
+            simpa using
+              (abs_sub (t⁻¹ * (-Real.cos t) - s⁻¹ * (-Real.cos s))
+                (∫ x in s..t, -((x ^ 2)⁻¹) * (-Real.cos x)))
+    _ ≤ (|t⁻¹ * (-Real.cos t)| + |s⁻¹ * (-Real.cos s)|) + ∫ x in s..t, (x ^ 2)⁻¹ := by
+      have hsub :
+          |t⁻¹ * (-Real.cos t) - s⁻¹ * (-Real.cos s)| ≤
+            |t⁻¹ * (-Real.cos t)| + |s⁻¹ * (-Real.cos s)| := by
+          simpa using (abs_sub (t⁻¹ * (-Real.cos t)) (s⁻¹ * (-Real.cos s)))
+      linarith [hsub, h_rem_int]
+    _ ≤ (t⁻¹ + s⁻¹) + s⁻¹ := by
+      linarith [h_term1, h_term2, h_inv_sq_bound]
+    _ ≤ (3 : ℝ) * s⁻¹ := by nlinarith [h_inv_le]
+    _ = 3 / s := by simp [div_eq_mul_inv]
+
+/-- The primitive `t ↦ ∫_0^t sinc` has a finite limit at `+∞`. -/
+lemma sinc_primitive_tendsto_atTop_exists :
+    ∃ L : ℝ, Tendsto (fun t : ℝ => ∫ x in (0 : ℝ)..t, _root_.sinc x) atTop (nhds L) := by
+  let F : ℝ → ℝ := fun t => ∫ x in (0 : ℝ)..t, _root_.sinc x
+  have hInt : ∀ a b : ℝ, IntervalIntegrable _root_.sinc MeasureTheory.volume a b := by
+    intro a b
+    simpa using (Real.continuous_sinc.intervalIntegrable a b)
+  have hCauchy : Cauchy (Filter.map F atTop) := by
+    rw [Metric.cauchy_iff]
+    refine ⟨(Filter.map_neBot_iff F).2 atTop_neBot, ?_⟩
+    intro ε hε
+    let N : ℝ := max 1 (3 / ε)
+    refine ⟨F '' Set.Ioi N, ?_, ?_⟩
+    · change F ⁻¹' (F '' Set.Ioi N) ∈ atTop
+      refine Filter.mem_of_superset (Ioi_mem_atTop N) ?_
+      intro x hx
+      exact ⟨x, hx, rfl⟩
+    · intro u hu v hv
+      rcases hu with ⟨x, hx, rfl⟩
+      rcases hv with ⟨y, hy, rfl⟩
+      have hmin_gt : N < min x y := lt_min hx hy
+      have hmin_ge_one : (1 : ℝ) ≤ min x y := le_trans (le_max_left 1 (3 / ε)) hmin_gt.le
+      have htail_xy : |∫ z in y..x, _root_.sinc z| ≤ 3 / (min x y) := by
+        by_cases hyx : y ≤ x
+        · have hy_one : (1 : ℝ) ≤ y := le_trans (le_max_left 1 (3 / ε)) hy.le
+          have htail : |∫ z in y..x, _root_.sinc z| ≤ 3 / y := sinc_tail_bound hy_one hyx
+          simpa [min_eq_right hyx] using htail
+        · have hxy : x ≤ y := le_of_lt (lt_of_not_ge hyx)
+          have hx_one : (1 : ℝ) ≤ x := le_trans (le_max_left 1 (3 / ε)) hx.le
+          have htail : |∫ z in x..y, _root_.sinc z| ≤ 3 / x := sinc_tail_bound hx_one hxy
+          have hsymm : |∫ z in y..x, _root_.sinc z| = |∫ z in x..y, _root_.sinc z| := by
+            rw [intervalIntegral.integral_symm, abs_neg]
+          simpa [hsymm, min_eq_left hxy] using htail
+      have hdist_le : dist (F x) (F y) ≤ 3 / (min x y) := by
+        have hdiff :
+            F x - F y = ∫ z in y..x, _root_.sinc z := by
+          simpa [F] using
+            (intervalIntegral.integral_interval_sub_left
+              (a := (0 : ℝ)) (b := x) (c := y) (hInt 0 x) (hInt 0 y))
+        calc
+          dist (F x) (F y) = |F x - F y| := by rw [Real.dist_eq]
+          _ = |∫ z in y..x, _root_.sinc z| := by rw [hdiff]
+          _ ≤ 3 / (min x y) := htail_xy
+      have hthree_over_eps_lt : 3 / ε < min x y :=
+        lt_of_le_of_lt (le_max_right 1 (3 / ε)) hmin_gt
+      have hmin_pos : 0 < min x y := lt_of_lt_of_le zero_lt_one hmin_ge_one
+      have hbound : 3 / (min x y) < ε := by
+        have hmul : 3 < min x y * ε := (div_lt_iff₀ hε).1 hthree_over_eps_lt
+        exact (div_lt_iff₀ hmin_pos).2 (by simpa [mul_comm, mul_left_comm, mul_assoc] using hmul)
+      exact lt_of_le_of_lt hdist_le hbound
+  letI : (atTop : Filter ℝ).NeBot := atTop_neBot
+  exact (cauchy_map_iff_exists_tendsto (l := atTop) (f := F)).1 hCauchy
+
+/-- Integral representation `sinc x = ∫_0^1 cos (t x) dt`. -/
+lemma sinc_eq_integral_cos_mul (x : ℝ) :
+    _root_.sinc x = ∫ t in (0 : ℝ)..1, Real.cos (t * x) := by
+  by_cases hx : x = 0
+  · subst hx
+    simp [_root_.sinc]
+  · have hmul :
+      ∫ t in (0 : ℝ)..1, Real.cos (t * x)
+        = x⁻¹ * ∫ u in (0 : ℝ)..x, Real.cos u := by
+      simpa [zero_mul, one_mul] using
+        (intervalIntegral.integral_comp_mul_right (f := Real.cos) (a := (0 : ℝ)) (b := 1)
+          (c := x) hx)
+    calc
+      _root_.sinc x = Real.sin x / x := by simp [_root_.sinc, hx]
+      _ = x⁻¹ * ∫ u in (0 : ℝ)..x, Real.cos u := by
+        rw [integral_cos, Real.sin_zero, sub_zero, div_eq_mul_inv, mul_comm]
+      _ = ∫ t in (0 : ℝ)..1, Real.cos (t * x) := by
+        rw [hmul]
+
+noncomputable def muA (a : ℝ) : MeasureTheory.Measure ℝ :=
+  (MeasureTheory.volume.restrict (Set.Ioi (0 : ℝ))).withDensity
+    (fun x : ℝ => ENNReal.ofReal (Real.exp (-a * x)))
+
+lemma charFun_muA (a t : ℝ) (ha : 0 < a) :
+    MeasureTheory.charFun (muA a) t = (1 : ℂ) / (a - t * Complex.I) := by
+  rw [MeasureTheory.charFun_apply_real, muA]
+  rw [integral_withDensity_eq_integral_toReal_smul]
+  · have hrew :
+      (fun x : ℝ => ((ENNReal.ofReal (Real.exp (-a * x))).toReal : ℝ) •
+          Complex.exp ((t * x) * Complex.I))
+        =ᵐ[MeasureTheory.volume.restrict (Set.Ioi (0 : ℝ))]
+          (fun x : ℝ => Complex.exp (((-(a : ℂ)) + t * Complex.I) * x)) := by
+      refine Filter.Eventually.of_forall ?_
+      intro x
+      have hcoef : ((ENNReal.ofReal (Real.exp (-a * x))).toReal : ℝ) = Real.exp (-a * x) :=
+        ENNReal.toReal_ofReal (le_of_lt (Real.exp_pos _))
+      calc
+        ((ENNReal.ofReal (Real.exp (-a * x))).toReal : ℝ) • Complex.exp ((t * x) * Complex.I)
+            = (Real.exp (-a * x)) • Complex.exp ((t * x) * Complex.I) := by rw [hcoef]
+        _ = ((Real.exp (-a * x) : ℂ)) * Complex.exp ((t * x) * Complex.I) := by simp
+        _ = (Complex.exp (((-(a : ℂ)) * x))) * Complex.exp ((t * x) * Complex.I) := by
+              have harg : ((-(a : ℂ)) * x) = ((-(a * x) : ℝ) : ℂ) := by norm_num
+              rw [harg]
+              simpa using (Complex.ofReal_exp (-(a * x))).symm
+        _ = Complex.exp (((-(a : ℂ)) * x) + ((t * x) * Complex.I)) := by rw [← Complex.exp_add]
+        _ = Complex.exp (((-(a : ℂ)) + t * Complex.I) * x) := by ring
+    have hIoi :
+        ∫ x : ℝ in Set.Ioi (0 : ℝ), Complex.exp (((-(a : ℂ)) + t * Complex.I) * x)
+          = -Complex.exp (((-(a : ℂ)) + t * Complex.I) * 0) / ((-(a : ℂ)) + t * Complex.I) := by
+      simpa using integral_exp_mul_complex_Ioi (a := (-(a : ℂ) + t * Complex.I))
+        (by
+          simpa [Complex.add_re, Complex.neg_re, Complex.mul_re, ha] using
+            (show -(a : ℝ) < 0 by linarith)) 0
+    rw [MeasureTheory.integral_congr_ae hrew]
+    calc
+      ∫ x : ℝ in Set.Ioi (0 : ℝ), Complex.exp (((-(a : ℂ)) + t * Complex.I) * x)
+          = -Complex.exp (((-(a : ℂ)) + t * Complex.I) * 0) / ((-(a : ℂ)) + t * Complex.I) := hIoi
+      _ = -(((-(a : ℂ)) + t * Complex.I)⁻¹) := by simp [div_eq_mul_inv, mul_comm]
+      _ = (a - t * Complex.I)⁻¹ := by
+        have hden : ((-(a : ℂ)) + t * Complex.I) = -(a - t * Complex.I) := by ring
+        rw [hden, inv_neg, neg_neg]
+      _ = (1 : ℂ) / (a - t * Complex.I) := by simp [one_div]
+  · fun_prop
+  · have hInt : MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-a * x)) (Set.Ioi 0) :=
+      integrableOn_exp_mul_Ioi (a := -a) (by linarith) 0
+    simpa [mul_comm, mul_left_comm, mul_assoc] using hInt.lintegral_lt_top
+
+lemma damped_sinc_integral_eq_arctan (a : ℝ) (ha : 0 < a) :
+    (∫ x in Set.Ioi (0 : ℝ), Real.exp (-a * x) * Real.sinc x) = Real.arctan (a⁻¹) := by
+  have hIntExp : MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-a * x)) (Set.Ioi 0) :=
+      integrableOn_exp_mul_Ioi (a := -a) (by linarith) 0
+  have hlin :
+      (∫⁻ x, ENNReal.ofReal (Real.exp (-a * x)) ∂ (MeasureTheory.volume.restrict (Set.Ioi (0 : ℝ)))) < ⊤ := by
+    simpa [mul_comm, mul_left_comm, mul_assoc] using hIntExp.lintegral_lt_top
+  letI : MeasureTheory.IsFiniteMeasure (muA a) := by
+    refine ⟨?_⟩
+    show (muA a) Set.univ < ⊤
+    rw [muA, MeasureTheory.withDensity_apply _ MeasurableSet.univ]
+    simpa using hlin
+  have hchar :
+      ∫ t in (-1 : ℝ)..1, MeasureTheory.charFun (muA a) t
+        = 2 * (1 : ℂ) * ↑(∫ x, Real.sinc (1 * x) ∂ (muA a)) := by
+    simpa using (MeasureTheory.integral_charFun_Icc (μ := muA a) (r := (1 : ℝ)) (by positivity))
+  have hcharEq :
+      ∫ t in (-1 : ℝ)..1, (1 : ℂ) / (a - t * Complex.I)
+        = 2 * (1 : ℂ) * ↑(∫ x, Real.sinc (1 * x) ∂ (muA a)) := by
+    calc
+      ∫ t in (-1 : ℝ)..1, (1 : ℂ) / (a - t * Complex.I)
+          = ∫ t in (-1 : ℝ)..1, MeasureTheory.charFun (muA a) t := by
+              refine intervalIntegral.integral_congr ?_
+              intro t ht
+              simpa using (charFun_muA a t ha).symm
+      _ = 2 * (1 : ℂ) * ↑(∫ x, Real.sinc (1 * x) ∂ (muA a)) := hchar
+  have hEqRe := congrArg Complex.re hcharEq
+  have hLHS :
+      Complex.re (∫ t in (-1 : ℝ)..1, (1 : ℂ) / (a - t * Complex.I))
+        = 2 * Real.arctan (a⁻¹) := by
+    have hden_ne : ∀ t : ℝ, (a - t * Complex.I : ℂ) ≠ 0 := by
+      intro t h0
+      have hRe : a = 0 := by
+        simpa [Complex.sub_re, Complex.mul_re] using congrArg Complex.re h0
+      exact ha.ne' hRe
+    have hInt : IntervalIntegrable (fun t : ℝ => (1 : ℂ) / (a - t * Complex.I)) MeasureTheory.volume (-1) 1 := by
+      have hcont_den : Continuous (fun t : ℝ => (a - t * Complex.I : ℂ)) := by
+        fun_prop
+      have hcont_inv : Continuous (fun t : ℝ => (a - t * Complex.I : ℂ)⁻¹) :=
+        hcont_den.inv₀ hden_ne
+      have hcont : Continuous (fun t : ℝ => (1 : ℂ) / (a - t * Complex.I)) := by
+        simpa [one_div] using hcont_inv
+      exact hcont.intervalIntegrable (-1) 1
+    have hReComm :
+        (∫ t in (-1 : ℝ)..1, Complex.re ((1 : ℂ) / (a - t * Complex.I)))
+          = Complex.re (∫ t in (-1 : ℝ)..1, (1 : ℂ) / (a - t * Complex.I)) := by
+      simpa using (ContinuousLinearMap.intervalIntegral_comp_comm (μ := MeasureTheory.volume)
+        (a := (-1 : ℝ)) (b := (1 : ℝ)) (L := Complex.reCLM)
+        (f := fun t : ℝ => (1 : ℂ) / (a - t * Complex.I)) hInt)
+    have hcore :
+        (∫ t in (-1 : ℝ)..1, Complex.re ((1 : ℂ) / (a - t * Complex.I)))
+          = 2 * Real.arctan (a⁻¹) := by
+      have hform :
+          (fun t : ℝ => Complex.re ((1 : ℂ) / (a - t * Complex.I)))
+            = fun t : ℝ => a / (a ^ 2 + t ^ 2) := by
+        funext t
+        calc
+          Complex.re ((1 : ℂ) / (a - t * Complex.I))
+              = Complex.re ((a - t * Complex.I)⁻¹) := by simp [one_div]
+          _ = (a - t * Complex.I).re / Complex.normSq (a - t * Complex.I) := by rw [Complex.inv_re]
+          _ = a / (a ^ 2 + t ^ 2) := by simp [Complex.normSq, pow_two]
+      rw [hform]
+      have ha0 : a ≠ 0 := ne_of_gt ha
+      have hEqIntegrand :
+          (fun t : ℝ => a / (a ^ 2 + t ^ 2)) =
+            fun t : ℝ => a⁻¹ * (1 + (t / a) ^ 2)⁻¹ := by
+        funext t
+        field_simp [ha0]
+      rw [hEqIntegrand]
+      rw [intervalIntegral.integral_const_mul]
+      have hsub :
+          a⁻¹ * (∫ t in (-1 : ℝ)..1, (1 + (t / a) ^ 2)⁻¹)
+            = ∫ u in (-1 : ℝ) / a..(1 : ℝ) / a, (1 + u ^ 2)⁻¹ := by
+        exact (intervalIntegral.inv_mul_integral_comp_div
+          (f := fun u : ℝ => (1 + u ^ 2)⁻¹) (a := (-1 : ℝ)) (b := (1 : ℝ)) (c := a))
+      have hInt2 :
+          (∫ u in (-1 : ℝ) / a..(1 : ℝ) / a, (1 + u ^ 2)⁻¹)
+            = Real.arctan ((1 : ℝ) / a) - Real.arctan ((-1 : ℝ) / a) := by
+        simpa using (integral_inv_one_add_sq (a := (-1 : ℝ) / a) (b := (1 : ℝ) / a))
+      have hfinal :
+          Real.arctan ((1 : ℝ) / a) - Real.arctan ((-1 : ℝ) / a) = 2 * Real.arctan (a⁻¹) := by
+        have h1 : ((1 : ℝ) / a) = a⁻¹ := by simp [one_div]
+        have h2 : ((-1 : ℝ) / a) = -a⁻¹ := by field_simp [ha0]
+        rw [h1, h2, Real.arctan_neg]
+        ring
+      calc
+        a⁻¹ * (∫ t in (-1 : ℝ)..1, (1 + (t / a) ^ 2)⁻¹)
+            = ∫ u in (-1 : ℝ) / a..(1 : ℝ) / a, (1 + u ^ 2)⁻¹ := hsub
+        _ = Real.arctan ((1 : ℝ) / a) - Real.arctan ((-1 : ℝ) / a) := hInt2
+        _ = 2 * Real.arctan (a⁻¹) := hfinal
+    calc
+      Complex.re (∫ t in (-1 : ℝ)..1, (1 : ℂ) / (a - t * Complex.I))
+        = (∫ t in (-1 : ℝ)..1, Complex.re ((1 : ℂ) / (a - t * Complex.I))) := by
+            symm
+            exact hReComm
+      _ = 2 * Real.arctan (a⁻¹) := hcore
+  have hRHS :
+      Complex.re (2 * (1 : ℂ) * ↑(∫ x, Real.sinc (1 * x) ∂ (muA a)))
+        = 2 * (∫ x, Real.sinc (1 * x) ∂ (muA a)) := by
+    norm_num
+  have hMuVal : (∫ x, Real.sinc (1 * x) ∂ (muA a)) = Real.arctan (a⁻¹) := by
+    have : 2 * Real.arctan (a⁻¹) = 2 * (∫ x, Real.sinc (1 * x) ∂ (muA a)) := by
+      calc
+        2 * Real.arctan (a⁻¹)
+            = Complex.re (∫ t in (-1 : ℝ)..1, (1 : ℂ) / (a - t * Complex.I)) := by
+                symm
+                exact hLHS
+        _ = Complex.re (2 * (1 : ℂ) * ↑(∫ x, Real.sinc (1 * x) ∂ (muA a))) := hEqRe
+        _ = 2 * (∫ x, Real.sinc (1 * x) ∂ (muA a)) := hRHS
+    linarith
+  have hMuRewrite :
+      (∫ x, Real.sinc (1 * x) ∂ (muA a))
+        = ∫ x in Set.Ioi (0 : ℝ), Real.exp (-a * x) * Real.sinc (1 * x) := by
+    rw [muA, integral_withDensity_eq_integral_toReal_smul]
+    · refine MeasureTheory.integral_congr_ae ?_
+      refine Filter.Eventually.of_forall ?_
+      intro x
+      change ((ENNReal.ofReal (Real.exp (-a * x))).toReal : ℝ) • Real.sinc (1 * x) =
+        Real.exp (-a * x) * Real.sinc (1 * x)
+      have hcoef : ((ENNReal.ofReal (Real.exp (-a * x))).toReal : ℝ) = Real.exp (-a * x) :=
+        ENNReal.toReal_ofReal (le_of_lt (Real.exp_pos _))
+      rw [hcoef]
+      simp [smul_eq_mul]
+    · fun_prop
+    · simpa using hlin
+  calc
+    ∫ x in Set.Ioi (0 : ℝ), Real.exp (-a * x) * Real.sinc x
+        = ∫ x in Set.Ioi (0 : ℝ), Real.exp (-a * x) * Real.sinc (1 * x) := by simp
+    _ = (∫ x, Real.sinc (1 * x) ∂ (muA a)) := by rw [hMuRewrite]
+    _ = Real.arctan (a⁻¹) := hMuVal
+
+lemma integrableOn_exp_mul_comp_of_tendsto
+    (F : ℝ → ℝ) (hFcont : Continuous F) {L : ℝ} (hL : Tendsto F atTop (nhds L))
+    (a : ℝ) (ha : 0 ≤ a) :
+    MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-x) * F (a * x)) (Set.Ioi (0 : ℝ)) := by
+  have hnear : ∀ᶠ x : ℝ in atTop, |F x - L| < 1 := by
+    simpa [Real.dist_eq] using hL.eventually (Metric.ball_mem_nhds L zero_lt_one)
+  rcases (eventually_atTop.1 hnear) with ⟨N, hN⟩
+  let N0 : ℝ := max N 0
+  have hN0_nonneg : 0 ≤ N0 := by simp [N0]
+  have hN_le_N0 : N ≤ N0 := by simp [N0]
+  obtain ⟨C0, hC0⟩ :=
+    (isCompact_Icc : IsCompact (Set.Icc (0 : ℝ) N0)).exists_bound_of_continuousOn
+      (hFcont.continuousOn)
+  let M : ℝ := max C0 (|L| + 1)
+  have hF_bound_nonneg : ∀ y : ℝ, 0 ≤ y → |F y| ≤ M := by
+    intro y hy
+    by_cases hyN0 : y ≤ N0
+    · have hyIcc : y ∈ Set.Icc (0 : ℝ) N0 := ⟨hy, hyN0⟩
+      have hC0y : ‖F y‖ ≤ C0 := hC0 y hyIcc
+      have : |F y| ≤ C0 := by simpa [Real.norm_eq_abs] using hC0y
+      exact this.trans (le_max_left _ _)
+    · have hyN : N ≤ y := le_trans hN_le_N0 (le_of_not_ge hyN0)
+      have hNy : |F y - L| < 1 := hN y hyN
+      have htri : |F y| ≤ |F y - L| + |L| := by
+        have := norm_add_le (F y - L) L
+        simpa [Real.norm_eq_abs, sub_eq_add_neg, add_assoc, add_comm, add_left_comm] using this
+      have htail : |F y| ≤ |L| + 1 := by linarith
+      exact htail.trans (le_max_right _ _)
+  have hExpInt : MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-x)) (Set.Ioi 0) := by
+    simpa [mul_comm] using (integrableOn_exp_mul_Ioi (a := (-1 : ℝ)) (by norm_num) 0)
+  have hbound_int : MeasureTheory.IntegrableOn (fun x : ℝ => M * Real.exp (-x)) (Set.Ioi (0 : ℝ)) := by
+    simpa [mul_assoc, mul_comm, mul_left_comm] using hExpInt.const_mul M
+  have hcontFn : Continuous (fun x : ℝ => Real.exp (-x) * F (a * x)) := by
+    refine (Real.continuous_exp.comp (continuous_id.neg)).mul ?_
+    exact hFcont.comp (continuous_const.mul continuous_id)
+  refine hbound_int.mono' hcontFn.aestronglyMeasurable ?_
+  refine MeasureTheory.ae_restrict_of_forall_mem (μ := MeasureTheory.volume) measurableSet_Ioi ?_
+  intro x hx
+  have hx_nonneg : 0 ≤ x := le_of_lt hx
+  have harg_nonneg : 0 ≤ a * x := mul_nonneg ha hx_nonneg
+  have hFbx : |F (a * x)| ≤ M := hF_bound_nonneg (a * x) harg_nonneg
+  have hexp_nonneg : 0 ≤ Real.exp (-x) := le_of_lt (Real.exp_pos _)
+  have hmul : |Real.exp (-x) * F (a * x)| ≤ M * Real.exp (-x) := by
+    calc
+      |Real.exp (-x) * F (a * x)|
+          = Real.exp (-x) * |F (a * x)| := by
+              simp [abs_mul, abs_of_nonneg hexp_nonneg]
+      _ ≤ Real.exp (-x) * M := by gcongr
+      _ = M * Real.exp (-x) := by ring
+  simpa [Real.norm_eq_abs] using hmul
+
+lemma abel_weighted_tendsto_of_tendsto (F : ℝ → ℝ) (L : ℝ)
+    (hFcont : Continuous F) (hL : Tendsto F atTop (nhds L)) :
+    Tendsto (fun n : ℕ => ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (((n : ℝ) + 1) * x))
+      atTop (nhds L) := by
+  have hnear : ∀ᶠ x : ℝ in atTop, |F x - L| < 1 := by
+    simpa [Real.dist_eq] using hL.eventually (Metric.ball_mem_nhds L zero_lt_one)
+  rcases (eventually_atTop.1 hnear) with ⟨N, hN⟩
+  let N0 : ℝ := max N 0
+  have hN0_nonneg : 0 ≤ N0 := by simp [N0]
+  have hN_le_N0 : N ≤ N0 := by simp [N0]
+  obtain ⟨C0, hC0⟩ :=
+    (isCompact_Icc : IsCompact (Set.Icc (0 : ℝ) N0)).exists_bound_of_continuousOn
+      (hFcont.continuousOn)
+  let M : ℝ := max C0 (|L| + 1)
+  have hF_bound_nonneg : ∀ y : ℝ, 0 ≤ y → |F y| ≤ M := by
+    intro y hy
+    by_cases hyN0 : y ≤ N0
+    · have hyIcc : y ∈ Set.Icc (0 : ℝ) N0 := ⟨hy, hyN0⟩
+      have hC0y : ‖F y‖ ≤ C0 := hC0 y hyIcc
+      have : |F y| ≤ C0 := by simpa [Real.norm_eq_abs] using hC0y
+      exact this.trans (le_max_left _ _)
+    · have hyN : N ≤ y := le_trans hN_le_N0 (le_of_not_ge hyN0)
+      have hNy : |F y - L| < 1 := hN y hyN
+      have htri : |F y| ≤ |F y - L| + |L| := by
+        have := norm_add_le (F y - L) L
+        simpa [Real.norm_eq_abs, sub_eq_add_neg, add_assoc, add_comm, add_left_comm] using this
+      have htail : |F y| ≤ |L| + 1 := by linarith
+      exact htail.trans (le_max_right _ _)
+  have hbound_int : MeasureTheory.IntegrableOn (fun x : ℝ => M * Real.exp (-x)) (Set.Ioi (0 : ℝ)) := by
+    have hExpInt : MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-x)) (Set.Ioi 0) :=
+      by simpa [mul_comm] using (integrableOn_exp_mul_Ioi (a := (-1 : ℝ)) (by norm_num) 0)
+    simpa [mul_assoc, mul_comm, mul_left_comm] using hExpInt.const_mul M
+  have hDom :
+      Tendsto (fun n : ℕ => ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (((n : ℝ) + 1) * x))
+        atTop (nhds (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * L)) := by
+    refine MeasureTheory.tendsto_integral_of_dominated_convergence
+      (F := fun n x => Real.exp (-x) * F (((n : ℝ) + 1) * x))
+      (f := fun x => Real.exp (-x) * L)
+      (bound := fun x => M * Real.exp (-x)) ?meas ?boundInt ?bound ?lim
+    · intro n
+      have hcontFn :
+          Continuous (fun x : ℝ => Real.exp (-x) * F (((n : ℝ) + 1) * x)) := by
+        refine (Real.continuous_exp.comp (continuous_id.neg)).mul ?_
+        exact hFcont.comp (continuous_const.mul continuous_id)
+      exact hcontFn.aestronglyMeasurable
+    · simpa using hbound_int
+    · intro n
+      refine MeasureTheory.ae_restrict_of_forall_mem (μ := MeasureTheory.volume) measurableSet_Ioi ?_
+      intro x hx
+      have hx_nonneg : 0 ≤ x := le_of_lt hx
+      have harg_nonneg : 0 ≤ (((n : ℝ) + 1) * x) := by positivity
+      have hFbx : |F (((n : ℝ) + 1) * x)| ≤ M := hF_bound_nonneg (((n : ℝ) + 1) * x) harg_nonneg
+      have hexp_nonneg : 0 ≤ Real.exp (-x) := le_of_lt (Real.exp_pos _)
+      have hmul : |Real.exp (-x) * F (((n : ℝ) + 1) * x)| ≤ M * Real.exp (-x) := by
+        calc
+          |Real.exp (-x) * F (((n : ℝ) + 1) * x)|
+              = Real.exp (-x) * |F (((n : ℝ) + 1) * x)| := by
+                  simp [abs_mul, abs_of_nonneg hexp_nonneg]
+          _ ≤ Real.exp (-x) * M := by gcongr
+          _ = M * Real.exp (-x) := by ring
+      simpa [Real.norm_eq_abs] using hmul
+    · refine MeasureTheory.ae_restrict_of_forall_mem (μ := MeasureTheory.volume) measurableSet_Ioi ?_
+      intro x hx
+      have hx_pos : 0 < x := hx
+      have hNatMul : Tendsto (fun n : ℕ => (n : ℝ) * x) atTop atTop := by
+        exact tendsto_natCast_atTop_atTop.atTop_mul_const hx_pos
+      have hShift : Tendsto (fun n : ℕ => (n : ℝ) * x + x) atTop atTop :=
+        Filter.tendsto_atTop_add_const_right atTop x hNatMul
+      have hx_tend : Tendsto (fun n : ℕ => (((n : ℝ) + 1) * x)) atTop atTop := by
+        have hEq : (fun n : ℕ => (((n : ℝ) + 1) * x)) = (fun n : ℕ => (n : ℝ) * x + x) := by
+          funext n
+          ring
+        exact hShift.congr' (Filter.EventuallyEq.of_eq hEq.symm)
+      have hFtend : Tendsto (fun n : ℕ => F ((((n : ℝ) + 1) * x))) atTop (nhds L) :=
+        hL.comp hx_tend
+      exact (tendsto_const_nhds.mul hFtend)
+  have hIntL : (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * L) = L := by
+    have hExpOne : (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x)) = 1 := by
+      simpa using integral_exp_neg_Ioi_zero
+    calc
+      ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * L
+          = (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x)) * L := by
+              simpa using (MeasureTheory.integral_mul_const (μ := MeasureTheory.volume.restrict (Set.Ioi (0 : ℝ)))
+                (r := L) (f := fun x : ℝ => Real.exp (-x)))
+      _ = L := by simpa [hExpOne]
+  simpa [hIntL] using hDom
+
+lemma weighted_primitive_eval
+    (F : ℝ → ℝ) (hF0 : F 0 = 0)
+    (hFderiv : ∀ x : ℝ, HasDerivAt F (Real.sinc x) x)
+    {L : ℝ} (hL : Tendsto F atTop (nhds L)) (n : ℕ) :
+    (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (((n : ℝ) + 1) * x))
+      = Real.arctan ((n : ℝ) + 1) := by
+  let α : ℝ := (n : ℝ) + 1
+  have hα : 0 < α := by
+    dsimp [α]
+    positivity
+  have hα0 : α ≠ 0 := ne_of_gt hα
+  have hFcont : Continuous F := by
+    refine continuous_iff_continuousAt.2 ?_
+    intro x
+    exact (hFderiv x).continuousAt
+  have hIntLeft : MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-x) * F (α * x)) (Set.Ioi 0) :=
+    integrableOn_exp_mul_comp_of_tendsto F hFcont hL α hα.le
+  have hExpInt : MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-x)) (Set.Ioi 0) := by
+    simpa [mul_comm] using (integrableOn_exp_mul_Ioi (a := (-1 : ℝ)) (by norm_num) 0)
+  have hIntSincBase :
+      MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-x) * Real.sinc (α * x)) (Set.Ioi 0) := by
+    refine hExpInt.mono' ?_ ?_
+    · have hcont : Continuous (fun x : ℝ => Real.exp (-x) * Real.sinc (α * x)) := by
+        refine (Real.continuous_exp.comp (continuous_id.neg)).mul ?_
+        exact Real.continuous_sinc.comp (continuous_const.mul continuous_id)
+      exact hcont.aestronglyMeasurable
+    · refine MeasureTheory.ae_restrict_of_forall_mem (μ := MeasureTheory.volume) measurableSet_Ioi ?_
+      intro x hx
+      have hexp_nonneg : 0 ≤ Real.exp (-x) := le_of_lt (Real.exp_pos _)
+      have hmul : |Real.exp (-x) * Real.sinc (α * x)| ≤ Real.exp (-x) := by
+        calc
+          |Real.exp (-x) * Real.sinc (α * x)|
+              = Real.exp (-x) * |Real.sinc (α * x)| := by
+                  simp [abs_mul, abs_of_nonneg hexp_nonneg]
+          _ ≤ Real.exp (-x) * 1 := by
+                gcongr
+                exact Real.abs_sinc_le_one (α * x)
+          _ = Real.exp (-x) := by ring
+      simpa [Real.norm_eq_abs] using hmul
+  have hIntA :
+      MeasureTheory.IntegrableOn (fun x : ℝ => Real.exp (-x) * (α * Real.sinc (α * x))) (Set.Ioi 0) := by
+    simpa [mul_assoc, mul_left_comm, mul_comm] using hIntSincBase.const_mul α
+  have hIntDeriv :
+      MeasureTheory.IntegrableOn
+        (fun x : ℝ => Real.exp (-x) * (α * Real.sinc (α * x) - F (α * x))) (Set.Ioi 0) := by
+    have hSub :
+        MeasureTheory.IntegrableOn
+          (fun x : ℝ => Real.exp (-x) * (α * Real.sinc (α * x)) - Real.exp (-x) * F (α * x))
+          (Set.Ioi 0) :=
+      hIntA.sub hIntLeft
+    refine (MeasureTheory.integrableOn_congr_fun ?_ measurableSet_Ioi).2 hSub
+    intro x hx
+    ring
+  have hScale : Tendsto (fun x : ℝ => α * x) atTop atTop := by
+    have h : Tendsto (fun x : ℝ => x * α) atTop atTop :=
+      Filter.Tendsto.atTop_mul_const hα tendsto_id
+    simpa [mul_comm] using h
+  have hFScale : Tendsto (fun x : ℝ => F (α * x)) atTop (nhds L) :=
+    hL.comp hScale
+  have hExp0 : Tendsto (fun x : ℝ => Real.exp (-x)) atTop (nhds (0 : ℝ)) := by
+    change Tendsto (Real.exp ∘ Neg.neg) atTop (nhds (0 : ℝ))
+    exact Real.tendsto_exp_atBot.comp tendsto_neg_atTop_atBot
+  have hLimG : Tendsto (fun x : ℝ => Real.exp (-x) * F (α * x)) atTop (nhds (0 : ℝ)) := by
+    have h := hExp0.mul hFScale
+    simpa using h
+  have hDeriv :
+      ∀ x ∈ Set.Ici (0 : ℝ),
+        HasDerivAt (fun y : ℝ => Real.exp (-y) * F (α * y))
+          (Real.exp (-x) * (α * Real.sinc (α * x) - F (α * x))) x := by
+    intro x hx
+    have hExpDeriv : HasDerivAt (fun y : ℝ => Real.exp (-y)) (-Real.exp (-x)) x := by
+      simpa using (Real.hasDerivAt_exp (-x)).comp x (hasDerivAt_neg x)
+    have hFScaleDeriv : HasDerivAt (fun y : ℝ => F (α * y)) (α * Real.sinc (α * x)) x := by
+      simpa [mul_assoc, mul_left_comm, mul_comm] using
+        (hFderiv (x * α)).comp x (hasDerivAt_mul_const (x := x) α)
+    convert hExpDeriv.mul hFScaleDeriv using 1 <;> ring
+  have hDerivIntEq :
+      ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * (α * Real.sinc (α * x) - F (α * x)) = 0 := by
+    have hFTC := MeasureTheory.integral_Ioi_of_hasDerivAt_of_tendsto'
+      (f := fun y : ℝ => Real.exp (-y) * F (α * y))
+      (f' := fun x : ℝ => Real.exp (-x) * (α * Real.sinc (α * x) - F (α * x)))
+      (a := 0) (m := (0 : ℝ)) hDeriv hIntDeriv hLimG
+    simpa [hF0] using hFTC
+  have hSubEq :
+      (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * (α * Real.sinc (α * x)))
+        - (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (α * x)) = 0 := by
+    have hSubInt :=
+      MeasureTheory.integral_sub (μ := MeasureTheory.volume.restrict (Set.Ioi (0 : ℝ)))
+        (f := fun x : ℝ => Real.exp (-x) * (α * Real.sinc (α * x)))
+        (g := fun x : ℝ => Real.exp (-x) * F (α * x)) hIntA hIntLeft
+    have hEqDeriv :
+        (fun x : ℝ => Real.exp (-x) * (α * Real.sinc (α * x) - F (α * x))) =
+          (fun x : ℝ => Real.exp (-x) * (α * Real.sinc (α * x)) - Real.exp (-x) * F (α * x)) := by
+      funext x
+      ring
+    calc
+      (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * (α * Real.sinc (α * x)))
+          - (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (α * x))
+          = ∫ x in Set.Ioi (0 : ℝ),
+              (Real.exp (-x) * (α * Real.sinc (α * x)) - Real.exp (-x) * F (α * x)) := by
+                symm
+                exact hSubInt
+      _ = ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * (α * Real.sinc (α * x) - F (α * x)) := by
+            refine MeasureTheory.integral_congr_ae ?_
+            exact Filter.EventuallyEq.of_eq hEqDeriv.symm
+      _ = 0 := hDerivIntEq
+  have hEqAF :
+      (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (α * x))
+        = ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * (α * Real.sinc (α * x)) := by
+    linarith
+  have hEqAConst :
+      (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * (α * Real.sinc (α * x)))
+        = α * (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * Real.sinc (α * x)) := by
+    simpa [mul_assoc, mul_left_comm, mul_comm] using
+      (MeasureTheory.integral_const_mul (μ := MeasureTheory.volume.restrict (Set.Ioi (0 : ℝ)))
+        (r := α) (f := fun x : ℝ => Real.exp (-x) * Real.sinc (α * x)))
+  have hScaleSinc :
+      (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * Real.sinc (α * x))
+        = α⁻¹ * (∫ u in Set.Ioi (0 : ℝ), Real.exp (-(α⁻¹) * u) * Real.sinc u) := by
+    have hComp := MeasureTheory.integral_comp_mul_left_Ioi
+      (g := fun u : ℝ => Real.exp (-(α⁻¹) * u) * Real.sinc u) (a := 0) (b := α) hα
+    have hEqLeft :
+        (fun x : ℝ => (Real.exp (-(α⁻¹) * (α * x)) * Real.sinc (α * x)))
+          = (fun x : ℝ => Real.exp (-x) * Real.sinc (α * x)) := by
+      funext x
+      have hm : α⁻¹ * (α * x) = x := by field_simp [hα0]
+      simp [hm]
+    calc
+      (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * Real.sinc (α * x))
+          = (∫ x in Set.Ioi (0 : ℝ),
+              (fun u : ℝ => Real.exp (-(α⁻¹) * u) * Real.sinc u) (α * x)) := by
+                refine MeasureTheory.integral_congr_ae ?_
+                exact Filter.EventuallyEq.of_eq hEqLeft.symm
+      _ = α⁻¹ • ∫ x in Set.Ioi (α * (0 : ℝ)),
+            (fun u : ℝ => Real.exp (-(α⁻¹) * u) * Real.sinc u) x := hComp
+      _ = α⁻¹ * (∫ u in Set.Ioi (0 : ℝ), Real.exp (-(α⁻¹) * u) * Real.sinc u) := by
+            simp [smul_eq_mul]
+  have hAlphaMul :
+      α * (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * Real.sinc (α * x))
+        = (∫ u in Set.Ioi (0 : ℝ), Real.exp (-(α⁻¹) * u) * Real.sinc u) := by
+    calc
+      α * (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * Real.sinc (α * x))
+          = α * (α⁻¹ * (∫ u in Set.Ioi (0 : ℝ), Real.exp (-(α⁻¹) * u) * Real.sinc u)) := by
+              rw [hScaleSinc]
+      _ = (∫ u in Set.Ioi (0 : ℝ), Real.exp (-(α⁻¹) * u) * Real.sinc u) := by
+            field_simp [hα0]
+  have hDamped :
+      (∫ u in Set.Ioi (0 : ℝ), Real.exp (-(α⁻¹) * u) * Real.sinc u) = Real.arctan α := by
+    simpa [hα0] using (damped_sinc_integral_eq_arctan (a := α⁻¹) (inv_pos.mpr hα))
+  calc
+    (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (((n : ℝ) + 1) * x))
+        = (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (α * x)) := by simp [α]
+    _ = ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * (α * Real.sinc (α * x)) := hEqAF
+    _ = α * (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * Real.sinc (α * x)) := hEqAConst
+    _ = (∫ u in Set.Ioi (0 : ℝ), Real.exp (-(α⁻¹) * u) * Real.sinc u) := hAlphaMul
+    _ = Real.arctan α := hDamped
+    _ = Real.arctan ((n : ℝ) + 1) := by simp [α]
+
 /-- Example 5.5.12. The improper integral of the sinc function over the real
 line converges and equals `π`, but the integral of its absolute value diverges,
 so the convergence is not absolute. -/
-axiom improperIntegral_sinc_conditional :
+theorem improperIntegral_sinc_conditional :
     ImproperIntegralRealLine _root_.sinc Real.pi ∧
-      ¬ ∃ l : ℝ, ImproperIntegralRealLine (fun x : ℝ => |_root_.sinc x|) l
+      ¬ ∃ l : ℝ, ImproperIntegralRealLine (fun x : ℝ => |_root_.sinc x|) l := by
+  refine ⟨?hconv, ?hnotAbs⟩
+  · -- Classical Dirichlet-integral fact:
+    -- `∫_{-∞}^{∞} sinc = π`, decomposed via
+    -- `F(t) := ∫_0^t sinc`.
+    have hsinc_eq_real : (_root_.sinc : ℝ → ℝ) = Real.sinc := rfl
+    let F : ℝ → ℝ := fun t => ∫ x in (0 : ℝ)..t, _root_.sinc x
+    have hInt : ∀ a b : ℝ, MeasureTheory.IntegrableOn _root_.sinc (Set.Icc a b) := by
+      intro a b
+      by_cases hab : a ≤ b
+      · have hIntab : IntervalIntegrable _root_.sinc MeasureTheory.volume a b := by
+          simpa [hsinc_eq_real] using Real.continuous_sinc.intervalIntegrable a b
+        exact (intervalIntegrable_iff_integrableOn_Icc_of_le (μ := MeasureTheory.volume) hab).1 hIntab
+      · have hIcc : Set.Icc a b = (∅ : Set ℝ) := Icc_eq_empty hab
+        simpa [hIcc] using (MeasureTheory.integrableOn_empty : MeasureTheory.IntegrableOn _root_.sinc (∅ : Set ℝ))
+    have hF_neg : ∀ t : ℝ, F (-t) = -F t := by
+      intro t
+      have hsymm :
+          (∫ x in (0 : ℝ)..t, _root_.sinc x) = ∫ x in (-t)..0, _root_.sinc x := by
+        simpa [hsinc_eq_real] using
+          (intervalIntegral.integral_comp_neg (f := Real.sinc) (a := (0 : ℝ)) (b := t))
+      calc
+        F (-t) = ∫ x in (0 : ℝ)..(-t), _root_.sinc x := rfl
+        _ = -∫ x in (-t)..0, _root_.sinc x := by rw [intervalIntegral.integral_symm]
+        _ = -∫ x in (0 : ℝ)..t, _root_.sinc x := by rw [← hsymm]
+        _ = -F t := rfl
+    have htop_base : Tendsto F atTop (nhds (Real.pi / 2)) := by
+      have htop_exists : ∃ L : ℝ, Tendsto F atTop (nhds L) := by
+        simpa [F] using sinc_primitive_tendsto_atTop_exists
+      have htop_value :
+          ∀ L : ℝ, Tendsto F atTop (nhds L) → L = Real.pi / 2 := by
+        intro L hL
+        -- Dirichlet integral value identification:
+        -- `lim_{t→∞} ∫_0^t sinc = π/2`.
+        have hF0 : F 0 = 0 := by
+          simp [F]
+        have hFderiv : ∀ x : ℝ, HasDerivAt F (Real.sinc x) x := by
+          intro x
+          have hInt : IntervalIntegrable Real.sinc MeasureTheory.volume (0 : ℝ) x := by
+            simpa using Real.continuous_sinc.intervalIntegrable (0 : ℝ) x
+          simpa [F, hsinc_eq_real] using
+            (intervalIntegral.integral_hasDerivAt_right (f := Real.sinc) hInt
+              (Real.continuous_sinc.stronglyMeasurableAtFilter
+                (μ := MeasureTheory.volume) (l := nhds x))
+              (Real.continuous_sinc.continuousAt))
+        have hFcont : Continuous F := by
+          refine continuous_iff_continuousAt.2 ?_
+          intro x
+          exact (hFderiv x).continuousAt
+        have hSeqL :
+            Tendsto (fun n : ℕ => ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (((n : ℝ) + 1) * x))
+              atTop (nhds L) :=
+          abel_weighted_tendsto_of_tendsto F L hFcont hL
+        have hSeqEq :
+            ∀ n : ℕ,
+              (∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (((n : ℝ) + 1) * x))
+                = Real.arctan ((n : ℝ) + 1) := by
+          intro n
+          exact weighted_primitive_eval F hF0 hFderiv hL n
+        have hArctanL :
+            Tendsto (fun n : ℕ => Real.arctan ((n : ℝ) + 1)) atTop (nhds L) := by
+          have hEqFun :
+              (fun n : ℕ => ∫ x in Set.Ioi (0 : ℝ), Real.exp (-x) * F (((n : ℝ) + 1) * x))
+                = (fun n : ℕ => Real.arctan ((n : ℝ) + 1)) := by
+            funext n
+            exact hSeqEq n
+          exact hSeqL.congr' (Filter.EventuallyEq.of_eq hEqFun)
+        have hShift : Tendsto (fun n : ℕ => (n : ℝ) + 1) atTop atTop := by
+          exact Filter.tendsto_atTop_add_const_right atTop 1 tendsto_natCast_atTop_atTop
+        have hArctanPi :
+            Tendsto (fun n : ℕ => Real.arctan ((n : ℝ) + 1)) atTop (nhds (Real.pi / 2)) := by
+          exact (tendsto_nhds_of_tendsto_nhdsWithin tendsto_arctan_atTop).comp hShift
+        exact tendsto_nhds_unique hArctanL hArctanPi
+      rcases htop_exists with ⟨L, hL⟩
+      have hLval : L = Real.pi / 2 := htop_value L hL
+      simpa [hLval] using hL
+    have hbot_base : Tendsto F atBot (nhds (-(Real.pi / 2))) := by
+      have hcomp : Tendsto (fun t : ℝ => F (-t)) atBot (nhds (Real.pi / 2)) :=
+        htop_base.comp tendsto_neg_atBot_atTop
+      have hneg : Tendsto (fun t : ℝ => -F t) atBot (nhds (Real.pi / 2)) := by
+        have hEq : (fun t : ℝ => F (-t)) = fun t => -F t := by
+          funext t
+          simpa using hF_neg t
+        exact hcomp.congr' (Filter.EventuallyEq.of_eq hEq)
+      simpa using hneg.neg
+    have hprod :
+        Tendsto (fun p : ℝ × ℝ => ∫ x in p.1..p.2, _root_.sinc x)
+          (Filter.atBot ×ˢ Filter.atTop) (nhds (Real.pi : ℝ)) := by
+      have htemp :=
+        tendsto_intervalIntegral_atBot_atTop_of_base (f := _root_.sinc) hInt
+          (hbot := by simpa [F] using hbot_base)
+          (htop := by simpa [F] using htop_base)
+      have hpi : (Real.pi / 2) - (-(Real.pi / 2)) = (Real.pi : ℝ) := by ring
+      simpa [hpi] using htemp
+    exact ⟨hInt, hprod⟩
+  · intro hAbs
+    rcases hAbs with ⟨l, hAbsInt, hAbsTendsto⟩
+    have hsinc_eq_real : (_root_.sinc : ℝ → ℝ) = Real.sinc := rfl
+    have habs_periodic : Function.Periodic (fun x : ℝ => |Real.sin x|) Real.pi := by
+      intro x
+      simp [Real.sin_add_pi]
+    have habs_int_pi : (∫ x in (0 : ℝ)..Real.pi, |Real.sin x|) = (2 : ℝ) := by
+      have hEq : EqOn (fun x : ℝ => |Real.sin x|) Real.sin (Set.uIcc (0 : ℝ) Real.pi) := by
+        intro x hx
+        have hx' : x ∈ Set.Icc (0 : ℝ) Real.pi := by
+          simpa [Set.uIcc_of_le Real.pi_pos.le] using hx
+        exact abs_of_nonneg (Real.sin_nonneg_of_nonneg_of_le_pi hx'.1 hx'.2)
+      calc
+        ∫ x in (0 : ℝ)..Real.pi, |Real.sin x| = ∫ x in (0 : ℝ)..Real.pi, Real.sin x := by
+          exact intervalIntegral.integral_congr hEq
+        _ = Real.cos (0 : ℝ) - Real.cos Real.pi := by simpa using (integral_sin (a := (0 : ℝ)) (b := Real.pi))
+        _ = (2 : ℝ) := by norm_num [Real.cos_zero, Real.cos_pi]
+    have hblock_abs_sin : ∀ n : ℕ,
+        (∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi), |Real.sin x|) = (2 : ℝ) := by
+      intro n
+      have hperiod :
+          ∫ x in ((n : ℝ) * Real.pi)..((n : ℝ) * Real.pi + Real.pi), |Real.sin x|
+            = ∫ x in (0 : ℝ)..((0 : ℝ) + Real.pi), |Real.sin x| := by
+        simpa using habs_periodic.intervalIntegral_add_eq ((n : ℝ) * Real.pi) (0 : ℝ)
+      have hright :
+          ((n : ℝ) * Real.pi) + Real.pi = (((n : ℝ) + 1) * Real.pi) := by ring
+      calc
+        ∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi), |Real.sin x|
+            = ∫ x in ((n : ℝ) * Real.pi)..((n : ℝ) * Real.pi + Real.pi), |Real.sin x| := by
+              simp [hright]
+        _ = ∫ x in (0 : ℝ)..((0 : ℝ) + Real.pi), |Real.sin x| := hperiod
+        _ = (2 : ℝ) := by simpa [habs_int_pi]
+    have hblock_lower_pos :
+        ∀ n : ℕ, 1 ≤ n →
+          (2 : ℝ) / (((n : ℝ) + 1) * Real.pi)
+            ≤ ∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi), |_root_.sinc x| := by
+      intro n hn
+      have hpi_pos : 0 < Real.pi := Real.pi_pos
+      have hMpos : 0 < (((n : ℝ) + 1) * Real.pi) := by
+        positivity
+      have hpoint :
+          ∀ x ∈ Set.Icc ((n : ℝ) * Real.pi) (((n : ℝ) + 1) * Real.pi),
+            |Real.sin x| / (((n : ℝ) + 1) * Real.pi) ≤ |_root_.sinc x| := by
+        intro x hx
+        have hx_pos : 0 < x := by
+          have hnp : (0 : ℝ) < (n : ℝ) * Real.pi := by
+            have hn' : (1 : ℝ) ≤ (n : ℝ) := by exact_mod_cast hn
+            have hpi : (0 : ℝ) < Real.pi := Real.pi_pos
+            positivity
+          exact lt_of_lt_of_le hnp hx.1
+        have hx_le : x ≤ (((n : ℝ) + 1) * Real.pi) := hx.2
+        have hinv : ((((n : ℝ) + 1) * Real.pi) : ℝ)⁻¹ ≤ x⁻¹ := by
+          exact (inv_le_inv₀ hMpos hx_pos).2 hx_le
+        have hmul :
+            |Real.sin x| * ((((n : ℝ) + 1) * Real.pi) : ℝ)⁻¹ ≤ |Real.sin x| * x⁻¹ :=
+          mul_le_mul_of_nonneg_left hinv (abs_nonneg (Real.sin x))
+        have hsinc :
+            |_root_.sinc x| = |Real.sin x| * x⁻¹ := by
+          have hxne : x ≠ 0 := ne_of_gt hx_pos
+          simp [hsinc_eq_real, Real.sinc_of_ne_zero hxne, abs_of_pos hx_pos, div_eq_mul_inv]
+        simpa [div_eq_mul_inv, hsinc] using hmul
+      have hIntLeft :
+          IntervalIntegrable (fun x : ℝ => |Real.sin x| / (((n : ℝ) + 1) * Real.pi))
+            MeasureTheory.volume (((n : ℝ) * Real.pi)) ((((n : ℝ) + 1) * Real.pi)) := by
+        refine Continuous.intervalIntegrable ?_ _ _
+        continuity
+      have hIntRight :
+          IntervalIntegrable (fun x : ℝ => |_root_.sinc x|) MeasureTheory.volume (((n : ℝ) * Real.pi))
+            ((((n : ℝ) + 1) * Real.pi)) := by
+        simpa [hsinc_eq_real] using (Real.continuous_sinc.abs.intervalIntegrable
+          (((n : ℝ) * Real.pi)) ((((n : ℝ) + 1) * Real.pi)))
+      have hmono :
+          (∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi),
+              |Real.sin x| / (((n : ℝ) + 1) * Real.pi))
+            ≤ ∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi), |_root_.sinc x| := by
+        have hab : ((n : ℝ) * Real.pi) ≤ (((n : ℝ) + 1) * Real.pi) := by
+          nlinarith [Real.pi_pos.le]
+        exact intervalIntegral.integral_mono_on (μ := MeasureTheory.volume) hab hIntLeft hIntRight
+          (by intro x hx; exact hpoint x hx)
+      have hconst :
+          (∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi),
+              |Real.sin x| / (((n : ℝ) + 1) * Real.pi))
+            = (∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi), |Real.sin x|)
+                / (((n : ℝ) + 1) * Real.pi) := by
+        have hfun :
+            (fun x : ℝ => |Real.sin x| / (((n : ℝ) + 1) * Real.pi))
+              = (fun x : ℝ => |Real.sin x| * ((((n : ℝ) + 1) * Real.pi)⁻¹)) := by
+          funext x
+          simp [div_eq_mul_inv]
+        rw [hfun, intervalIntegral.integral_mul_const]
+        simp [div_eq_mul_inv]
+      calc
+        (2 : ℝ) / (((n : ℝ) + 1) * Real.pi)
+            = (∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi), |Real.sin x|)
+                / (((n : ℝ) + 1) * Real.pi) := by simp [hblock_abs_sin n]
+        _ = (∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi),
+              |Real.sin x| / (((n : ℝ) + 1) * Real.pi)) := by
+              rw [hconst]
+        _ ≤ ∫ x in ((n : ℝ) * Real.pi)..(((n : ℝ) + 1) * Real.pi), |_root_.sinc x| := hmono
+    have hpath :
+        Tendsto (fun a : ℝ => (-a, a)) atTop (Filter.atBot ×ˢ Filter.atTop) :=
+      tendsto_neg_atTop_atBot.prodMk tendsto_id
+    have hsymm_to_l :
+        Tendsto (fun a : ℝ => ∫ x in (-a)..a, |_root_.sinc x|) atTop (nhds l) := by
+      have hcomp := hAbsTendsto.comp hpath
+      simpa using hcomp
+    have hseq_to_l :
+        Tendsto (fun n : ℕ => ∫ x in (-(((n : ℝ) + 1) * Real.pi))..(((n : ℝ) + 1) * Real.pi),
+          |_root_.sinc x|) atTop (nhds l) := by
+      have hnat_toTop : Tendsto (fun n : ℕ => ((n : ℝ) + 1) * Real.pi) atTop atTop := by
+        have hnat : Tendsto (fun n : ℕ => (n : ℝ) + 1) atTop atTop := by
+          exact (tendsto_add_const_atTop (1 : ℝ)).comp tendsto_natCast_atTop_atTop
+        exact (Filter.tendsto_mul_const_atTop_of_pos Real.pi_pos).2 hnat
+      exact hsymm_to_l.comp hnat_toTop
+    have hharm :
+        Tendsto (fun n : ℕ =>
+            Finset.sum (Finset.range n) (fun i => (1 : ℝ) / ((i : ℝ) + 1))) atTop atTop := by
+      simpa using tendsto_sum_range_one_div_nat_succ_atTop
+    have hseq_lower :
+        ∀ n : ℕ,
+          Finset.sum (Finset.range n)
+            (fun i => (2 : ℝ) / (Real.pi + (Real.pi + Real.pi * (i : ℝ))))
+            ≤ ∫ x in (-(((n : ℝ) + 1) * Real.pi))..(((n : ℝ) + 1) * Real.pi), |_root_.sinc x| := by
+      intro n
+      let f : ℝ → ℝ := fun x => |_root_.sinc x|
+      let A : ℝ := ((n : ℝ) + 1) * Real.pi
+      have hInt : ∀ a b : ℝ, IntervalIntegrable f MeasureTheory.volume a b := by
+        intro a b
+        exact intervalIntegrable_of_integrableOn_Icc (f := f) hAbsInt a b
+      have hsplit :=
+        (intervalIntegral.integral_add_adjacent_intervals (hInt (-A) Real.pi) (hInt Real.pi A)).symm
+      have hleft_nonneg : 0 ≤ ∫ x in (-A)..Real.pi, f x := by
+        have hA_nonneg : 0 ≤ A := by
+          have hpi : 0 ≤ Real.pi := Real.pi_pos.le
+          positivity
+        have hle : -A ≤ Real.pi := by
+          have hneg : -A ≤ (0 : ℝ) := by linarith
+          exact le_trans hneg Real.pi_pos.le
+        exact intervalIntegral.integral_nonneg hle (by
+          intro x hx
+          exact abs_nonneg (_root_.sinc x))
+      have htail_le : ∫ x in Real.pi..A, f x ≤ ∫ x in (-A)..A, f x := by
+        linarith [hleft_nonneg, hsplit]
+      let a : ℕ → ℝ := fun k => ((k : ℝ) + 1) * Real.pi
+      have hsum_eq :
+          Finset.sum (Finset.range n) (fun k => ∫ x in a k..a (k + 1), f x)
+            = ∫ x in a 0..a n, f x := by
+        exact intervalIntegral.sum_integral_adjacent_intervals (μ := MeasureTheory.volume) (f := f)
+          (by
+            intro k hk
+            exact hInt (a k) (a (k + 1)))
+      have hsum_blocks :
+          Finset.sum (Finset.range n)
+            (fun k => ∫ x in (Real.pi + Real.pi * (k : ℝ))..(Real.pi + (Real.pi + Real.pi * (k : ℝ))), f x)
+            = ∫ x in Real.pi..A, f x := by
+        simpa [a, A, Nat.cast_add, Nat.cast_one, add_assoc, add_comm, add_left_comm, mul_add,
+          mul_assoc, mul_comm, mul_left_comm] using hsum_eq
+      have hsum_le_blocks :
+          Finset.sum (Finset.range n)
+            (fun i => (2 : ℝ) / (Real.pi + (Real.pi + Real.pi * (i : ℝ))))
+            ≤ Finset.sum (Finset.range n)
+                (fun k => ∫ x in (Real.pi + Real.pi * (k : ℝ))..(Real.pi + (Real.pi + Real.pi * (k : ℝ))), f x) := by
+        refine Finset.sum_le_sum ?_
+        intro k hk
+        have hk1 : 1 ≤ k + 1 := Nat.succ_le_succ (Nat.zero_le k)
+        simpa [f, Nat.cast_add, Nat.cast_one, add_assoc, add_comm, add_left_comm, mul_add,
+          mul_assoc, mul_comm, mul_left_comm] using hblock_lower_pos (n := k + 1) hk1
+      calc
+        Finset.sum (Finset.range n)
+          (fun i => (2 : ℝ) / (Real.pi + (Real.pi + Real.pi * (i : ℝ))))
+            ≤ Finset.sum (Finset.range n)
+                (fun k => ∫ x in (Real.pi + Real.pi * (k : ℝ))..(Real.pi + (Real.pi + Real.pi * (k : ℝ))), f x) :=
+          hsum_le_blocks
+        _ = ∫ x in Real.pi..A, f x := hsum_blocks
+        _ ≤ ∫ x in (-A)..A, f x := htail_le
+        _ = ∫ x in (-(((n : ℝ) + 1) * Real.pi))..(((n : ℝ) + 1) * Real.pi), |_root_.sinc x| := by
+          simp [f, A]
+    have hseq_atTop :
+        Tendsto (fun n : ℕ => ∫ x in (-(((n : ℝ) + 1) * Real.pi))..(((n : ℝ) + 1) * Real.pi),
+          |_root_.sinc x|) atTop atTop := by
+      have hshift_harm :
+          Tendsto (fun n : ℕ =>
+              Finset.sum (Finset.range n) (fun i => (1 : ℝ) / ((i : ℝ) + 2))) atTop atTop := by
+        have hplus :
+            Tendsto (fun n : ℕ =>
+                Finset.sum (Finset.range (n + 1)) (fun i => (1 : ℝ) / ((i : ℝ) + 1))) atTop atTop :=
+          hharm.comp (tendsto_add_atTop_nat 1)
+        have hEq :
+            (fun n : ℕ =>
+                Finset.sum (Finset.range (n + 1)) (fun i => (1 : ℝ) / ((i : ℝ) + 1)))
+              = (fun n : ℕ =>
+                  Finset.sum (Finset.range n) (fun i => (1 : ℝ) / ((i : ℝ) + 2)) + 1) := by
+          funext n
+          calc
+            Finset.sum (Finset.range (n + 1)) (fun i => (1 : ℝ) / ((i : ℝ) + 1))
+                = Finset.sum (Finset.range n)
+                    (fun i => (1 : ℝ) / ((((i + 1 : ℕ) : ℝ) + 1))) + (1 : ℝ) := by
+                    simpa using (Finset.sum_range_succ' (f := fun i => (1 : ℝ) / ((i : ℝ) + 1)) n)
+            _ = Finset.sum (Finset.range n) (fun i => (1 : ℝ) / ((i : ℝ) + 2)) + 1 := by
+                    congr 1
+                    refine Finset.sum_congr rfl ?_
+                    intro i hi
+                    norm_num [Nat.cast_add, Nat.cast_one, add_assoc, add_comm, add_left_comm]
+        have hplus' :
+            Tendsto
+              (fun n : ℕ => Finset.sum (Finset.range n) (fun i => (1 : ℝ) / ((i : ℝ) + 2)) + 1)
+              atTop atTop := by
+          exact hplus.congr' (Filter.EventuallyEq.of_eq hEq)
+        simpa [sub_eq_add_neg, add_assoc, add_comm, add_left_comm] using
+          (tendsto_atTop_add_const_right atTop (-1 : ℝ) hplus')
+      have hscaled :
+          Tendsto (fun n : ℕ =>
+              (2 / Real.pi) * (Finset.sum (Finset.range n) (fun i => (1 : ℝ) / ((i : ℝ) + 2)))
+            ) atTop atTop := by
+        have hpos : 0 < (2 / Real.pi : ℝ) := by positivity
+        exact (Filter.tendsto_const_mul_atTop_of_pos hpos).2 hshift_harm
+      have hterm :
+          (fun n : ℕ =>
+              Finset.sum (Finset.range n)
+                (fun i => (2 : ℝ) / (Real.pi + (Real.pi + Real.pi * (i : ℝ)))))
+            =
+            (fun n : ℕ =>
+              (2 / Real.pi) * (Finset.sum (Finset.range n) (fun i => (1 : ℝ) / ((i : ℝ) + 2)))) := by
+        funext n
+        calc
+          Finset.sum (Finset.range n)
+              (fun i => (2 : ℝ) / (Real.pi + (Real.pi + Real.pi * (i : ℝ))))
+              = Finset.sum (Finset.range n)
+                  (fun i => (2 / Real.pi) * ((1 : ℝ) / ((i : ℝ) + 2))) := by
+                refine Finset.sum_congr rfl ?_
+                intro i hi
+                field_simp [Real.pi_ne_zero]
+                ring
+          _ = (2 / Real.pi) * (Finset.sum (Finset.range n) (fun i => (1 : ℝ) / ((i : ℝ) + 2))) := by
+                simp [Finset.mul_sum]
+      have hlower_tendsto :
+          Tendsto (fun n : ℕ =>
+              Finset.sum (Finset.range n)
+                (fun i => (2 : ℝ) / (Real.pi + (Real.pi + Real.pi * (i : ℝ)))))
+            atTop atTop := by
+        exact hscaled.congr' (Filter.EventuallyEq.of_eq hterm.symm)
+      exact Filter.tendsto_atTop_mono hseq_lower hlower_tendsto
+    exact not_tendsto_nhds_of_tendsto_atTop hseq_atTop l hseq_to_l
 
 /-- Proposition 5.5.13 (integral test for series). If `f : [k, ∞) → ℝ` is
 nonnegative and decreasing for some integer `k`, then the series
 `∑_{n = k}^{∞} f n` converges if and only if the improper integral `∫ k^∞ f`
 converges. In the convergent case,
 `∫ k^∞ f ≤ ∑_{n = k}^{∞} f n ≤ f k + ∫ k^∞ f`. -/
-axiom integral_test_for_series {f : ℝ → ℝ} {k : ℕ}
+theorem integral_test_for_series {f : ℝ → ℝ} {k : ℕ}
     (hmono : AntitoneOn f (Set.Ici (k : ℝ)))
     (hpos : ∀ x, (k : ℝ) ≤ x → 0 ≤ f x)
     (hInt : ∀ c, MeasureTheory.IntegrableOn f (Set.Icc (k : ℝ) c)) :
@@ -1563,7 +2573,182 @@ axiom integral_test_for_series {f : ℝ → ℝ} {k : ℕ}
       (∀ {l}, ImproperIntegralAtTop f k l →
         Summable (fun n : ℕ => f (n + k)) →
           l ≤ tsum (fun n : ℕ => f (n + k)) ∧
-            tsum (fun n : ℕ => f (n + k)) ≤ f k + l)
+            tsum (fun n : ℕ => f (n + k)) ≤ f k + l) := by
+  let seq : ℕ → ℝ := fun n => f ((k : ℝ) + n)
+  let S : ℕ → ℝ := fun n => Finset.sum (Finset.range n) seq
+  let A : ℕ → ℝ := fun n => (∫ x in (k : ℝ)..((k : ℝ) + n), f x)
+
+  have hseq_eq : (fun n : ℕ => f (n + k)) = seq := by
+    funext n
+    simp [seq, add_comm]
+
+  have hseq_nonneg : ∀ n, 0 ≤ seq n := by
+    intro n
+    have hk : (k : ℝ) ≤ (k : ℝ) + n := by
+      have hn0 : (0 : ℝ) ≤ (n : ℝ) := by exact_mod_cast (Nat.zero_le n)
+      linarith
+    simpa [seq] using hpos ((k : ℝ) + n) hk
+
+  have hA_mono : Monotone A := by
+    intro m n hmn
+    have hkm : (k : ℝ) ≤ (k : ℝ) + m := by
+      have hm0 : (0 : ℝ) ≤ (m : ℝ) := by exact_mod_cast (Nat.zero_le m)
+      linarith
+    have hmn' : (k : ℝ) + m ≤ (k : ℝ) + n := by
+      simpa [add_comm, add_left_comm, add_assoc] using
+        (add_le_add_left (Nat.cast_le.mpr hmn) (k : ℝ))
+    exact intervalIntegral_mono_upper (f := f) (a := (k : ℝ))
+      (hInt := hInt) (hpos := hpos) hkm hmn'
+
+  have hmono_Icc : ∀ n : ℕ, AntitoneOn f (Set.Icc (k : ℝ) ((k : ℝ) + n)) := by
+    intro n
+    exact hmono.mono (by
+      intro x hx
+      exact hx.1)
+
+  have hA_le_S : ∀ n, A n ≤ S n := by
+    intro n
+    simpa [A, S, seq, add_assoc, add_left_comm, add_comm] using
+      (AntitoneOn.integral_le_sum (f := f) (x₀ := (k : ℝ)) (a := n) (hf := hmono_Icc n))
+
+  have hshift_le_A : ∀ n, Finset.sum (Finset.range n) (fun i => seq (i + 1)) ≤ A n := by
+    intro n
+    simpa [A, seq, add_assoc, add_left_comm, add_comm] using
+      (AntitoneOn.sum_le_integral (f := f) (x₀ := (k : ℝ)) (a := n) (hf := hmono_Icc n))
+
+  have hS_le_fk_add_A : ∀ n, S n ≤ seq 0 + A n := by
+    intro n
+    cases n with
+    | zero =>
+        have h0 : 0 ≤ seq 0 := hseq_nonneg 0
+        simpa [S, A] using h0
+    | succ n =>
+        have hA_step : A n ≤ A (n + 1) := hA_mono (Nat.le_succ n)
+        calc
+          S (n + 1) = seq 0 + Finset.sum (Finset.range n) (fun i => seq (i + 1)) := by
+            calc
+              S (n + 1) = Finset.sum (Finset.range (n + 1)) seq := by simp [S]
+              _ = Finset.sum (Finset.range n) (fun i => seq (i + 1)) + seq 0 := by
+                simpa using (Finset.sum_range_succ' (f := seq) n)
+              _ = seq 0 + Finset.sum (Finset.range n) (fun i => seq (i + 1)) := by ring
+          _ ≤ seq 0 + A n := by
+            gcongr
+            exact hshift_le_A n
+          _ ≤ seq 0 + A (n + 1) := by
+            gcongr
+
+  have hS_step : ∀ n, S n ≤ S (n + 1) := by
+    intro n
+    calc
+      S n ≤ S n + seq n := by
+        linarith [hseq_nonneg n]
+      _ = S (n + 1) := by
+        simp [S, Finset.sum_range_succ, add_comm]
+
+  have hS_mono : Monotone S := monotone_nat_of_le_succ hS_step
+
+  have hsum_le_tsum : ∀ {hs : Summable seq} n, S n ≤ tsum seq := by
+    intro hs n
+    refine Summable.sum_le_tsum (s := Finset.range n) ?_ hs
+    intro i hi
+    exact hseq_nonneg i
+
+  refine ⟨?_, ?_⟩
+  · constructor
+    · intro hs0
+      have hs : Summable seq := by
+        simpa [hseq_eq] using hs0
+      let g : ℝ → ℝ := fun t => ∫ x in (k : ℝ)..max t (k : ℝ), f x
+      let T : ℝ := tsum seq
+      have hg_mono : Monotone g :=
+        monotone_integral_max (f := f) (a := (k : ℝ)) hInt hpos
+      have hg_le : ∀ t, g t ≤ T := by
+        intro t
+        let n : ℕ := Nat.ceil (max t (k : ℝ) - k)
+        have hmaxk : (k : ℝ) ≤ max t (k : ℝ) := le_max_right t (k : ℝ)
+        have hmaxn : max t (k : ℝ) ≤ (k : ℝ) + n := by
+          have hceil : max t (k : ℝ) - k ≤ (n : ℝ) := Nat.le_ceil (max t (k : ℝ) - k)
+          linarith
+        have h1 :
+            g t ≤ ∫ x in (k : ℝ)..((k : ℝ) + n), f x := by
+          simpa [g] using
+            (intervalIntegral_mono_upper (f := f) (a := (k : ℝ))
+              (hInt := hInt) (hpos := hpos) (s := max t (k : ℝ)) (t := (k : ℝ) + n)
+              hmaxk hmaxn)
+        have h2 : ∫ x in (k : ℝ)..((k : ℝ) + n), f x ≤ S n := hA_le_S n
+        exact h1.trans (h2.trans (hsum_le_tsum (hs := hs) n))
+      have hgbdd : BddAbove (Set.range g) := by
+        refine ⟨T, ?_⟩
+        intro y hy
+        rcases hy with ⟨t, rfl⟩
+        exact hg_le t
+      have hg_tend : Tendsto g atTop (nhds (⨆ t : ℝ, g t)) :=
+        tendsto_atTop_ciSup hg_mono hgbdd
+      have hEq :
+          (fun c : ℝ => ∫ x in (k : ℝ)..c, f x) =ᶠ[atTop] g := by
+        refine eventuallyEq_of_mem (Ioi_mem_atTop (k : ℝ)) ?_
+        intro c hc
+        have hck : (k : ℝ) ≤ c := le_of_lt hc
+        simp [g, max_eq_left hck]
+      have hTend :
+          Tendsto (fun c : ℝ => ∫ x in (k : ℝ)..c, f x) atTop (nhds (⨆ t : ℝ, g t)) :=
+        hg_tend.congr' hEq.symm
+      exact ⟨⨆ t : ℝ, g t, ⟨hInt, hTend⟩⟩
+    · intro hconv
+      rcases hconv with ⟨l, hl⟩
+      have hNat :
+          Tendsto (fun n : ℕ => (k : ℝ) + n) atTop atTop := by
+        have hNatCast : Tendsto (fun n : ℕ => (n : ℝ)) atTop atTop :=
+          tendsto_natCast_atTop_atTop
+        simpa [add_assoc, add_left_comm, add_comm] using
+          (Filter.tendsto_atTop_add_const_left (l := atTop) (C := (k : ℝ)) hNatCast)
+      have hA_tend : Tendsto A atTop (nhds l) := by
+        simpa [A] using (hl.2.comp hNat)
+      have hA_event : ∀ᶠ n : ℕ in atTop, A n ≤ l + 1 := by
+        refine (hA_tend.eventually (gt_mem_nhds (lt_add_of_pos_right l zero_lt_one))).mono ?_
+        intro n hn
+        exact hn.le
+      rcases (Filter.eventually_atTop.mp hA_event) with ⟨N, hN⟩
+      let c : ℝ := max (S N) (seq 0 + (l + 1))
+      have hbound_sum : ∀ n, S n ≤ c := by
+        intro n
+        by_cases hn : n ≤ N
+        · exact (hS_mono hn).trans (le_max_left _ _)
+        · have hNn : N ≤ n := Nat.le_of_lt (lt_of_not_ge hn)
+          have hA_n : A n ≤ l + 1 := hN n hNn
+          have hS_n : S n ≤ seq 0 + A n := hS_le_fk_add_A n
+          have hS_n' : S n ≤ seq 0 + (l + 1) := by
+            exact hS_n.trans (by gcongr)
+          exact hS_n'.trans (le_max_right _ _)
+      have hs : Summable seq := by
+        refine summable_of_sum_range_le (f := seq) (c := c) hseq_nonneg ?_
+        intro n
+        simpa [S, c] using hbound_sum n
+      simpa [hseq_eq] using hs
+  · intro l hl hs0
+    have hs : Summable seq := by
+      simpa [hseq_eq] using hs0
+    let T : ℝ := tsum seq
+    have hNat : Tendsto (fun n : ℕ => (k : ℝ) + n) atTop atTop := by
+      have hNatCast : Tendsto (fun n : ℕ => (n : ℝ)) atTop atTop :=
+        tendsto_natCast_atTop_atTop
+      simpa [add_assoc, add_left_comm, add_comm] using
+        (Filter.tendsto_atTop_add_const_left (l := atTop) (C := (k : ℝ)) hNatCast)
+    have hA_tend : Tendsto A atTop (nhds l) := by
+      simpa [A] using (hl.2.comp hNat)
+    have hS_tend : Tendsto S atTop (nhds T) := by
+      simpa [S, T] using hs.hasSum.tendsto_sum_nat
+    have hleft : l ≤ T := by
+      refine tendsto_le_of_eventuallyLE hA_tend hS_tend ?_
+      exact Filter.Eventually.of_forall hA_le_S
+    have hright : T ≤ seq 0 + l := by
+      have hSeqA_tend : Tendsto (fun n : ℕ => seq 0 + A n) atTop (nhds (seq 0 + l)) :=
+        tendsto_const_nhds.add hA_tend
+      refine tendsto_le_of_eventuallyLE hS_tend hSeqA_tend ?_
+      exact Filter.Eventually.of_forall hS_le_fk_add_A
+    refine ⟨?_, ?_⟩
+    · simpa [T, hseq_eq] using hleft
+    · simpa [T, seq, hseq_eq, add_assoc, add_left_comm, add_comm] using hright
 
 /-- Telescoping sum for successive differences. -/
 lemma sum_range_sub_telescope (u : ℕ → ℝ) :
