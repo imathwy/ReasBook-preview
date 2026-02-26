@@ -58,7 +58,7 @@ jobs:
 
   build-monolith-site:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 360
     env:
       HEARTBEAT_INTERVAL_SECONDS: 45
     steps:
@@ -84,7 +84,7 @@ jobs:
           ./scripts/ci_heartbeat.sh "build.sh (Lean + doc-gen)" ./build.sh
 
       - name: Build ReasBookWeb (sections + Verso)
-        timeout-minutes: 70
+        timeout-minutes: 180
         run: |
           set -euo pipefail
           ./scripts/ci_heartbeat.sh "build_reasbook_web.sh (Verso)" ./scripts/build_reasbook_web.sh
