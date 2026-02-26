@@ -66,6 +66,50 @@ macro_rules
       "books/analysis2_tao_2022/chapters/chap05/section05/" Book.Books.Analysis2_Tao_2022.Chapters.Chap05.section05
       "books/analysis2_tao_2022/chapters/chap06/section01/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section01
       "books/analysis2_tao_2022/chapters/chap06/section02/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section02
+      "books/analysis2_tao_2022/chapters/chap06/section03/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03
+      "books/analysis2_tao_2022/chapters/chap06/section03_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03_part1
+      "books/analysis2_tao_2022/chapters/chap06/section03_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03_part2
+      "books/analysis2_tao_2022/chapters/chap06/section03_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03_part3
+      "books/analysis2_tao_2022/chapters/chap06/section03_part4/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03_part4
+      "books/analysis2_tao_2022/chapters/chap06/section04/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section04
+      "books/analysis2_tao_2022/chapters/chap06/section04_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section04_part1
+      "books/analysis2_tao_2022/chapters/chap06/section04_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section04_part2
+      "books/analysis2_tao_2022/chapters/chap06/section04_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section04_part3
+      "books/analysis2_tao_2022/chapters/chap06/section05/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section05
+      "books/analysis2_tao_2022/chapters/chap06/section06/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06
+      "books/analysis2_tao_2022/chapters/chap06/section06_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part1
+      "books/analysis2_tao_2022/chapters/chap06/section06_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part2
+      "books/analysis2_tao_2022/chapters/chap06/section06_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part3
+      "books/analysis2_tao_2022/chapters/chap06/section06_part4/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part4
+      "books/analysis2_tao_2022/chapters/chap06/section06_part5/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part5
+      "books/analysis2_tao_2022/chapters/chap06/section06_part6/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part6
+      "books/analysis2_tao_2022/chapters/chap06/section06_part7/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part7
+      "books/analysis2_tao_2022/chapters/chap06/section06_part8/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part8
+      "books/analysis2_tao_2022/chapters/chap06/section07/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section07
+      "books/analysis2_tao_2022/chapters/chap06/section08/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section08
+      "books/analysis2_tao_2022/chapters/chap07/section01/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section01
+      "books/analysis2_tao_2022/chapters/chap07/section02/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02
+      "books/analysis2_tao_2022/chapters/chap07/section02_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02_part1
+      "books/analysis2_tao_2022/chapters/chap07/section02_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02_part2
+      "books/analysis2_tao_2022/chapters/chap07/section02_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02_part3
+      "books/analysis2_tao_2022/chapters/chap07/section02_part4/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02_part4
+      "books/analysis2_tao_2022/chapters/chap07/section03/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section03
+      "books/analysis2_tao_2022/chapters/chap07/section03_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section03_part1
+      "books/analysis2_tao_2022/chapters/chap07/section03_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section03_part2
+      "books/analysis2_tao_2022/chapters/chap07/section04/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section04
+      "books/analysis2_tao_2022/chapters/chap07/section05/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section05
+      "books/analysis2_tao_2022/chapters/chap07/section05_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section05_part1
+      "books/analysis2_tao_2022/chapters/chap07/section05_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section05_part2
+      "books/analysis2_tao_2022/chapters/chap07/section05_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section05_part3
+      "books/analysis2_tao_2022/chapters/chap08/section01/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section01
+      "books/analysis2_tao_2022/chapters/chap08/section01_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section01_part1
+      "books/analysis2_tao_2022/chapters/chap08/section01_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section01_part2
+      "books/analysis2_tao_2022/chapters/chap08/section02/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section02
+      "books/analysis2_tao_2022/chapters/chap08/section02_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section02_part1
+      "books/analysis2_tao_2022/chapters/chap08/section02_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section02_part2
+      "books/analysis2_tao_2022/chapters/chap08/section03/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section03
+      "books/analysis2_tao_2022/chapters/chap08/section04/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section04
+      "books/analysis2_tao_2022/chapters/chap08/section05/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section05
       "books/convexanalysis_rockafellar_1970/chapters/chap01/section01/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01
       "books/convexanalysis_rockafellar_1970/chapters/chap01/section01_part1/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01_part1
       "books/convexanalysis_rockafellar_1970/chapters/chap01/section01_part2/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01_part2
@@ -421,6 +465,50 @@ def reasbook_site : Site := site ReasBookSite.Home /
   "books/analysis2_tao_2022/chapters/chap05/section05/" Book.Books.Analysis2_Tao_2022.Chapters.Chap05.section05
   "books/analysis2_tao_2022/chapters/chap06/section01/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section01
   "books/analysis2_tao_2022/chapters/chap06/section02/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section02
+  "books/analysis2_tao_2022/chapters/chap06/section03/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03
+  "books/analysis2_tao_2022/chapters/chap06/section03_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03_part1
+  "books/analysis2_tao_2022/chapters/chap06/section03_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03_part2
+  "books/analysis2_tao_2022/chapters/chap06/section03_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03_part3
+  "books/analysis2_tao_2022/chapters/chap06/section03_part4/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section03_part4
+  "books/analysis2_tao_2022/chapters/chap06/section04/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section04
+  "books/analysis2_tao_2022/chapters/chap06/section04_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section04_part1
+  "books/analysis2_tao_2022/chapters/chap06/section04_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section04_part2
+  "books/analysis2_tao_2022/chapters/chap06/section04_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section04_part3
+  "books/analysis2_tao_2022/chapters/chap06/section05/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section05
+  "books/analysis2_tao_2022/chapters/chap06/section06/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06
+  "books/analysis2_tao_2022/chapters/chap06/section06_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part1
+  "books/analysis2_tao_2022/chapters/chap06/section06_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part2
+  "books/analysis2_tao_2022/chapters/chap06/section06_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part3
+  "books/analysis2_tao_2022/chapters/chap06/section06_part4/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part4
+  "books/analysis2_tao_2022/chapters/chap06/section06_part5/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part5
+  "books/analysis2_tao_2022/chapters/chap06/section06_part6/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part6
+  "books/analysis2_tao_2022/chapters/chap06/section06_part7/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part7
+  "books/analysis2_tao_2022/chapters/chap06/section06_part8/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section06_part8
+  "books/analysis2_tao_2022/chapters/chap06/section07/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section07
+  "books/analysis2_tao_2022/chapters/chap06/section08/" Book.Books.Analysis2_Tao_2022.Chapters.Chap06.section08
+  "books/analysis2_tao_2022/chapters/chap07/section01/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section01
+  "books/analysis2_tao_2022/chapters/chap07/section02/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02
+  "books/analysis2_tao_2022/chapters/chap07/section02_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02_part1
+  "books/analysis2_tao_2022/chapters/chap07/section02_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02_part2
+  "books/analysis2_tao_2022/chapters/chap07/section02_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02_part3
+  "books/analysis2_tao_2022/chapters/chap07/section02_part4/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section02_part4
+  "books/analysis2_tao_2022/chapters/chap07/section03/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section03
+  "books/analysis2_tao_2022/chapters/chap07/section03_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section03_part1
+  "books/analysis2_tao_2022/chapters/chap07/section03_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section03_part2
+  "books/analysis2_tao_2022/chapters/chap07/section04/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section04
+  "books/analysis2_tao_2022/chapters/chap07/section05/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section05
+  "books/analysis2_tao_2022/chapters/chap07/section05_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section05_part1
+  "books/analysis2_tao_2022/chapters/chap07/section05_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section05_part2
+  "books/analysis2_tao_2022/chapters/chap07/section05_part3/" Book.Books.Analysis2_Tao_2022.Chapters.Chap07.section05_part3
+  "books/analysis2_tao_2022/chapters/chap08/section01/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section01
+  "books/analysis2_tao_2022/chapters/chap08/section01_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section01_part1
+  "books/analysis2_tao_2022/chapters/chap08/section01_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section01_part2
+  "books/analysis2_tao_2022/chapters/chap08/section02/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section02
+  "books/analysis2_tao_2022/chapters/chap08/section02_part1/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section02_part1
+  "books/analysis2_tao_2022/chapters/chap08/section02_part2/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section02_part2
+  "books/analysis2_tao_2022/chapters/chap08/section03/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section03
+  "books/analysis2_tao_2022/chapters/chap08/section04/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section04
+  "books/analysis2_tao_2022/chapters/chap08/section05/" Book.Books.Analysis2_Tao_2022.Chapters.Chap08.section05
   "books/convexanalysis_rockafellar_1970/chapters/chap01/section01/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01
   "books/convexanalysis_rockafellar_1970/chapters/chap01/section01_part1/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01_part1
   "books/convexanalysis_rockafellar_1970/chapters/chap01/section01_part2/" Book.Books.ConvexAnalysis_Rockafellar_1970.Chapters.Chap01.section01_part2
