@@ -15,16 +15,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install elan (Lean toolchain manager)
-        run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
-
-      - name: Restore shared Lake cache
+      - name: Restore elan cache
         uses: actions/cache/restore@v4
         with:
-          path: ReasBook/.lake
-          key: lake-shared-docs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
+          path: |
+            ~/.elan/bin
+            ~/.elan/toolchains
+          key: elan-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain', 'ReasBookWeb/lean-toolchain') }}
           restore-keys: |
-            lake-shared-docs-${{ runner.os }}-${{ runner.arch }}-
+            elan-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Install elan (Lean toolchain manager)
+        run: |
+          if [ ! -x "$HOME/.elan/bin/elan" ]; then
+            curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          fi
+
+      - name: Restore ReasBook build cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ReasBook/.lake/build/bin
+            ReasBook/.lake/build/lib/lean
+          key: lake-reasbook-lite-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
+          restore-keys: |
+            lake-reasbook-lite-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-
+            lake-reasbook-lite-v2-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Build shared ReasBook docs
         run: |
@@ -39,9 +55,20 @@ jobs:
           name: full-docs-shared
           path: ReasBook/.lake/build/doc
 
-      - name: Save shared Lake cache
+      - name: Save ReasBook build cache
         if: always()
         uses: actions/cache/save@v4
         with:
-          path: ReasBook/.lake
-          key: lake-shared-docs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
+          path: |
+            ReasBook/.lake/build/bin
+            ReasBook/.lake/build/lib/lean
+          key: lake-reasbook-lite-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
+
+      - name: Save elan cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan/bin
+            ~/.elan/toolchains
+          key: elan-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain', 'ReasBookWeb/lean-toolchain') }}
