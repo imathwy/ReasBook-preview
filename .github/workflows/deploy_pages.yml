@@ -259,7 +259,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reasbook-doc-tree
-          path: ReasBook/.lake/build/doc/.
+          path: ReasBook/.lake/build/doc
           compression-level: 0
           if-no-files-found: error
 
