@@ -10,7 +10,7 @@ cd ReasBookWeb
 python3 scripts/gen_sections.py
 
 echo "[build_reasbook_web] running cache get"
-"$LAKE_BIN" exe cache get || true
+"$LAKE_BIN" exe cache get
 
 echo "[build_reasbook_web] building Verso site"
 "$LAKE_BIN" exe reasbook-site

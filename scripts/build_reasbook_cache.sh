@@ -8,4 +8,4 @@ LAKE_BIN="${LAKE_BIN:-$HOME/.elan/bin/lake}"
 
 echo "[build_reasbook_cache] $(date -u +'%Y-%m-%dT%H:%M:%SZ') running cache get"
 cd "$ROOT_DIR/ReasBook"
-"$LAKE_BIN" exe cache get || true
+"$LAKE_BIN" exe cache get
