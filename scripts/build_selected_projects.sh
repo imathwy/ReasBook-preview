@@ -7,7 +7,6 @@ LAKE_BIN="${LAKE_BIN:-$HOME/.elan/bin/lake}"
 PROJECTS_JSON="${PROJECTS_JSON:-[]}"
 
 cd ReasBook
-"$LAKE_BIN" exe cache get || true
 
 mapfile -t targets < <(
   PROJECTS_JSON="$PROJECTS_JSON" python3 - <<'PY'

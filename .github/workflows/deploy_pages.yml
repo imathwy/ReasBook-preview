@@ -146,6 +146,12 @@ jobs:
             lake-reasbook-fast-${{ runner.os }}-${{ runner.arch }}-
             lake-shared-${{ runner.os }}-${{ runner.arch }}-
 
+      - name: Prime ReasBook cache (fast path)
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          ./scripts/ci_retry_on_143.sh ./scripts/ci_heartbeat.sh "build_reasbook_cache.sh (fast path)" ./scripts/build_reasbook_cache.sh
+
       - name: Build ReasBook core target (fast path)
         timeout-minutes: 80
         run: |
