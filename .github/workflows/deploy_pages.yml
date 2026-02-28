@@ -17,7 +17,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-${{ github.event_name }}-${{ github.ref }}
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -125,25 +125,58 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       doc_cache_hit: ${{ steps.doc_cache.outputs.cache-hit }}
+      doc_cache_exact: ${{ steps.doc_cache_state.outputs.doc_cache_exact }}
+      doc_cache_available: ${{ steps.doc_cache_state.outputs.doc_cache_available }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check ReasBook doc cache availability
+      - name: Check ReasBook final doc cache availability
         id: doc_cache
+        continue-on-error: true
         uses: actions/cache/restore@v4
         with:
           path: ReasBook/.lake/build/doc
-          key: lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
+          key: lake-reasbook-docfinal-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
-            lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-
+            lake-reasbook-docfinal-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}-
+            lake-reasbook-docfinal-v1-${{ runner.os }}-${{ runner.arch }}-
+          lookup-only: true
+
+      - name: Check ReasBook legacy doc cache availability
+        id: doc_cache_legacy
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: ReasBook/.lake/build/doc
+          key: lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}-seed
+          restore-keys: |
+            lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}-
             lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-
           lookup-only: true
+
+      - name: Derive doc cache availability
+        id: doc_cache_state
+        run: |
+          set -euo pipefail
+          cache_hit='${{ steps.doc_cache.outputs.cache-hit }}'
+          matched_key='${{ steps.doc_cache.outputs.cache-matched-key }}'
+          legacy_matched_key='${{ steps.doc_cache_legacy.outputs.cache-matched-key }}'
+          if [ "$cache_hit" = "true" ]; then
+            echo "doc_cache_exact=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "doc_cache_exact=false" >> "$GITHUB_OUTPUT"
+          fi
+          if [ -n "$matched_key" ] || [ -n "$legacy_matched_key" ]; then
+            echo "doc_cache_available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "doc_cache_available=false" >> "$GITHUB_OUTPUT"
+          fi
 
   build-full-docs-fallback:
     needs:
       - discover-projects
       - check-doc-cache
-    if: needs.discover-projects.outputs.full_deploy == 'true' && needs.check-doc-cache.outputs.doc_cache_hit != 'true'
+    if: needs.discover-projects.outputs.full_deploy == 'true' && needs.check-doc-cache.outputs.doc_cache_available != 'true'
     uses: ./.github/workflows/docs_full.yml
     permissions:
       contents: read
@@ -162,6 +195,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Restore elan cache
+        continue-on-error: true
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -178,6 +212,7 @@ jobs:
           fi
 
       - name: Restore ReasBook build cache
+        continue-on-error: true
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -209,6 +244,7 @@ jobs:
 
       - name: Save ReasBook build cache
         if: always()
+        continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: |
@@ -218,6 +254,7 @@ jobs:
 
       - name: Save elan cache
         if: always()
+        continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: |
@@ -230,9 +267,9 @@ jobs:
       - discover-projects
       - check-doc-cache
       - build-full-docs-fallback
-    if: needs.discover-projects.outputs.full_deploy == 'true' && (needs.check-doc-cache.outputs.doc_cache_hit == 'true' || needs.build-full-docs-fallback.result == 'success')
+    if: always() && needs.discover-projects.outputs.full_deploy == 'true' && (needs.check-doc-cache.outputs.doc_cache_available == 'true' || needs.build-full-docs-fallback.result == 'success')
     runs-on: ubuntu-latest
-    timeout-minutes: 220
+    timeout-minutes: 300
     env:
       HEARTBEAT_INTERVAL_SECONDS: 45
       RETRY_ON_143_MAX_RETRIES: 1
@@ -241,6 +278,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Restore elan cache
+        continue-on-error: true
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -257,6 +295,7 @@ jobs:
           fi
 
       - name: Restore ReasBook build cache
+        continue-on-error: true
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -268,6 +307,7 @@ jobs:
             lake-reasbook-lite-v2-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Restore ReasBook doc-data cache
+        continue-on-error: true
         uses: actions/cache/restore@v4
         with:
           path: ReasBook/.lake/build/doc-data
@@ -277,15 +317,37 @@ jobs:
             lake-reasbook-docdata-v1-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Restore ReasBook doc cache
+        continue-on-error: true
         uses: actions/cache/restore@v4
         with:
           path: ReasBook/.lake/build/doc
-          key: lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}
+          key: lake-reasbook-docfinal-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
-            lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-
+            lake-reasbook-docfinal-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}-
+            lake-reasbook-docfinal-v1-${{ runner.os }}-${{ runner.arch }}-
+            lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('ReasBook/lean-toolchain') }}-${{ hashFiles('ReasBook/lake-manifest.json') }}-
             lake-reasbook-doc-v1-${{ runner.os }}-${{ runner.arch }}-
 
+      - name: Detect local docs cache presence
+        id: local_docs
+        run: |
+          set -euo pipefail
+          if [ -f ReasBook/.lake/build/doc/index.html ]; then
+            echo "docs_present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "docs_present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Log docs cache mode
+        run: |
+          set -euo pipefail
+          exact='${{ needs.check-doc-cache.outputs.doc_cache_exact }}'
+          available='${{ needs.check-doc-cache.outputs.doc_cache_available }}'
+          local='${{ steps.local_docs.outputs.docs_present }}'
+          echo "[ci][docs-cache] exact=${exact} available=${available} local=${local}"
+
       - name: Restore ReasBookWeb build cache
+        continue-on-error: true
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -315,16 +377,24 @@ jobs:
           ./scripts/ci_retry_on_143.sh ./scripts/ci_heartbeat.sh "build_reasbook_web.sh (Verso)" ./scripts/build_reasbook_web.sh
 
       - name: Download docs artifact from fallback
-        if: needs.check-doc-cache.outputs.doc_cache_hit != 'true'
+        if: steps.local_docs.outputs.docs_present != 'true' && needs.build-full-docs-fallback.result == 'success'
         uses: actions/download-artifact@v4
         with:
           name: full-docs-shared
           path: ReasBook/.lake/build/doc
 
+      - name: Bootstrap docs from shared target (last-resort)
+        if: steps.local_docs.outputs.docs_present != 'true' && needs.build-full-docs-fallback.result != 'success'
+        timeout-minutes: 150
+        run: |
+          set -euo pipefail
+          ./scripts/ci_retry_on_143.sh ./scripts/ci_heartbeat.sh "build_reasbook_shared_docs.sh (monolith fallback)" ./scripts/build_reasbook_shared_docs.sh
+
       - name: Check cached docs presence
         run: |
           set -euo pipefail
           test -d ReasBook/.lake/build/doc
+          test -f ReasBook/.lake/build/doc/index.html
 
       - name: Assemble docs under ReasBookWeb/_site/docs
         timeout-minutes: 20
@@ -337,9 +407,13 @@ jobs:
         with:
           name: site-monolith
           path: ReasBookWeb/_site
+          if-no-files-found: error
+          compression-level: 0
+          overwrite: true
 
       - name: Save ReasBook build cache
         if: always()
+        continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: |
@@ -349,6 +423,7 @@ jobs:
 
       - name: Save ReasBookWeb build cache
         if: always()
+        continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: |
@@ -358,6 +433,7 @@ jobs:
 
       - name: Save elan cache
         if: always()
+        continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: |
@@ -371,6 +447,8 @@ jobs:
       - build-monolith-site
     if: needs.discover-projects.outputs.full_deploy == 'true'
     runs-on: ubuntu-latest
+    outputs:
+      pages_artifact_name: ${{ steps.pages_artifact_name.outputs.name }}
     steps:
       - uses: actions/checkout@v4
 
@@ -485,9 +563,16 @@ jobs:
           test -d .site/docs
           test -d .site/sites
 
+      - name: Compute Pages artifact name
+        id: pages_artifact_name
+        run: |
+          set -euo pipefail
+          echo "name=github-pages-${{ github.run_attempt }}" >> "$GITHUB_OUTPUT"
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          name: ${{ steps.pages_artifact_name.outputs.name }}
           path: .site
 
   deploy:
@@ -501,6 +586,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: ${{ needs['assemble-pages-artifact'].outputs.pages_artifact_name }}
 
       - name: Print deployed Pages URL
         run: |
